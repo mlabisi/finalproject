@@ -5,7 +5,7 @@
  * Final Project: Spy Game
  *
  * Create a small, yet interesting, text-based game involving a spy
- * an ninjas.
+ * and ninjas.
  *
  * Diana Choi, Will Hang, Logan, Robert Delfin, Mora Labisi
  */

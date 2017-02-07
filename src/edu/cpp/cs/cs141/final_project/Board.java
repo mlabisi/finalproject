@@ -26,7 +26,7 @@ public class Board {
     /**
      * This {@code final int} holds the size of the {@link #board}.
      */
-    final private int SIZE;
+    final public int SIZE;
 
     /**
      * This is the constructor for the board.

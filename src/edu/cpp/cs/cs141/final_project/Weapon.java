@@ -46,7 +46,7 @@ public class Weapon {
 	 * This represents the action of the ninja-assassin
 	 * attacking the agent.
 	 */
-	public int stabAgent(agentHealth){
-       		return health;
+	public int stabAgent(int agentHealth){
+       		return agentHealth;
 	}
 }

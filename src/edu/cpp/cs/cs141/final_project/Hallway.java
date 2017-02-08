@@ -25,6 +25,15 @@ public class Hallway extends Square {
     private boolean isClear;
 
     /**
+     * This {@code boolean} flag will determine
+     * whether or not this hallway is the entrance
+     * to a {@link Room}. Entrances have the coordinates
+     * grid[i-1][j] if the room's coordinates are
+     * grid[i][j].
+     */
+    private boolean isEntrance;
+
+    /**
      * This is the constructor for the hallway class.
      */
     public Hallway(){
@@ -49,6 +58,23 @@ public class Hallway extends Square {
     }
 
     /**
+     * @return The value of {@link #isEntrance}
+     */
+    public boolean checkIsEntrance(){
+        return isEntrance;
+    }
+
+    /**
+     * This method will be used to tell whether or not
+     * a hallway is an entrance.
+     *
+     * @param value The value to be given to {@link #isEntrance}
+     */
+    public void setIsEntrance(boolean value){
+
+    }
+
+    /**
      * This method will allow the placement a
      * {@link PowerUp}.
      *
@@ -59,6 +85,7 @@ public class Hallway extends Square {
 
     }
 
+
     /**
      * This method will reveal whether or not {@code this} {@link Hallway}
      * is clear after the {@link ActiveAgent} looks.
@@ -67,6 +94,17 @@ public class Hallway extends Square {
      */
     @Override
     public String reveal(){
+        return "";
+    }
+
+    /**
+     * This will return the letter representation of the user,
+     * the enemy, or an item.
+     *
+     * @return The appropriate letter
+     */
+    @Override
+    public String toString(){
         return "";
     }
 }

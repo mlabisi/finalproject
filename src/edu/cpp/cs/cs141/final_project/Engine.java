@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin Rodrï¿½guez
  *
  * Programming Assignment Final Project
  *
@@ -16,7 +16,7 @@
  *   Mora Labisi
  */
 
-package edu.cpp.cd.cs141.final_project;
+package edu.cpp.cs.cs141.final_project;
 
 /**
  * @author Robert Delfin

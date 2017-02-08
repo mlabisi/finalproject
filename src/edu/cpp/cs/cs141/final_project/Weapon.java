@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin RodrÃ­guez
  *
  * Final Project: Spy Game
  *
@@ -39,5 +39,12 @@ public class Weapon {
 	 */
 	public void killEnemy(){
 		
+	}
+	/**
+	 * This represents the action of the ninja-assassin
+	 * attacking the agent.
+	 */
+	public int stabAgent(Agent health){
+       		return health;
 	}
 }

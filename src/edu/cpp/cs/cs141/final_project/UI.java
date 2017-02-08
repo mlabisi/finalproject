@@ -1,7 +1,7 @@
 package edu.cpp.cs.cs141.final_project;
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin Rodrï¿½guez
  *
  * Final Project: Spy Game
  *
@@ -26,7 +26,7 @@ public class UI {
 	public UI() {
 		game = new Engine();
 		String playerName = getPlayerName();
-		game.newPlayer(Playername);
+		game.newPlayer(playerName);
 		game.newGame();
 	}
 	

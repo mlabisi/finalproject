@@ -71,7 +71,7 @@ public class Room extends Square {
      */
     @Override
     public String reveal(){
-        return "";
+        return "R";
     }
 
 }

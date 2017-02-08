@@ -17,6 +17,7 @@ package edu.cpp.cs.cs141.final_project;
  * hallway in the game. The hallway can either be
  * clear or there can be ninjas present.
  *
+ * @author Mora Labisi
  */
 public class Hallway extends Square {
     /**

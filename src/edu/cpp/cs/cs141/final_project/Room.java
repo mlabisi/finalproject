@@ -16,6 +16,8 @@ package edu.cpp.cs.cs141.final_project;
  * This class is a {@link Square} that represents a
  * room in the game. The room can either be
  * clear or it can contain the briefcase.
+ *
+ * @author Mora Labisi
  */
 public class Room extends Square {
     /**

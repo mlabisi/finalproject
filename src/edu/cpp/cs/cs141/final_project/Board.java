@@ -16,6 +16,8 @@ package edu.cpp.cs.cs141.final_project;
  * This class represents the board that the game takes place on. It is
  * composed of the {@link Square} class and its extended classes,
  * {@link Room} and {@link Hallway}.
+ *
+ * @author Mora Labisi
  */
 public class Board {
     /**

@@ -32,7 +32,7 @@ public class Room extends Square {
      * This is the constructor for the room.
      */
     public Room(){
-
+        super(squareType.ROOM);
     }
 
     /**
@@ -59,8 +59,8 @@ public class Room extends Square {
      * @param case The {@link Briefcase} object
      */
     @Override
-    public void place(Briefcase case){
-
+    public void place(){
+        setHasBriefcase(true);
     }
 
     /**

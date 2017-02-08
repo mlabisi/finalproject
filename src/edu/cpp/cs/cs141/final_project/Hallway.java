@@ -39,7 +39,7 @@ public class Hallway extends Square {
      * This is the constructor for the hallway class.
      */
     public Hallway(){
-
+        super(squareType.HALLWAY);
     }
 
     /**

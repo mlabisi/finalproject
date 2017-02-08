@@ -33,6 +33,9 @@ public abstract class Square {
      */
     private boolean hasUser;
 
+    /**
+     * This represents the type of square.
+     */
     private squareType type;
 
     public enum squareType{HALLWAY, ROOM}
@@ -75,11 +78,15 @@ public abstract class Square {
 
     }
 
+    public squareType getType(){
+        return type;
+    }
+
     /**
      * This abstract method will allow the placement of
      * an item on the current square.
      */
-    public abstract void place(Item item);
+    public abstract void place();
 
     /**
      * This abstract method will make sure to tell the user wht

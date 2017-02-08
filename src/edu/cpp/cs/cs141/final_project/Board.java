@@ -29,13 +29,13 @@ public class Board {
     /**
      * This {@code final int} holds the size of the {@link #board}.
      */
-    final public int SIZE = 9;
+    final public int SIZE;
 
     /**
      * This is the constructor for the board.
      */
     public Board(){
-
+        SIZE = 9;
     }
 
     /**

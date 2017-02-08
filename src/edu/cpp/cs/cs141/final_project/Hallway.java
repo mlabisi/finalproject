@@ -7,7 +7,7 @@
  * Create a small, yet interesting, text-based game involving a spy
  * and ninjas.
  *
- * Diana Choi, Will Hang, Logan Carichner, Robert Delfin, Mora Labisi
+ * Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora Labisi
  */
 package edu.cpp.cs.cs141.final_project;
 

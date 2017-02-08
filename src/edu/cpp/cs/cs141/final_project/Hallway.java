@@ -83,8 +83,8 @@ public class Hallway extends Square {
      * @param powerUp The {@link PowerUp} object
      */
     @Override
-    public void place(PowerUp powerUp){
-
+    public void place(){
+        setIsClear(false);
     }
 
 

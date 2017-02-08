@@ -80,10 +80,10 @@ public class Hallway extends Square {
      * This method will allow the placement a
      * {@link PowerUp}.
      *
-     * @param powerUp The {@link PowerUp} object
+     * @param item The {@link PowerUp} object
      */
     @Override
-    public void place(){
+    public void place(Item item){
         setIsClear(false);
     }
 

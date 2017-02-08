@@ -56,10 +56,10 @@ public class Room extends Square {
      * This method will allow the placement of the
      * briefcase in the room.
      *
-     * @param case The {@link Briefcase} object
+     * @param item The {@link Briefcase} object
      */
     @Override
-    public void place(){
+    public void place(Item item){
         setHasBriefcase(true);
     }
 

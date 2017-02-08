@@ -86,7 +86,7 @@ public abstract class Square {
      * This abstract method will allow the placement of
      * an item on the current square.
      */
-    public abstract void place();
+    public abstract void place(Item item);
 
     /**
      * This abstract method will make sure to tell the user wht

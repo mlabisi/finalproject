@@ -33,11 +33,15 @@ public abstract class Square {
      */
     private boolean hasUser;
 
+    private squareType type;
+
+    public enum squareType{HALLWAY, ROOM}
+
     /**
      * This is the constructor for the square.
      */
-    public Square(){
-
+    public Square(squareType type){
+        this.type = type;
     }
 
     /**

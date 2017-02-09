@@ -48,10 +48,11 @@ public class Board {
      */
     public void fillBoard(){
         for (int i = 0; i < SIZE; ++i){
-            for (int j = 0; i < SIZE; ++j){
+            for (int j = 0; j < SIZE; ++j){
                 if((j == 1 || j == 4 || j == 7) && (i == 1 || i == 4 || i == 7))
                     board[i][j] = new Room();
-                board[i][j] = new Hallway();
+                else
+                    board[i][j] = new Hallway();
             }
         }
     }
@@ -59,7 +60,10 @@ public class Board {
     /**
      * @return The game {@link #board}
      */
-    public Square[][] getBoard(){
-        return board;
+    public Square[][] toString(){
+        String str = "";
+        for(Square[] row : board){
+            for(Square square : board){
+                str += "[ " + square.toString() + " ] ";
     }
 }

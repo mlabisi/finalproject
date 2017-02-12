@@ -12,14 +12,12 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
-import edu.cpp.cs.cs141.final_project.Mora.SquareType;
-
 /**
  * This class is a {@link Square} that represents a
  * hallway in the game. The hallway can either be
  * clear or there can be ninjas present.
  *
- * @author
+ * @author Mora Labisi
  */
 public class Hallway extends Square {
     /**

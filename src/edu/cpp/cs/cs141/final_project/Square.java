@@ -12,15 +12,12 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
-
-import edu.cpp.cs.cs141.final_project.Mora.SquareType;
-
 /**
  * This class represents a square on the {@link Board}.
  * It is an abstract class and can be specialized to be a
  * {@link Room} or a {@link Hallway}.
  *
- * @author
+ * @author Mora Labisi
  */
 public abstract class Square {
     /**

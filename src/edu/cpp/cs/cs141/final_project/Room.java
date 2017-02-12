@@ -19,7 +19,7 @@ import edu.cpp.cs.cs141.final_project.Mora.SquareType;
  * room in the game. The room can either be
  * clear or it can contain the briefcase.
  *
- * @author Mora Labisi
+ * @author
  */
 public class Room extends Square {
     /**

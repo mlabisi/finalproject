@@ -16,6 +16,8 @@ import edu.cpp.cs.cs141.final_project.Hallway;
 import edu.cpp.cs.cs141.final_project.Room;
 import edu.cpp.cs.cs141.final_project.Square;
 
+import java.util.List;
+
 /**
  * This class represents the board that the game takes place on. It is
  * composed of the {@link Square} class and its extended classes,
@@ -53,7 +55,7 @@ public class Board {
     public void fillBoard(){
         for (int i = 0; i < SIZE; ++i){
             for (int j = 0; j < SIZE; ++j){
-                if((j == 1 || j == 4 || j == 7) && (i == 1 || i == 4 || i == 7))
+                if((i == 1 || i == 4 || i == 7) && (j == 1 || j == 4 || j == 7))
                     board[i][j] = new Room();
                 else
                     board[i][j] = new Hallway();
@@ -66,9 +68,15 @@ public class Board {
      */
     public String toString() {
         String str = "";
+        int i = 0;
         for (Square[] row : board) {
-            for (Square square : row) {
-                str += "[ " + square.toString() + " ] ";
+            for (Square column : row) {
+                if(i == 9){
+                    str += "\n";
+                    i = 0;
+                }
+                str += "[ " + column.toString() + " ] ";
+                ++i;
             }
         }
         return str;

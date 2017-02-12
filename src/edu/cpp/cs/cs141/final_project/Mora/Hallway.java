@@ -88,22 +88,18 @@ public class Hallway extends Square {
     @Override
     public void place(Item item){
         setIsClear(false);
-        if(item.is)
     }
 
 
     /**
      * This method will reveal whether or not {@code this} {@link Hallway}
-     * is clear after the {@link ActiveAgent} looks.
+     * is clear after the {@link } looks.
      *
      * @return The appropriate message
      */
     @Override
     public String reveal(){
-        if(isClear)
-            return "";
-        else
-
+        return " ";
     }
 
     /**

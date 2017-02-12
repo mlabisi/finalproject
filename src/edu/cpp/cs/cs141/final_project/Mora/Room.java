@@ -12,8 +12,6 @@
  */
 package edu.cpp.cs.cs141.final_project.Mora;
 
-import edu.cpp.cs.cs141.final_project.Briefcase;
-import edu.cpp.cs.cs141.final_project.Item;
 
 /**
  * This class is a {@link Square} that represents a

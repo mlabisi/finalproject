@@ -12,9 +12,6 @@
  */
 package edu.cpp.cs.cs141.final_project.Mora;
 
-import edu.cpp.cs.cs141.final_project.Item;
-import edu.cpp.cs.cs141.final_project.PowerUp;
-
 /**
  * This class is a {@link Square} that represents a
  * hallway in the game. The hallway can either be
@@ -59,7 +56,7 @@ public class Hallway extends Square {
      * @param value The value to be assigned to {@link #isClear}
      */
     public void setIsClear(boolean value){
-
+        isClear = value;
     }
 
     /**
@@ -76,7 +73,7 @@ public class Hallway extends Square {
      * @param value The value to be given to {@link #isEntrance}
      */
     public void setIsEntrance(boolean value){
-
+        isEntrance = value;
     }
 
     /**
@@ -88,6 +85,7 @@ public class Hallway extends Square {
     @Override
     public void place(Item item){
         setIsClear(false);
+        super.getType().setLetter(item.toString());
     }
 
 

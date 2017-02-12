@@ -40,13 +40,13 @@ public abstract class Square {
     /**
      * This represents the type of square.
      */
-    private SquareType type;
+    final private SquareType TYPE;
 
     /**
      * This is the constructor for the square.
      */
     public Square(SquareType type){
-        this.type = type;
+        this.TYPE = type;
     }
 
     /**
@@ -77,11 +77,11 @@ public abstract class Square {
      * @param value The value to be given to {@link #hasUser}
      */
     public void setHasUser(boolean value){
-
+        hasUser = value;
     }
 
-    public String getType(){
-        return type.toString();
+    public SquareType getType(){
+        return TYPE;
     }
 
     /**

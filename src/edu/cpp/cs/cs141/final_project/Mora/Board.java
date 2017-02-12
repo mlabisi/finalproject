@@ -32,7 +32,7 @@ public class Board {
      */
     private Square[][] board;
 
-    private boolean debugMode;
+    private boolean debugMode = false;
 
     /**
      * This {@code final int} holds the size of the {@link #board}.
@@ -46,6 +46,8 @@ public class Board {
         SIZE = 9;
         board = new Square[SIZE][SIZE];
         fillBoard();
+
+        toggleDebugMode();
     }
 
     /**
@@ -71,18 +73,37 @@ public class Board {
         int i = 0;
         for (Square[] row : board) {
             for (Square column : row) {
-                if(i == 9){
-                    str += "\n";
-                    i = 0;
+                if(debugMode) {
+                    if (i == 9) {
+                        str += "\n";
+                        i = 0;
+                    }
+                    str += "[ " + column + " ] ";
+                    ++i;
+                } else {
+                    if (i == 9) {
+                        str += "\n";
+                        i = 0;
+                    }
+                    str += "[ " + column + " ] ";
+                    ++i;
                 }
-                str += "[ " + column.toString() + " ] ";
-                ++i;
             }
         }
         return str;
     }
 
-    public void setDebugMode(boolean value){
-        debugMode = value;
+    /**
+     * Toggles debug mode
+     */
+    public void toggleDebugMode(){
+        debugMode = !debugMode;
+    }
+
+    /**
+     * @return The {@code boolean} value of {@link #debugMode}
+     */
+    public boolean checkDebugMode(){
+        return debugMode;
     }
 }

@@ -1,4 +1,3 @@
-package edu.cpp.cs.cs141.final_project;
 /**
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodr�guez
@@ -12,6 +11,11 @@ package edu.cpp.cs.cs141.final_project;
  * Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora Labisi
  */
 
+package edu.cpp.cs.cs141.final_project;
+
+/**
+ * @author Logan Carichner
+ */
 public class UI {
 	/**
 	 * This class is the UI for the game, it will create a new game engine instance and then tell the game to make the player.

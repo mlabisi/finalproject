@@ -1,7 +1,6 @@
-package edu.cpp.cs.cs141.final_project;
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin Rodrï¿½guez
  *
  * Final Project: Spy Game
  *
@@ -11,13 +10,16 @@ package edu.cpp.cs.cs141.final_project;
  * Team Magic!~<3
  * Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora Labisi
  */
+package edu.cpp.cs.cs141.final_project;
+
+/**
+ * This class is the main class, and runs the game when executed
+ *
+ * @author Logan Carichner
+ */
 public class Main {
-	/**
-	 * This class is the main class, and runs the game when executed
-	 *
-	 * @author Logan Carichner
-	 */	
-	public Main() {
+
+	public static void main(String[] args){
 		// TODO Auto-generated constructor stub
 	}
 

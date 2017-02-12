@@ -17,7 +17,7 @@ package edu.cpp.cs.cs141.final_project;
  * attributes and behaviors of the weapons. The agent will have a pistol, 
  * and the ninja-assassin will have a knife.
  *
- * @author Mora Labisi
+ * @author William Hang
  */
 public class Weapon {
 	/**

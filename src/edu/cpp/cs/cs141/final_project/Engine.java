@@ -1,3 +1,5 @@
+package edu.cpp.cs.cs141.final_project;
+
 /**
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodr�guez
@@ -15,8 +17,6 @@
  *   Logan Carichner
  *   Mora Labisi
  */
-
-package edu.cpp.cs.cs141.final_project;
 
 /**
  * @author Robert Delfin

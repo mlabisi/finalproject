@@ -20,27 +20,27 @@ package edu.cpp.cs.cs141.final_project;
  * This class represents the power-up that grants the spy an extra bullet to reload
  * the gun, if the gun magazine is empty. If the magazine is full, this power-up has
  * no effect.
- * 
+ *
  * @author Diana Choi
  *
  */
-public class ExtraBullet extends PowerUp{
-	
-	/**
-	 * @param row
-	 * @param col
-	 */
-	public ExtraBullet(int row, int col) {
-		super(row, col);
-	}
+public class ExtraBullet extends PowerUp {
 
-	/* (non-Javadoc)
-	 * @see edu.cpp.cs.cs141.final_project.edu.cpp.cs.cs141.final_project.PowerUp#effect()
-	 */
-	@Override
-	public void effect() {
-		//++bullets in gun
-		//if bullets > 1, set bullets = 1
-	}
+    /**
+     * @param row
+     * @param col
+     */
+    public ExtraBullet() {
+        super(ItemType.EXTRA_BULLET);
+    }
+
+    /* (non-Javadoc)
+     * @see edu.cpp.cs.cs141.final_project.edu.cpp.cs.cs141.final_project.PowerUp#effect()
+     */
+    @Override
+    public void effect() {
+        //++bullets in gun
+        //if bullets > 1, set bullets = 1
+    }
 
 }

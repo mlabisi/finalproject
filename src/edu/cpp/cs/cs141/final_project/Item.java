@@ -20,60 +20,48 @@ package edu.cpp.cs.cs141.final_project;
  * This class represents the abstract concept of an item, which encompasses the
  * different power-ups the spy can obtain, as well as the briefcase, which is the
  * objective of the game. Each item has a location on the map.
- * 
+ *
  * @author Diana Choi
+ * @author Mora Labisi
  *
  */
 public abstract class Item {
 
-	/**
-	 * 
-	 */
-	private static int locationX;
-	
-	/**
-	 * 
-	 */
-	private static int locationY;
-	
-	/**
-	 * 
-	 */
-	private boolean obtained;
-	
-	/**
-	 * @param row
-	 * @param col
-	 */
-	public Item(int row, int col) {
-		obtained = false;
-	}
+    /**
+     *
+     */
+    final private ItemType TYPE;
 
-	/**
-	 * 
-	 */
-	public void pickedUp(){
-		obtained = true;
-	}
-	
-	/**
-	 * @return
-	 */
-	public int getX(){
-		return locationX;
-	}
-	
-	/**
-	 * @return
-	 */
-	public int getY(){
-		return locationY;
-	}
-	
-	/**
-	 * @return
-	 */
-	public boolean isPickedUp(){
-		return obtained;
-	}
+
+    /**
+     *
+     */
+    private boolean obtained;
+
+    /**
+     *
+     */
+    public Item(ItemType type) {
+        this.TYPE = type;
+        obtained = false;
+    }
+
+    /**
+     *
+     */
+    public void pickedUp(){
+        obtained = true;
+    }
+
+
+    /**
+     * @return
+     */
+    public boolean isPickedUp(){
+        return obtained;
+    }
+
+    public ItemType getType(){
+        return TYPE;
+    }
 }

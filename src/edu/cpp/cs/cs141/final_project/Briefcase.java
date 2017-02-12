@@ -1,5 +1,4 @@
-package edu.cpp.cs.cs141.final_project;
-/**
+package edu.cpp.cs.cs141.final_project.Mora; /**
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodr�guez
  *
@@ -16,21 +15,23 @@ package edu.cpp.cs.cs141.final_project;
  *   Mora Labisi
  */
 
+import edu.cpp.cs.cs141.final_project.Item;
+
 /**
  * This class represents the edu.cpp.cs.cs141.final_project.Briefcase edu.cpp.cs.cs141.final_project.Item, which simply inherits its location
  * from its superclass edu.cpp.cs.cs141.final_project.Item.
- * 
+ *
  * @author Diana Choi
  *
  */
-public class Briefcase extends Item{
+public class Briefcase extends Item {
 
-	/**
-	 * @param row
-	 * @param col
-	 */
-	public Briefcase(int row, int col) {
-		super(row, col);
-	}
+    /**
+     * @param row
+     * @param col
+     */
+    public Briefcase() {
+        super(ItemType.BRIEFCASE);
+    }
 
 }

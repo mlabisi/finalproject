@@ -56,7 +56,7 @@ public class Hallway extends Square {
      * @param value The value to be assigned to {@link #isClear}
      */
     public void setIsClear(boolean value){
-
+        isClear = value;
     }
 
     /**
@@ -73,7 +73,7 @@ public class Hallway extends Square {
      * @param value The value to be given to {@link #isEntrance}
      */
     public void setIsEntrance(boolean value){
-
+        isEntrance = value;
     }
 
     /**
@@ -85,6 +85,7 @@ public class Hallway extends Square {
     @Override
     public void place(Item item){
         setIsClear(false);
+        super.getType().setLetter(item.toString());
     }
 
 
@@ -97,7 +98,6 @@ public class Hallway extends Square {
     @Override
     public String reveal(){
         return " ";
-
     }
 
     /**

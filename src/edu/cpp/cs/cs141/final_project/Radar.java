@@ -15,31 +15,30 @@
  *   Mora Labisi
  */
 package edu.cpp.cs.cs141.final_project;
-
 /**
  * This class represents the power-up that grants the spy the ability
  * to see the room the briefcase is located in. It inherits the location
  * of the power-up from its superclass edu.cpp.cs.cs141.final_project.Item.
- * 
+ *
  * @author Diana Choi
  *
  */
-public class Radar extends PowerUp{
+public class Radar extends PowerUp {
 
-	/**
-	 * @param row
-	 * @param col
-	 */
-	public Radar(int row, int col) {
-		super(row, col);
-	}
+    /**
+     * @param row
+     * @param col
+     */
+    public Radar() {
+        super(ItemType.RADAR);
+    }
 
-	/* (non-Javadoc)
-	 * @see edu.cpp.cs.cs141.final_project.edu.cpp.cs.cs141.final_project.PowerUp#effect()
-	 */
-	@Override
-	public void effect() {
-		//sets briefcase room to visible
-	}
+    /* (non-Javadoc)
+     * @see edu.cpp.cs.cs141.final_project.edu.cpp.cs.cs141.final_project.PowerUp#effect()
+     */
+    @Override
+    public void effect() {
+        //sets briefcase room to visible
+    }
 
 }

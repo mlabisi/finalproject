@@ -12,12 +12,14 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+
+import edu.cpp.cs.cs141.final_project.Board;
+import edu.cpp.cs.cs141.final_project.Item;
+
 /**
  * This class represents a square on the {@link Board}.
  * It is an abstract class and can be specialized to be a
  * {@link Room} or a {@link Hallway}.
- *
- * @author Mora Labisi
  */
 public abstract class Square {
     /**
@@ -38,13 +40,13 @@ public abstract class Square {
     /**
      * This represents the type of square.
      */
-    private SquareType type;
+    final private SquareType TYPE;
 
     /**
      * This is the constructor for the square.
      */
     public Square(SquareType type){
-        this.type = type;
+        this.TYPE = type;
     }
 
     /**
@@ -75,11 +77,11 @@ public abstract class Square {
      * @param value The value to be given to {@link #hasUser}
      */
     public void setHasUser(boolean value){
-
+        hasUser = value;
     }
 
-    public String getType(){
-        return type.toString();
+    public SquareType getType(){
+        return TYPE;
     }
 
     /**

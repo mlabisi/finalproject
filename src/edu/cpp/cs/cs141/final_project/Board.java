@@ -17,7 +17,7 @@ package edu.cpp.cs.cs141.final_project;
  * composed of the {@link Square} class and its extended classes,
  * {@link Room} and {@link Hallway}.
  *
- * @author Mora Labisi
+ * @author
  */
 public class Board {
     /**

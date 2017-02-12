@@ -10,9 +10,10 @@
  * Team Magic!~<3
  * Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora Labisi
  */
-package edu.cpp.cs.cs141.final_project;
+package edu.cpp.cs.cs141.final_project.Mora;
 
-import edu.cpp.cs.cs141.final_project.Mora.SquareType;
+import edu.cpp.cs.cs141.final_project.Item;
+import edu.cpp.cs.cs141.final_project.PowerUp;
 
 /**
  * This class is a {@link Square} that represents a
@@ -87,18 +88,21 @@ public class Hallway extends Square {
     @Override
     public void place(Item item){
         setIsClear(false);
+        if(item.is)
     }
 
 
     /**
      * This method will reveal whether or not {@code this} {@link Hallway}
-     * is clear after the {@link } looks.
+     * is clear after the {@link ActiveAgent} looks.
      *
      * @return The appropriate message
      */
     @Override
     public String reveal(){
-        return " ";
+        if(isClear)
+            return "";
+        else
 
     }
 

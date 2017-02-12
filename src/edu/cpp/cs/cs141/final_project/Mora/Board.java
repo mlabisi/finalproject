@@ -30,16 +30,20 @@ public class Board {
      */
     private Square[][] board;
 
+    private boolean debugMode;
+
     /**
      * This {@code final int} holds the size of the {@link #board}.
      */
-    final public int SIZE = 9;
+    final public int SIZE;
 
     /**
      * This is the constructor for the board.
      */
     public Board(){
+        SIZE = 9;
         board = new Square[SIZE][SIZE];
+        fillBoard();
     }
 
     /**
@@ -60,10 +64,17 @@ public class Board {
     /**
      * @return The game {@link #board}
      */
-    public Square[][] toString(){
+    public String toString() {
         String str = "";
-        for(Square[] row : board){
-            for(Square square : board){
+        for (Square[] row : board) {
+            for (Square square : row) {
                 str += "[ " + square.toString() + " ] ";
+            }
+        }
+        return str;
+    }
+
+    public void setDebugMode(boolean value){
+        debugMode = value;
     }
 }

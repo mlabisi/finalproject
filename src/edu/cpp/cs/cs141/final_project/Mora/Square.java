@@ -10,10 +10,11 @@
  * Team Magic!~<3
  * Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora Labisi
  */
-package edu.cpp.cs.cs141.final_project;
+package edu.cpp.cs.cs141.final_project.Mora;
 
 
-import edu.cpp.cs.cs141.final_project.Mora.SquareType;
+import edu.cpp.cs.cs141.final_project.Board;
+import edu.cpp.cs.cs141.final_project.Item;
 
 /**
  * This class represents a square on the {@link Board}.

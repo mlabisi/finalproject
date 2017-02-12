@@ -26,6 +26,8 @@ public class Board {
      */
     private Square[][] board;
 
+    private boolean debugMode = false;
+
     /**
      * This {@code final int} holds the size of the {@link #board}.
      */
@@ -36,6 +38,10 @@ public class Board {
      */
     public Board(){
         SIZE = 9;
+        board = new Square[SIZE][SIZE];
+        fillBoard();
+
+        toggleDebugMode();
     }
 
     /**
@@ -43,13 +49,55 @@ public class Board {
      * {@link Square}s.
      */
     public void fillBoard(){
-
+        for (int i = 0; i < SIZE; ++i){
+            for (int j = 0; j < SIZE; ++j){
+                if((i == 1 || i == 4 || i == 7) && (j == 1 || j == 4 || j == 7))
+                    board[i][j] = new Room();
+                else
+                    board[i][j] = new Hallway();
+            }
+        }
     }
 
     /**
      * @return The game {@link #board}
      */
-    public Square[][] getBoard(){
-        return board;
+    public String toString() {
+        String str = "";
+        int i = 0;
+        for (Square[] row : board) {
+            for (Square column : row) {
+                if(debugMode) {
+                    if (i == 9) {
+                        str += "\n";
+                        i = 0;
+                    }
+                    str += "[ " + column + " ] ";
+                    ++i;
+                } else {
+                    if (i == 9) {
+                        str += "\n";
+                        i = 0;
+                    }
+                    str += "[ " + column + " ] ";
+                    ++i;
+                }
+            }
+        }
+        return str;
+    }
+
+    /**
+     * Toggles debug mode
+     */
+    public void toggleDebugMode(){
+        debugMode = !debugMode;
+    }
+
+    /**
+     * @return The {@code boolean} value of {@link #debugMode}
+     */
+    public boolean checkDebugMode(){
+        return debugMode;
     }
 }

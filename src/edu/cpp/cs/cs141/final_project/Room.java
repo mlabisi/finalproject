@@ -77,7 +77,7 @@ public class Room extends Square {
 
     @Override
     public String toString(){
-        return super.getType();
+        return super.getType().toString();
     }
 
 }

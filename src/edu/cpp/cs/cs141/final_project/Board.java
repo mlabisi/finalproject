@@ -12,6 +12,10 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+
 /**
  * This class represents the board that the game takes place on. It is
  * composed of the {@link Square} class and its extended classes,
@@ -26,7 +30,14 @@ public class Board {
      */
     private Square[][] board;
 
+    private Random rand;
+
     private boolean debugMode = false;
+
+
+    private ArrayList<Integer> rows;
+
+    private ArrayList<Integer> columns;
 
     /**
      * This {@code final int} holds the size of the {@link #board}.
@@ -37,9 +48,18 @@ public class Board {
      * This is the constructor for the board.
      */
     public Board(){
+        rand = new Random();
         SIZE = 9;
         board = new Square[SIZE][SIZE];
+
+        for(int i = 0; i != 2 && i != 4 && i != 7; ++i)
+            rows.add(i);
+
+        for(int i = 0; i != 2 && i != 4 && i != 7; ++i)
+            columns.add(i);
+
         fillBoard();
+        placeBriefcase();
 
         toggleDebugMode();
     }
@@ -59,6 +79,34 @@ public class Board {
         }
     }
 
+    public void placeBriefcase(){
+        switch(rand.nextInt(9)){
+            case 0: ((Room)board[1][1]).setHasBriefcase(true);
+                    break;
+            case 1: ((Room)board[1][4]).setHasBriefcase(true);
+                    break;
+            case 2: ((Room)board[1][7]).setHasBriefcase(true);
+                    break;
+            case 3: ((Room)board[4][1]).setHasBriefcase(true);
+                    break;
+            case 4: ((Room)board[4][4]).setHasBriefcase(true);
+                    break;
+            case 5: ((Room)board[4][7]).setHasBriefcase(true);
+                    break;
+            case 6: ((Room)board[7][1]).setHasBriefcase(true);
+                    break;
+            case 7: ((Room)board[7][4]).setHasBriefcase(true);
+                    break;
+            case 8: ((Room)board[7][7]).setHasBriefcase(true);
+        }
+    }
+
+    public void placeItems(){
+        Collections.shuffle(rows);
+        Collections.shuffle(columns);
+
+    }
+
     /**
      * @return The game {@link #board}
      */
@@ -72,14 +120,20 @@ public class Board {
                         str += "\n";
                         i = 0;
                     }
-                    str += "[ " + column + " ] ";
+                    if(column.getType() == SquareType.ROOM){
+                        if(((Room) column).checkHasBriefcase())
+                            str += "[ " + column.reveal() + "] ";
+                        else
+                            str += "[ " + column.reveal() + " ] ";
+                    }else
+                        str += "[ " + column.reveal() + " ] ";
                     ++i;
                 } else {
                     if (i == 9) {
                         str += "\n";
                         i = 0;
                     }
-                    str += "[ " + column + " ] ";
+                    str += "[ " + column + " ]";
                     ++i;
                 }
             }

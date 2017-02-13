@@ -7,10 +7,10 @@ package edu.cpp.cs.cs141.final_project;
  * @author Mora Labisi
  */
 public enum ItemType {
-    RADAR("\\uD83D\\uDCE1"),
-    INVULNERABILITY("\\uD83D\\uDEE1"),
-    EXTRA_BULLET("\\uD83D\\uDD2B"),
-    BRIEFCASE("\\uD83D\\uDCBC");
+    RADAR("\uD83D\uDCE1"),
+    INVULNERABILITY("\uD83D\uDEE1"),
+    EXTRA_BULLET("\uD83D\uDD2B"),
+    BRIEFCASE("\uD83D\uDCBC");
 
     final private String ICON;
 

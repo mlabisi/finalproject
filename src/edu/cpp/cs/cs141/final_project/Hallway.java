@@ -26,6 +26,9 @@ public class Hallway extends Square {
      */
     private boolean isClear;
 
+    private String letter;
+
+
     /**
      * This {@code boolean} flag will determine
      * whether or not this hallway is the entrance
@@ -85,7 +88,7 @@ public class Hallway extends Square {
     @Override
     public void place(Item item){
         setIsClear(false);
-        super.getType().setLetter(item.toString());
+        letter = item.toString();
     }
 
 
@@ -97,7 +100,7 @@ public class Hallway extends Square {
      */
     @Override
     public String reveal(){
-        return " ";
+        return letter;
     }
 
     /**
@@ -108,6 +111,6 @@ public class Hallway extends Square {
      */
     @Override
     public String toString(){
-        return " ";
+        return super.getType().toString();
     }
 }

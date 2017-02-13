@@ -50,7 +50,7 @@ public class Room extends Square {
      * @param value
      */
     public void setHasBriefcase(boolean value){
-
+        hasBriefcase = value;
     }
 
     /**
@@ -72,6 +72,9 @@ public class Room extends Square {
      */
     @Override
     public String reveal(){
+        if(hasBriefcase)
+            return ItemType.BRIEFCASE.toString();
+
         return "R";
     }
 

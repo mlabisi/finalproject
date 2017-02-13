@@ -40,16 +40,6 @@ public enum SquareType{
     public String toString(){
         return letter;
     }
-
-    /**
-     * Used to change the {@code char} representation of the
-     * square if needed.
-     *
-     * @param letter The letter to be assigned
-     */
-    public void setLetter(String letter){
-        this.letter = letter;
-    }
 }
 
 

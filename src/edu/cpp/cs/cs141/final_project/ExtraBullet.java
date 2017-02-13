@@ -39,8 +39,7 @@ public class ExtraBullet extends PowerUp{
 	 */
 	@Override
 	public void effect() {
-		//++bullets in gun
-		//if bullets > 1, set bullets = 1
+		Engine.getPlayer().getWeapon().reload();
 	}
 
 }

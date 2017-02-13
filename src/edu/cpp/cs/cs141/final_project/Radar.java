@@ -39,7 +39,7 @@ public class Radar extends PowerUp{
 	 */
 	@Override
 	public void effect() {
-		//sets briefcase room to visible
+		Engine.getBriefcaseSquare().setLightsOn(true);
 	}
 
 }

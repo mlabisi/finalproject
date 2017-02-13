@@ -18,35 +18,31 @@ package edu.cpp.cs.cs141.final_project;
  * and the ninja-assassin will have a knife.
  *
  * @author William Hang
+ * @author Mora Labisi
  */
-public class Weapon {
-	/**
+public abstract class Weapon {
+    /**
+     * 	This represents whether or not the
+     * agent has ammo in the gun.
+     */
+    private boolean hasAmmo;
+
+    /**
+     *  This represents the maximum ammunition
+     *  the agent can have
+     */
+    private int maxAmmo;
+
+    private AgentType type;
+
+    /**
 	 * This is the constructor for the weapon. 
 	 */
-	public Weapon(){
+	public Weapon(ActiveAgent type){
+	    hasAmmo = true;
+	    maxAmmo = 1;
+	    this.type = type;
 	}
-	/**
-	 * 	This represents whether or not the 
-	 * agent has ammo in the gun.
-	 */
-	private boolean hasAmmo;
-	/**
-	 *  This represents the maximum ammunition
-	 *  the agent can have
-	 */
-	private int maxAmmo;
-	/**
-	 * This method will kill the ninja-assassin if the 
-	 * bullet hits the ninja-assassin.
-	 */
-	public void killEnemy(){
-		
-	}
-	/**
-	 * This represents the action of the ninja-assassin
-	 * attacking the agent.
-	 */
-	public int stabAgent(int agentHealth){
-       		return agentHealth;
-	}
+
+    public abstract void attack(ActiveAgent target);
 }

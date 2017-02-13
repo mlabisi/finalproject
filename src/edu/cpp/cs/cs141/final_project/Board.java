@@ -34,6 +34,8 @@ public class Board {
 
     private boolean debugMode = false;
 
+    private Player player;
+
 
     private ArrayList<Integer> rows;
 
@@ -49,6 +51,7 @@ public class Board {
      */
     public Board(){
         rand = new Random();
+        player = new Player();
         SIZE = 9;
         board = new Square[SIZE][SIZE];
         rows = new ArrayList<>(SIZE);
@@ -71,6 +74,8 @@ public class Board {
         toggleDebugMode();
     }
 
+
+
     /**
      * This method will fill the {@link #board} with the appropriate
      * {@link Square}s.
@@ -84,6 +89,8 @@ public class Board {
                     board[i][j] = new Hallway();
             }
         }
+
+
 
         ((Hallway)board[0][1]).setIsEntrance(true);
         ((Hallway)board[3][1]).setIsEntrance(true);
@@ -165,4 +172,5 @@ public class Board {
     public boolean checkDebugMode(){
         return debugMode;
     }
+
 }

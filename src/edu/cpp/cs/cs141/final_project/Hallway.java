@@ -96,7 +96,7 @@ public class Hallway extends Square {
 
     /**
      * This method will reveal whether or not {@code this} {@link Hallway}
-     * is clear after the {@link } looks.
+     * is clear after the {@link ActiveAgent} looks.
      *
      * @return The appropriate message
      */
@@ -105,7 +105,7 @@ public class Hallway extends Square {
         if(!isClear)
             return letter;
 
-        return " ";
+        return super.getType().toString();
     }
 
     /**
@@ -116,6 +116,6 @@ public class Hallway extends Square {
      */
     @Override
     public String toString(){
-        return " ";
+        return super.getType().toString();
     }
 }

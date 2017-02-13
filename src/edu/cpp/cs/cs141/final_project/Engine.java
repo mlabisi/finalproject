@@ -58,6 +58,9 @@ public class Engine {
 	public boolean endGame(){
 		return false;
 	}
-	
+
+	public void newPlayer(String name){
+		Player player = new Player(name);
+	}
 
 }

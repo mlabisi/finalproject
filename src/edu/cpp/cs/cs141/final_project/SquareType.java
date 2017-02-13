@@ -20,7 +20,7 @@ package edu.cpp.cs.cs141.final_project;
  */
 public enum SquareType{
     HALLWAY(" "),
-    ROOM("R");
+    ROOM("\uD83D\uDEAA");
 
     private String letter;
 

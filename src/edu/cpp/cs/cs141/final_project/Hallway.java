@@ -43,6 +43,8 @@ public class Hallway extends Square {
      */
     public Hallway(){
         super(SquareType.HALLWAY);
+        isClear = true;
+        isEntrance = false;
     }
 
     /**
@@ -88,7 +90,7 @@ public class Hallway extends Square {
     @Override
     public void place(Item item){
         setIsClear(false);
-        letter = item.toString();
+        letter = item.getType().toString();
     }
 
 
@@ -100,7 +102,10 @@ public class Hallway extends Square {
      */
     @Override
     public String reveal(){
-        return letter;
+        if(!isClear)
+            return letter;
+
+        return " ";
     }
 
     /**
@@ -111,6 +116,6 @@ public class Hallway extends Square {
      */
     @Override
     public String toString(){
-        return super.getType().toString();
+        return " ";
     }
 }

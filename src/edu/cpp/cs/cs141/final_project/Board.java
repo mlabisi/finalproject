@@ -51,15 +51,22 @@ public class Board {
         rand = new Random();
         SIZE = 9;
         board = new Square[SIZE][SIZE];
+        rows = new ArrayList<>(SIZE);
+        columns = new ArrayList<>(SIZE);
 
-        for(int i = 0; i != 2 && i != 4 && i != 7; ++i)
-            rows.add(i);
+        for(int i = 0; i < SIZE; ++i) {
+            if(i != 2 && i != 4 && i != 7)
+                rows.add(i);
+        }
 
-        for(int i = 0; i != 2 && i != 4 && i != 7; ++i)
-            columns.add(i);
+        for(int i = 0; i < SIZE; ++i) {
+            if(i != 2 && i != 4 && i != 7)
+                columns.add(i);
+        }
 
         fillBoard();
         placeBriefcase();
+        placeItems();
 
         toggleDebugMode();
     }
@@ -77,6 +84,10 @@ public class Board {
                     board[i][j] = new Hallway();
             }
         }
+
+        ((Hallway)board[0][1]).setIsEntrance(true);
+        ((Hallway)board[3][1]).setIsEntrance(true);
+        ((Hallway)board[6][1]).setIsEntrance(true);
     }
 
     public void placeBriefcase(){
@@ -105,6 +116,12 @@ public class Board {
         Collections.shuffle(rows);
         Collections.shuffle(columns);
 
+        board[rows.get(0)][columns.get(0)].place(new ExtraBullet());
+        ((Hallway)board[rows.get(0)][columns.get(0)]).setIsClear(false);
+        board[rows.get(1)][columns.get(1)].place(new Invulnerability());
+        ((Hallway)board[rows.get(1)][columns.get(1)]).setIsClear(false);
+        board[rows.get(2)][columns.get(2)].place(new Radar());
+        ((Hallway)board[rows.get(2)][columns.get(2)]).setIsClear(false);
     }
 
     /**
@@ -120,13 +137,7 @@ public class Board {
                         str += "\n";
                         i = 0;
                     }
-                    if(column.getType() == SquareType.ROOM){
-                        if(((Room) column).checkHasBriefcase())
-                            str += "[ " + column.reveal() + "] ";
-                        else
-                            str += "[ " + column.reveal() + " ] ";
-                    }else
-                        str += "[ " + column.reveal() + " ] ";
+                    str += "[ " + column.reveal() + " ] ";
                     ++i;
                 } else {
                     if (i == 9) {

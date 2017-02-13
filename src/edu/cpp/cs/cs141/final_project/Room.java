@@ -75,7 +75,7 @@ public class Room extends Square {
         if(hasBriefcase)
             return ItemType.BRIEFCASE.toString();
 
-        return "R";
+        return super.getType().toString();
     }
 
     @Override

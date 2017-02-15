@@ -20,7 +20,10 @@ package edu.cpp.cs.cs141.final_project;
 public class Main {
 
 	public static void main(String[] args){
-		// TODO Auto-generated constructor stub
+	    Engine game = new Engine();
+        SaveData save = new SaveData(game);
+        UI ui = new UI(game);
+		ui.mainMenu();
 	}
 
 }

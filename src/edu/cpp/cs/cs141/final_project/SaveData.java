@@ -23,4 +23,11 @@ public class SaveData implements Serializable{
     // location of enemies
     // location of character
     // state of character
+
+    private Player player;
+    private Board board;
+
+    public SaveData(Engine game){
+        player = game.getPlayer();
+    }
 }

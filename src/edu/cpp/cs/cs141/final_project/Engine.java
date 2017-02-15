@@ -23,44 +23,22 @@ package edu.cpp.cs.cs141.final_project;
  *
  */
 public class Engine {
-	private int turns;
-	private int lives;
-	private int enemies;
-	private int ammo;
-	private boolean end;
-	
-	/**
-	 * This method loops the game until
-	 * the victory condition is set and 
-	 * the player wins.
-	 */
-	public void LoopGame(){
-		
-	}
-	
-	/**
-	 * This method increase the amount
-	 * of turns and tracks the amount.
-	 * @return the turn count.
-	 */
-	public int addTurn(){
-	   return 0;	
-	}
-	public void countEnemy(){
-		
-	}
-	
-	/**
-	 * This method changes the game to the
-	 * victory condition.
-	 * @return the statement to end the game.
-	 */
-	public boolean endGame(){
-		return false;
-	}
 
-	public void newPlayer(String name){
-		Player player = new Player(name);
-	}
+    private Player player;
+
+    private Board board;
+
+    public Engine(){
+	    Player player = new Player();
+	    Board board = new Board();
+    }
+
+    public Player getPlayer(){
+	    return player;
+    }
+
+	//some type of method that manages the invincibility
+    // if isInvinvible, toggleIsInvincible when the difference
+    // between current turns and previous turns is 5
 
 }

@@ -28,21 +28,18 @@ public abstract class Weapon {
     private boolean hasAmmo;
 
     /**
-     *  This represents the maximum ammunition
-     *  the agent can have
-     */
-    private int maxAmmo;
-
-    private AgentType type;
-
-    /**
 	 * This is the constructor for the weapon. 
 	 */
-	public Weapon(ActiveAgent type){
-	    hasAmmo = true;
-	    maxAmmo = 1;
-	    this.type = type;
+	public Weapon(boolean hasAmmo){
+	    this.hasAmmo = hasAmmo;
 	}
 
+    /**
+     * Simulates the stabbing/shooting of an enemy
+     *
+     * @param target
+     */
     public abstract void attack(ActiveAgent target);
+
+
 }

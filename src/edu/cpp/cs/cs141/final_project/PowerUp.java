@@ -29,6 +29,7 @@ package edu.cpp.cs.cs141.final_project;
  */
 public abstract class PowerUp extends Item {
 
+
     /**
      * @param row
      * @param col
@@ -40,6 +41,8 @@ public abstract class PowerUp extends Item {
     /**
      *
      */
-    public abstract void effect();
+    public abstract void effect(Player player);
+
+
 
 }

@@ -49,15 +49,15 @@ public abstract class Item {
     /**
      *
      */
-    public void pickedUp(){
-        obtained = true;
+    public void togglePickedUp(){
+        obtained = !obtained;
     }
 
 
     /**
      * @return
      */
-    public boolean isPickedUp(){
+    public boolean checkPickedUp(){
         return obtained;
     }
 

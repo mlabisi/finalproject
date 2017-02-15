@@ -7,12 +7,17 @@ public class Player extends ActiveAgent {
 
     private String name;
 
-    private int lives;
+    private Gun gun;
 
-    public Player(String name){
-        super(AgentType.PLAYER);
-        this.name = name;
-        lives = 3;
+    private int turns;
+
+    private boolean isInvincible;
+
+    public Player(){
+        super(AgentType.PLAYER, 3);
+        gun = new Gun();
+        turns = 0;
+        isInvincible = false;
     }
 
     public void setName(String name){
@@ -23,15 +28,23 @@ public class Player extends ActiveAgent {
         return name;
     }
 
-    public void incLives(){
-        ++lives;
+    public Gun getGun(){
+        return gun;
     }
 
-    public void decLives(){
-        --lives;
+    public void incTurns() {
+        ++turns;
     }
 
-    public int getLives(){
-        return lives;
+    public int getTurns(){
+        return turns;
+    }
+
+    public boolean checkIsInvincible() {
+        return isInvincible;
+    }
+
+    public void toggleInvincible() {
+        isInvincible = !isInvincible;
     }
 }

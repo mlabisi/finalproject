@@ -17,12 +17,31 @@ package edu.cpp.cs.cs141.final_project;
  * attributes it contains.
  */
 public abstract class ActiveAgent {
+
+    /**
+     * The appropriate {@link Weapon} for the agent.
+     */
     private Weapon weapon;
 
     private AgentType type;
 
-    public ActiveAgent(AgentType type){
+    private int lives;
+
+    public ActiveAgent(AgentType type, int lives){
         this.type = type;
+        this.lives = lives;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
+
+    public void decLives(){
+        --lives;
     }
 
 }

@@ -5,14 +5,12 @@ package edu.cpp.cs.cs141.final_project;
  */
 public class Enemy extends ActiveAgent {
 
-    private Weapon knife;
+    private Knife knife;
+
     public Enemy(){
-        super(AgentType.ENEMY);
-        knife = new Weapon()
+        super(AgentType.ENEMY, 1);
+        knife = new Knife();
     }
 
-    @Override
-    public void attack(ActiveAgent target){
-        ((Player)target).decLives();
-    }
+
 }

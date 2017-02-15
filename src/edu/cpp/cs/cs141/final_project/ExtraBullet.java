@@ -27,20 +27,18 @@ package edu.cpp.cs.cs141.final_project;
 public class ExtraBullet extends PowerUp {
 
     /**
-     * @param row
-     * @param col
+     *
      */
     public ExtraBullet() {
         super(ItemType.EXTRA_BULLET);
     }
 
-    /* (non-Javadoc)
-     * @see edu.cpp.cs.cs141.final_project.edu.cpp.cs.cs141.final_project.PowerUp#effect()
-     */
     @Override
-    public void effect() {
-        //++bullets in gun
-        //if bullets > 1, set bullets = 1
+    public void effect(Player player) {
+        if(!(player.getGun().checkHasAmmo())){
+            player.getGun().toggleHasAmmo();
+            super.togglePickedUp();
+        }
     }
 
 }

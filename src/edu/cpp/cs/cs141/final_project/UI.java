@@ -27,8 +27,8 @@ public class UI {
 	/**
 	 * This constructor builds the UI and starts the game with the engine.
 	 */
-	public UI() {
-		game = new Engine();
+	public UI(Engine game) {
+		this.game = game;
 		String playerName = getPlayerName();
 		game.newPlayer(playerName);
 		game.newGame();

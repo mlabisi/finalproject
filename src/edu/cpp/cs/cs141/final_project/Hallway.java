@@ -20,13 +20,6 @@ package edu.cpp.cs.cs141.final_project;
  * @author Mora Labisi
  */
 public class Hallway extends Square {
-    /**
-     * This {@code boolean} flag represents whether
-     * or not {@code this} {@link Hallway} is clear.
-     */
-    private boolean isClear;
-
-    private String letter;
 
 
     /**
@@ -43,25 +36,7 @@ public class Hallway extends Square {
      */
     public Hallway(){
         super(SquareType.HALLWAY);
-        isClear = true;
         isEntrance = false;
-    }
-
-    /**
-     * @return The value of {@link #isClear}
-     */
-    public boolean checkIsClear(){
-        return isClear;
-    }
-
-    /**
-     * This method will change {@link #isClear} depending
-     * on whether or not there is an enemy present.
-     *
-     * @param value The value to be assigned to {@link #isClear}
-     */
-    public void setIsClear(boolean value){
-        isClear = value;
     }
 
     /**
@@ -79,33 +54,6 @@ public class Hallway extends Square {
      */
     public void setIsEntrance(boolean value){
         isEntrance = value;
-    }
-
-    /**
-     * This method will allow the placement a
-     * {@link PowerUp}.
-     *
-     * @param item The {@link PowerUp} object
-     */
-    @Override
-    public void place(Item item){
-        setIsClear(false);
-        letter = item.getType().toString();
-    }
-
-
-    /**
-     * This method will reveal whether or not {@code this} {@link Hallway}
-     * is clear after the {@link ActiveAgent} looks.
-     *
-     * @return The appropriate message
-     */
-    @Override
-    public String reveal(){
-        if(!isClear)
-            return letter;
-
-        return super.getType().toString();
     }
 
     /**

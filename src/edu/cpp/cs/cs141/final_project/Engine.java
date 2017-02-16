@@ -37,6 +37,15 @@ public class Engine {
 	    return player;
     }
 
+    public Board getBoard(){
+        return board;
+    }
+
+
+    public void movePlayer(){
+
+    }
+
 	//some type of method that manages the invincibility
     // if isInvinvible, toggleIsInvincible when the difference
     // between current turns and previous turns is 5

@@ -44,4 +44,7 @@ public abstract class ActiveAgent {
         --lives;
     }
 
+    public AgentType getType() {
+        return type;
+    }
 }

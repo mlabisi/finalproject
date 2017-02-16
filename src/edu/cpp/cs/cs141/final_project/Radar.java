@@ -26,19 +26,15 @@ package edu.cpp.cs.cs141.final_project;
 public class Radar extends PowerUp {
 
     /**
-     * @param row
-     * @param col
+     *
      */
     public Radar() {
         super(ItemType.RADAR);
     }
 
-    /* (non-Javadoc)
-     * @see edu.cpp.cs.cs141.final_project.edu.cpp.cs.cs141.final_project.PowerUp#effect()
-     */
     @Override
-    public void effect() {
-        //sets briefcase room to visible
+    public void effect(Player player) {
+        super.togglePickedUp();
     }
 
 }

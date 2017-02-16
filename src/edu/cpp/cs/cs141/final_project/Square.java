@@ -12,16 +12,19 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
-
-import edu.cpp.cs.cs141.final_project.Board;
-import edu.cpp.cs.cs141.final_project.Item;
-
 /**
  * This class represents a square on the {@link Board}.
  * It is an abstract class and can be specialized to be a
  * {@link Room} or a {@link Hallway}.
  */
 public abstract class Square {
+
+    /**
+     * This {@code boolean} flag represents whether
+     * or not {@code this} {@link Square} is clear.
+     */
+    private boolean isClear;
+
     /**
      * This {@code boolean} flag will represent
      * whether or not the lights are on in this
@@ -29,6 +32,7 @@ public abstract class Square {
      */
     private boolean lightsOn;
 
+    private String letter;
 
     /**
      * This {@code boolean} flag will represent
@@ -47,6 +51,25 @@ public abstract class Square {
      */
     public Square(SquareType type){
         this.TYPE = type;
+        letter = getType().toString();
+        isClear = true;
+    }
+
+    /**
+     * @return The value of {@link #isClear}
+     */
+    public boolean checkIsClear(){
+        return isClear;
+    }
+
+    /**
+     * This method will change {@link #isClear} depending
+     * on whether or not there is an enemy present.
+     *
+     * @param value The value to be assigned to {@link #isClear}
+     */
+    public void setIsClear(boolean value){
+        isClear = value;
     }
 
     /**
@@ -76,7 +99,7 @@ public abstract class Square {
     /**
      * @param value The value to be given to {@link #hasUser}
      */
-    public void setHasUser(boolean value){
+    public void setHasPlayer(boolean value){
         hasUser = value;
     }
 
@@ -88,13 +111,26 @@ public abstract class Square {
      * This abstract method will allow the placement of
      * an item on the current square.
      */
-    public abstract void place(Item item);
+    public void place(Item item){
+        setIsClear(false);
+        letter = item.getType().toString();
+    }
+
+    public void place(ActiveAgent agent){
+        setIsClear(false);
+        if(agent.getType() == AgentType.PLAYER)
+            setHasPlayer(true);
+        letter = agent.getType().toString();
+    }
 
     /**
-     * This abstract method will make sure to tell the user what
-     * the state of the square is.
+     * This abstract method will make sure to display
+     * the state of {@code this} {@link Square}.
      *
-     * @return The approprite message
+     * @return The approprite icon/letter
      */
-    public abstract String reveal();
+    public String reveal(){
+        if(hasUser) letter = "P";
+        return letter;
+    }
 }

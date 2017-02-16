@@ -36,40 +36,34 @@ public class Board {
 
     private Player player;
 
+    private Square bulletSquare, invulSquare, radarSquare, caseRoom;
 
-    private ArrayList<Integer> rows;
+    private Briefcase briefcase;
 
-    private ArrayList<Integer> columns;
+    private ArrayList<Hallway> hallways;
+
+    private ArrayList<Hallway> validHallways;
 
     /**
      * This {@code final int} holds the size of the {@link #board}.
      */
-    final public int SIZE;
+    final public int SIZE = 9;
 
     /**
      * This is the constructor for the board.
      */
     public Board(){
         rand = new Random();
-        player = new Player();
-        SIZE = 9;
+        hallways = new ArrayList<>();
+        validHallways = new ArrayList<>();
+        briefcase = new Briefcase();
         board = new Square[SIZE][SIZE];
-        rows = new ArrayList<>(SIZE);
-        columns = new ArrayList<>(SIZE);
-
-        for(int i = 0; i < SIZE; ++i) {
-            if(i != 2 && i != 4 && i != 7)
-                rows.add(i);
-        }
-
-        for(int i = 0; i < SIZE; ++i) {
-            if(i != 2 && i != 4 && i != 7)
-                columns.add(i);
-        }
 
         fillBoard();
+        setCaseRoom();
         placeBriefcase();
         placeItems();
+        placeEnemies();
 
         toggleDebugMode();
     }
@@ -80,56 +74,79 @@ public class Board {
      * This method will fill the {@link #board} with the appropriate
      * {@link Square}s.
      */
-    public void fillBoard(){
+    private void fillBoard(){
         for (int i = 0; i < SIZE; ++i){
             for (int j = 0; j < SIZE; ++j){
                 if((i == 1 || i == 4 || i == 7) && (j == 1 || j == 4 || j == 7))
                     board[i][j] = new Room();
-                else
+                else {
                     board[i][j] = new Hallway();
+                    hallways.add((Hallway)board[i][j]);
+                    if(!((i > 4) && (j < 3)))
+                        validHallways.add((Hallway)board[i][j]);
+                }
             }
         }
-
-
 
         ((Hallway)board[0][1]).setIsEntrance(true);
         ((Hallway)board[3][1]).setIsEntrance(true);
         ((Hallway)board[6][1]).setIsEntrance(true);
+
+        board[8][0].setHasPlayer(true);
     }
 
-    public void placeBriefcase(){
-        switch(rand.nextInt(9)){
-            case 0: ((Room)board[1][1]).setHasBriefcase(true);
-                    break;
-            case 1: ((Room)board[1][4]).setHasBriefcase(true);
-                    break;
-            case 2: ((Room)board[1][7]).setHasBriefcase(true);
-                    break;
-            case 3: ((Room)board[4][1]).setHasBriefcase(true);
-                    break;
-            case 4: ((Room)board[4][4]).setHasBriefcase(true);
-                    break;
-            case 5: ((Room)board[4][7]).setHasBriefcase(true);
-                    break;
-            case 6: ((Room)board[7][1]).setHasBriefcase(true);
-                    break;
-            case 7: ((Room)board[7][4]).setHasBriefcase(true);
-                    break;
-            case 8: ((Room)board[7][7]).setHasBriefcase(true);
+    private void placeEnemies(){
+        Collections.shuffle(validHallways);
+
+        int i = 0;
+        for(Hallway hall : validHallways){
+            if(hall.checkIsClear()) {
+                hall.place(new Enemy());
+                ++i;
+            }
+            if(i > 5) break;
         }
     }
 
-    public void placeItems(){
-        Collections.shuffle(rows);
-        Collections.shuffle(columns);
+    private void setCaseRoom(){
+        switch(rand.nextInt(9)){
+            case 0: caseRoom = board[1][1];
+                    break;
+            case 1: caseRoom = board[1][4];
+                    break;
+            case 2: caseRoom = board[1][7];
+                    break;
+            case 3: caseRoom = board[4][1];
+                    break;
+            case 4: caseRoom = board[4][4];
+                    break;
+            case 5: caseRoom = board[4][7];
+                    break;
+            case 6: caseRoom = board[7][1];
+                    break;
+            case 7: caseRoom = board[7][4];
+                    break;
+            case 8: caseRoom = board[7][7];
+        }
 
-        board[rows.get(0)][columns.get(0)].place(new ExtraBullet());
-        ((Hallway)board[rows.get(0)][columns.get(0)]).setIsClear(false);
-        board[rows.get(1)][columns.get(1)].place(new Invulnerability());
-        ((Hallway)board[rows.get(1)][columns.get(1)]).setIsClear(false);
-        board[rows.get(2)][columns.get(2)].place(new Radar());
-        ((Hallway)board[rows.get(2)][columns.get(2)]).setIsClear(false);
     }
+
+    private void placeBriefcase(){
+        caseRoom.place(briefcase);
+    }
+
+    private void placeItems(){
+        Collections.shuffle(hallways);
+
+        bulletSquare = hallways.get(0);
+        invulSquare = hallways.get(1);
+        radarSquare = hallways.get(2);
+
+        bulletSquare.place(new ExtraBullet());
+        invulSquare.place(new Invulnerability());
+        radarSquare.place(new Radar());
+    }
+
 
     /**
      * @return The game {@link #board}
@@ -144,14 +161,20 @@ public class Board {
                         str += "\n";
                         i = 0;
                     }
-                    str += "[ " + column.reveal() + " ] ";
+                    if(column.checkHasUser())
+                        str += AgentType.PLAYER;
+                    else
+                        str += column.reveal();
                     ++i;
                 } else {
                     if (i == 9) {
                         str += "\n";
                         i = 0;
                     }
-                    str += "[ " + column + " ]";
+                    if(column.checkHasUser())
+                        str += AgentType.PLAYER;
+                    else
+                        str += " [" + column + "] ";
                     ++i;
                 }
             }
@@ -171,6 +194,11 @@ public class Board {
      */
     public boolean checkDebugMode(){
         return debugMode;
+    }
+
+    public void movePlayer(int row, int column, int newRow, int newColumn){
+        board[row][column].setHasPlayer(false);
+        board[newRow][newColumn].setHasPlayer(true);
     }
 
 }

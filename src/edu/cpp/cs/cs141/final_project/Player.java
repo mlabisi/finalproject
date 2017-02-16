@@ -47,4 +47,8 @@ public class Player extends ActiveAgent {
     public void toggleInvincible() {
         isInvincible = !isInvincible;
     }
+
+    public String toString(){
+        return "P";
+    }
 }

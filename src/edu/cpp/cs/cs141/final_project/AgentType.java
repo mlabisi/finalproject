@@ -16,8 +16,8 @@ package edu.cpp.cs.cs141.final_project;
  * Created by chocolatecharme on 2/13/17.
  */
 public enum AgentType {
-    ENEMY("E"),
-    PLAYER("P");
+    ENEMY("[ N ]"),
+    PLAYER("[ S ]");
 
     final private String LETTER;
 

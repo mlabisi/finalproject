@@ -17,10 +17,9 @@
 package edu.cpp.cs.cs141.final_project;
 
 /**
- * This class represents the edu.cpp.cs.cs141.final_project.Briefcase edu.cpp.cs.cs141.final_project.Item, which simply inherits its location
- * from its superclass edu.cpp.cs.cs141.final_project.Item.
+ * This class represents the {@link Briefcase} {@link Item}.
  *
- * @author Diana Choi
+ * @author Mora Labisi
  *
  */
 public class Briefcase extends Item {

@@ -19,8 +19,8 @@ package edu.cpp.cs.cs141.final_project;
  * @author Mora Labisi
  */
 public enum SquareType{
-    HALLWAY(" "),
-    ROOM("\uD83D\uDEAA");
+    HALLWAY("[ \u2008 ]"),
+    ROOM("[ \uD83D\uDEAA ]");
 
     private String letter;
 

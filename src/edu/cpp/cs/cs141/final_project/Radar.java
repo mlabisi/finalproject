@@ -1,4 +1,4 @@
-/**
+package edu.cpp.cs.cs141.final_project; /**
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodr�guez
  *
@@ -14,7 +14,6 @@
  *   Robert Delfin
  *   Mora Labisi
  */
-package edu.cpp.cs.cs141.final_project;
 
 /**
  * This class represents the power-up that grants the spy the ability
@@ -39,7 +38,7 @@ public class Radar extends PowerUp{
 	 */
 	@Override
 	public void effect() {
-		Engine.getBriefcaseSquare().setLightsOn(true);
+		//sets briefcase room to visible
 	}
 
 }

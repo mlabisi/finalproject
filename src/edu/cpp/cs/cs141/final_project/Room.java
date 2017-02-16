@@ -13,70 +13,61 @@
 package edu.cpp.cs.cs141.final_project;
 
 /**
- * This class is a {@link Square} that represents a
- * room in the game. The room can either be
- * clear or it can contain the briefcase.
+ * This class is a {@link Square} that represents a room in the game. The room
+ * can either be clear or it can contain the briefcase.
  *
- * @author Mora Labisi
+ * @author Logan Carichner
  */
 public class Room extends Square {
-    /**
-     * This {@code boolean} flag will represent
-     * whether or not the room contains the
-     * briefcase.
-     */
-    private boolean hasBriefcase;
 
+	private boolean hasBriefcase;
+	private char symbol1 = 63;
+	private char symbol2 = 33;
 
-    /**
-     * This is the constructor for the room.
-     */
-    public Room(){
-        super(SquareType.ROOM);
-    }
+	/**
+	 * This is the constructor for the room.
+	 */
+	public Room() {
+		setType("Room");
+	}
 
-    /**
-     * @return The value of {@link #hasBriefcase}
-     */
-    public boolean checkHasBriefcase(){
-        return hasBriefcase;
-    }
+	public Room(boolean briefcase) {
+		setType("Room");
+		hasBriefcase = briefcase;
+	}
 
-    /**
-     * This method will be used to "place" the briefcase in
-     * {@code this} {@link Room}.
-     *
-     * @param value
-     */
-    public void setHasBriefcase(boolean value){
+	public void hasBriefcase() {
+		hasBriefcase = true;
+	}
 
-    }
+	@Override
+	public void setType(String string) {
+		squareType = string;
+	}
 
-    /**
-     * This method will allow the placement of the
-     * briefcase in the room.
-     *
-     * @param item The {@link Briefcase} object
-     */
-    @Override
-    public void place(Item item){
-        setHasBriefcase(true);
-    }
+	/**
+	 * @return The value of {@link #hasBriefcase}
+	 */
+	public boolean checkHasBriefcase() {
+		return hasBriefcase;
+	}
 
-    /**
-     * This method will reveal whether or not {@code this} {@link Room}
-     * contains the briefcase.
-     *
-     * @return The appropriate message
-     */
-    @Override
-    public String reveal(){
-        return "R";
-    }
+	@Override
+	public void place(Item item) {
+	}
 
-    @Override
-    public String toString(){
-        return super.getType();
-    }
+	@Override
+	public void isEntrance() {
+	}
+	
+	@Override
+	public char getSymbol() {
+		if (lightsOn() && hasBriefcase)
+			return symbol2;
+		else //if (lightsOn())
+			return symbol1;
+//		else
+//			return 35;
+	}
 
 }

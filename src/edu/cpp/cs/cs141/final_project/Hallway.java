@@ -18,30 +18,50 @@ package edu.cpp.cs.cs141.final_project;
  * clear or there can be ninjas present.
  *
  * @author Mora Labisi
+ * @author Logan Carichner
  */
 public class Hallway extends Square {
-    /**
-     * This {@code boolean} flag represents whether
-     * or not {@code this} {@link Hallway} is clear.
-     */
     private boolean isClear;
-
-    /**
-     * This {@code boolean} flag will determine
-     * whether or not this hallway is the entrance
-     * to a {@link Room}. Entrances have the coordinates
-     * grid[i-1][j] if the room's coordinates are
-     * grid[i][j].
-     */
     private boolean isEntrance;
-
+    private boolean hasNinja;
+    private ActiveAgent ninjaAssassin;
+    private Item item;
+    
     /**
      * This is the constructor for the hallway class.
      */
     public Hallway(){
-        super(SquareType.HALLWAY);
+    	isClear = true;
+    	isEntrance = false;
+    	setType("Hallway");
     }
 
+    public void placeNinja() {
+    	ninjaAssassin = new ActiveAgent();
+    }
+    
+    public boolean hasNinja() {
+    	return hasNinja;
+    }
+    
+    @Override
+    public void setType(String string) {
+    	squareType = string;
+    	
+    }
+    
+    @Override
+    public void isEntrance() {
+    	isEntrance = true;
+    }
+    
+    public boolean checkEntry() {
+    	return isEntrance;
+    }
+    
+    @Override
+    public void hasBriefcase(){
+    }
     /**
      * @return The value of {@link #isClear}
      */
@@ -55,8 +75,8 @@ public class Hallway extends Square {
      *
      * @param value The value to be assigned to {@link #isClear}
      */
-    public void setIsClear(boolean value){
-
+    public void clear() {
+    	isClear = !isClear;
     }
 
     /**
@@ -72,42 +92,23 @@ public class Hallway extends Square {
      *
      * @param value The value to be given to {@link #isEntrance}
      */
-    public void setIsEntrance(boolean value){
-
+    public void setEntrance() {
+    	isEntrance = true;
     }
 
-    /**
-     * This method will allow the placement a
-     * {@link PowerUp}.
-     *
-     * @param item The {@link PowerUp} object
-     */
-    @Override
-    public void place(Item item){
-        setIsClear(false);
-    }
+	@Override
+	public void place(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
 
-
-    /**
-     * This method will reveal whether or not {@code this} {@link Hallway}
-     * is clear after the {@link } looks.
-     *
-     * @return The appropriate message
-     */
-    @Override
-    public String reveal(){
-        return " ";
-
-    }
-
-    /**
-     * This will return the letter representation of the user,
-     * the enemy, or an item.
-     *
-     * @return The appropriate letter
-     */
-    @Override
-    public String toString(){
-        return " ";
-    }
+	@Override
+	public char getSymbol() {
+		if (lightsOn() && hasNinja) {
+			return 78;
+		}else if (lightsOn()) {
+			return 32;
+		}
+		return 35;
+	}
 }

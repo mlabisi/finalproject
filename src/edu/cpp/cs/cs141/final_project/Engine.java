@@ -1,8 +1,6 @@
-package edu.cpp.cs.cs141.final_project;
-
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodrï¿½guez
+ * Professor: Edwin Rodríguez
  *
  * Programming Assignment Final Project
  *
@@ -18,45 +16,45 @@ package edu.cpp.cs.cs141.final_project;
  *   Mora Labisi
  */
 
+package edu.cpp.cs.cs141.final_project;
+
 /**
  * @author Robert Delfin
+ * @author Logan Carichner
  *
  */
 public class Engine {
+	private Board board;
+	private boolean debug;
 	private int turns;
 	private int lives;
 	private int enemies;
-	private int ammo;
-	private boolean end;
+	private int boardSize;
 	
-	/**
-	 * This method loops the game until
-	 * the victory condition is set and 
-	 * the player wins.
-	 */
-	public void LoopGame(){
+	public Engine() {
+		boardSize = UI.getBoardSize();
+		debug = UI.debugStart();
+		board = new Board(boardSize, debug);
+		turns = 0;
 		
 	}
 	
-	/**
-	 * This method increase the amount
-	 * of turns and tracks the amount.
-	 * @return the turn count.
-	 */
-	public int addTurn(){
-	   return 0;	
-	}
-	public void countEnemy(){
-		
+	public void printBoard() {
+		board.printBoard();
 	}
 	
-	/**
-	 * This method changes the game to the
-	 * victory condition.
-	 * @return the statement to end the game.
-	 */
-	public boolean endGame(){
-		return false;
+	public void printBoardDebug() {
+		board.printBoardDebugged();
+	}
+	
+	public static int roll(int num) {
+		int generated = (int) Math.floor(Math.random() * num);
+		return generated;
+	}
+
+	public void enemyTurn() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

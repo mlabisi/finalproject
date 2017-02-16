@@ -1,6 +1,10 @@
+package edu.cpp.cs.cs141.final_project;
+
+import java.util.Scanner;
+
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodrï¿½guez
+ * Professor: Edwin Rodríguez
  *
  * Final Project: Spy Game
  *
@@ -11,11 +15,6 @@
  * Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora Labisi
  */
 
-package edu.cpp.cs.cs141.final_project;
-
-/**
- * @author Logan Carichner
- */
 public class UI {
 	/**
 	 * This class is the UI for the game, it will create a new game engine instance and then tell the game to make the player.
@@ -29,9 +28,8 @@ public class UI {
 	 */
 	public UI() {
 		game = new Engine();
-		String playerName = getPlayerName();
-		game.newPlayer(playerName);
-		game.newGame();
+		game.printBoard();
+//		game.printBoardDebug();
 	}
 	
 	/**
@@ -45,8 +43,12 @@ public class UI {
 	 * This method can be called by other classes to print to the console.
 	 * @param string the string to be printed
 	 */
-	public void printString(String string) {
-		
+	public static void printString(String string) {
+		System.out.print(string);
+	}
+	
+	public static void printLn() {
+		System.out.println();
 	}
 	
 	/**
@@ -74,7 +76,6 @@ public class UI {
 	 * This method gives the player options to take on their turn.
 	 */
 	public void playerturn() {
-		
 	}
 	
 	/**
@@ -82,6 +83,36 @@ public class UI {
 	 */
 	public void enemyTurn() {
 		game.enemyTurn();
+	}
+
+	public static int getBoardSize() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Boardsize?");
+		int num = sc.nextInt();
+		return num;
+	}
+
+	public static boolean debugStart() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Debug mode? 1 for yes. 0 for no.");
+		int num = sc.nextInt();
+		return (num == 0) ? false : true;
+	}
+
+	public static void callException(String exception) {
+		switch (exception) {
+		case "Motion":
+			System.out.println("An error occured when an entity tried to move in an undefined manner.");
+			exit();
+			break;
+//		case "
+			
+		}
+		
+	}
+
+	private static void exit() {
+		System.exit(0);		
 	}
 
 }

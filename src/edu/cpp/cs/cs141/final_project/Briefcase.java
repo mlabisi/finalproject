@@ -1,5 +1,4 @@
-package edu.cpp.cs.cs141.final_project;
-/**
+package edu.cpp.cs.cs141.final_project; /**
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodr�guez
  *

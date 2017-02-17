@@ -77,12 +77,12 @@ public class Board {
     private void fillBoard(){
         for (int i = 0; i < SIZE; ++i){
             for (int j = 0; j < SIZE; ++j){
-                if((i == 1 || i == 4 || i == 7) && (j == 1 || j == 4 || j == 7))
+                if((i % 3 == 1) && (j % 3 == 1))
                     board[i][j] = new Room();
                 else {
                     board[i][j] = new Hallway();
                     hallways.add((Hallway)board[i][j]);
-                    if(!((i > 4) && (j < 3)))
+                    if((i < 4) && (j > 3))
                         validHallways.add((Hallway)board[i][j]);
                 }
             }

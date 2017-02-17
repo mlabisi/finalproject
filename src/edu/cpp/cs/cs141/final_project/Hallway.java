@@ -80,28 +80,23 @@ public class Hallway extends Square implements Serializable {
         return isClear;
     }
 
-    /**
-     * This method will change {@link #isClear} depending
-     * on whether or not there is an enemy present.
-     *
-     * @param value The value to be assigned to {@link #isClear}
-     */
+/**
+ * This method changes the hallway's #isClear boolean to the opposite of its current value
+ */
     public void clear() {
     	isClear = !isClear;
     }
 
     /**
-     * @return The value of {@link #isEntrance}
+     * This method checks whether the hallway is considered an entrance
+     * @return the value of #isEntrance
      */
     public boolean checkIsEntrance(){
         return isEntrance;
     }
 
     /**
-     * This method will be used to tell whether or not
-     * a hallway is an entrance.
-     *
-     * @param value The value to be given to {@link #isEntrance}
+     * This method sets the hallway as an entrance.
      */
     public void setEntrance() {
     	isEntrance = true;
@@ -112,8 +107,11 @@ public class Hallway extends Square implements Serializable {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
+	/**
+	 * This method overrides the abstract square's method, and returns the character to display
+	 * 
+	 */
 	public char getSymbol() {
 		if (lightsOn() && hasNinja) {
 			return 78;

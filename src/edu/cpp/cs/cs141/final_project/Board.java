@@ -36,15 +36,21 @@ public class Board implements Serializable {
 	final private int boardSize;
 
 	/**
-	 * This is the constructor for the board.
+	 * This is the default constructor for the board.
 	 */
-	public Board() {
+	public Board(boolean debug) {
 		boardSize = 9;
+		this.debug = debug;
 		makeBoard();
 		fillBoard();
 		makeRooms();
 		locateRooms();
+		locateHallways();
 		insertBriefcase();
+		insertEnemies();
+		locateEnemies();
+//		placePowerUps();
+		debugRooms();
 	}
 
 	public Board(int size, boolean debug) {
@@ -62,13 +68,15 @@ public class Board implements Serializable {
 		debugRooms();
 	}
 
+	/**
+	 * This method initiates the board as an array of square objects.
+	 */
 	public void makeBoard() {
 		grid = new Square[boardSize][boardSize];
 	}
 
 	/**
-	 * This method will fill the {@link #board} with the appropriate
-	 * {@link Square}s.
+	 * This method makes every single square into a hallway object, which can hold players, enemies, or items
 	 */
 	public void fillBoard() {
 		for (int i = 0; i < grid.length; i++) {
@@ -80,6 +88,9 @@ public class Board implements Serializable {
 			assignOffLimits();
 	}
 
+	/**
+	 * This method sets the spaces closest to the player spawn point as off limits to enemy placement
+	 */
 	private void assignOffLimits() {
 		int temp = 3;
 		while (temp > 0) {
@@ -89,6 +100,9 @@ public class Board implements Serializable {
 		}
 	}
 
+	/**
+	 * This method replaces the hallway object with a room object inside each 3x3 square section of the grid
+	 */
 	public void makeRooms() {
 		int roomsInBoard = getNumRooms();
 		for (int i = 1; i < grid.length; i++) {
@@ -101,6 +115,9 @@ public class Board implements Serializable {
 		}
 	}
 	
+	/**
+	 * This method creates an array containing the location of each room object in the grid.
+	 */
 	public void locateRooms() {
 		rooms = new int[getNumRooms()][2];
 		int temp = 0;
@@ -115,6 +132,9 @@ public class Board implements Serializable {
 		}
 	}
 	
+	/**
+	 * This method creates an array containing the location of each hallway object in the grid.
+	 */
 	public void locateHallways() {
 		hallways = new int[boardSize*boardSize - getNumRooms()][2];
 		int temp = 0;
@@ -129,11 +149,17 @@ public class Board implements Serializable {
 		}
 	}
 
+	/**
+	 * This method places the briefcase object within one of the rooms at random.
+	 */
 	public void insertBriefcase() {
 		int roomNum = Engine.roll(rooms.length);
 		grid[rooms[roomNum][0]][rooms[roomNum][1]].hasBriefcase();
 	}
 	
+	/**
+	 * This method places a number of ninja assassin objects into the grid based on the size of the grid 
+	 */
 	private void insertEnemies() {
 		int numEnemies = 2*boardSize/3;
 		while (numEnemies > 0) {
@@ -147,6 +173,9 @@ public class Board implements Serializable {
 		}
 	}
 	
+	/**
+	 * This method creates an array containing the locations of each ninja assassin in the grid
+	 */
 	private void locateEnemies() {
 		int numEnemies = 2*boardSize/3;
 		int temp = 0;
@@ -162,6 +191,9 @@ public class Board implements Serializable {
 		}
 	}
 	
+	/**
+	 * This method checks to see if debug mode is on, then turns on the lights in every room if it is.
+	 */
 	private void debugRooms() {
 		if (debug) {
 			for (int i = 0 ; i < grid.length ; i++) {
@@ -172,11 +204,18 @@ public class Board implements Serializable {
 		}
 	}
 
+	/**
+	 * This method gets the number of rooms for the grid based on the size of the grid.
+	 * @return
+	 */
 	private int getNumRooms() {
 		int num = boardSize / 3;
 		return num*num;
 	}
 	
+	/**
+	 * This method calls the UI to print out the entire board in its current state.
+	 */
 	public void printBoard() {
 		for (int i = 0 ; i < grid.length ; i++) {
 			for (int j = 0 ; j < grid[i].length ; j++) {
@@ -186,6 +225,9 @@ public class Board implements Serializable {
 		}
 	}
 
+	/**
+	 * This method moves each ninja's location.
+	 */
 	public void moveNinjas() {
 		boolean validDirection = false;
 		int direction = 0;
@@ -194,11 +236,16 @@ public class Board implements Serializable {
 				direction = grid[ninjas[i][0]][ninjas[i][1]].askANinja();
 				validDirection = checkValidDirection(direction, i);
 			} while (validDirection == false);
-			UI.printString(Arrays.toString(ninjas[i]));		//Debug
+//			UI.printString(Arrays.toString(ninjas[i]));		//Debug
 			moveNinja(i, direction);
 		}
 	}
 
+	/**
+	 * This method moves a single ninja to the location its AI has requested.
+	 * @param ninja The integer location of this ninja within the ninjas array
+	 * @param direction The integer value representing one of four directions for the ninja to move
+	 */
 	private void moveNinja(int ninja, int direction) {
 		int ninjaX = ninjas[ninja][1];
 		int ninjaY = ninjas[ninja][0];
@@ -227,6 +274,12 @@ public class Board implements Serializable {
 		}
 	}
 
+	/**
+	 * This method checks to see if the ninja can move in the direction its AI has requested.
+	 * @param direction The integer value representing the direction the ninja wants to move.
+	 * @param ninja The integer value representing the ninja in the ninjas array.
+	 * @return True if the ninja can move in the requested direction, else false.
+	 */
 	private boolean checkValidDirection(int direction, int ninja) {
 		int ninjaX = ninjas[ninja][1];
 		int ninjaY = ninjas[ninja][0];

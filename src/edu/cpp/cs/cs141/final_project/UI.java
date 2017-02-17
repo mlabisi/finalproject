@@ -33,7 +33,7 @@ public class UI {
 	}
 	
 	public void debugLoop() {
-		for (int i = 100 ; i > 0 ; i--) {
+		for (int i = 250 ; i > 0 ; i--) {
 			game.enemyTurn();
 			dialogueWait(1);
 			System.out.println();
@@ -44,7 +44,7 @@ public class UI {
 	public static void dialogueWait(int i) {
 		for ( ; i > 0 ; i--) {
 			try {
-				Thread.sleep(250);
+				Thread.sleep(150);
 			} catch (InterruptedException e) {
 			}
 		}

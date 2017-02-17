@@ -22,7 +22,7 @@ public enum ItemType {
     RADAR("[ R ]"),
     INVULNERABILITY("[ I ]"),
     EXTRA_BULLET("[ B ]"),
-    BRIEFCASE("[\uD83D\uDCBC ]");
+    BRIEFCASE("[ ! ]");
 
     final private String ICON;
 

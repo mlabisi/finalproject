@@ -16,14 +16,14 @@ package edu.cpp.cs.cs141.final_project;
  * This class is the main class, and runs the game when executed
  *
  * @author Logan Carichner
+ * @author Mora Labisi
  */
 public class Main {
 
 	public static void main(String[] args){
 	    Engine game = new Engine();
-        SaveData save = new SaveData(game);
         UI ui = new UI(game);
-		ui.mainMenu();
+		ui.gameStart();
 	}
 
 }

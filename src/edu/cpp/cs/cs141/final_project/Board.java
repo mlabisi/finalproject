@@ -30,6 +30,9 @@ public class Board {
      */
     private Square[][] board;
 
+    /**
+     * The random object for multiple
+     */
     private Random rand;
 
     private boolean debugMode = false;

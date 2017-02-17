@@ -24,14 +24,14 @@ public class UI {
 	 */
 	private Engine game;
 
-	private Board gameBoard;
+	private Board board;
 
 	/**
 	 * This constructor builds the UI and starts the game with the engine.
 	 */
 	public UI(Engine game) {
 		this.game = game;
-		gameBoard = new Board();
+		board = new Board();
 	}
 	
 	/**
@@ -60,8 +60,8 @@ public class UI {
 	 * This method starts the game and initiates the engine's creation of enemies.
 	 */
 	public void gameStart() {
-		System.out.println(gameBoard);
-		runGame();
+		System.out.println(board);
+		//runGame();
 	}
 	
 	/**
@@ -85,4 +85,7 @@ public class UI {
 
 	}
 
+	public Board getGameBoard() {
+		return board;
+	}
 }

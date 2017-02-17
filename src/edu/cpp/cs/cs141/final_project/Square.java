@@ -130,7 +130,8 @@ public abstract class Square {
      * @return The approprite icon/letter
      */
     public String reveal(){
-        if(hasUser) letter = "P";
+        if(hasUser)
+            return AgentType.PLAYER.toString();
         return letter;
     }
 }

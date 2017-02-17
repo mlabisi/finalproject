@@ -164,10 +164,7 @@ public class Board {
                         str += "\n";
                         i = 0;
                     }
-                    if(column.checkHasUser())
-                        str += AgentType.PLAYER;
-                    else
-                        str += column.reveal();
+                    str += column.reveal();
                     ++i;
                 } else {
                     if (i == 9) {

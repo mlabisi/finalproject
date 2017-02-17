@@ -12,13 +12,15 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * This class is a {@link Square} that represents a room in the game. The room
  * can either be clear or it can contain the briefcase.
  *
  * @author Logan Carichner
  */
-public class Room extends Square {
+public class Room extends Square implements Serializable {
 
 	private boolean hasBriefcase;
 	private char symbol1 = 63;
@@ -51,6 +53,11 @@ public class Room extends Square {
 	public boolean checkHasBriefcase() {
 		return hasBriefcase;
 	}
+	
+	@Override
+	public boolean checkIsClear() {
+		return false;
+	}
 
 	@Override
 	public void place(Item item) {
@@ -68,6 +75,53 @@ public class Room extends Square {
 			return symbol1;
 //		else
 //			return 35;
+	}
+
+	@Override
+	public boolean hasNinja() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void restrict() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isOffLimits() {
+		return false;
+	}
+
+	@Override
+	public int askANinja() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ActiveAgent getNinja() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteNinja() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void placeNinja(ActiveAgent tempNinja) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void placeNinja() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

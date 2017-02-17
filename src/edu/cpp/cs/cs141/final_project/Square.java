@@ -12,6 +12,8 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * This class represents a square on the {@link Board}.
  * It is an abstract class and can be specialized to be a
@@ -20,7 +22,7 @@ package edu.cpp.cs.cs141.final_project;
  * @author Mora Labisi
  * @author Logan Carichner
  */
-public abstract class Square {
+public abstract class Square implements Serializable {
     protected boolean lightsOn = false;
     protected String squareType;
 
@@ -30,9 +32,15 @@ public abstract class Square {
     	return squareType;
     }
     
+    public abstract void restrict();
+    
+    public abstract boolean isOffLimits();
+    
 	public abstract char getSymbol();
 	
     public abstract void hasBriefcase();
+    
+    public abstract boolean hasNinja();
     
     public boolean lightsOn() {
     	return lightsOn;
@@ -42,13 +50,20 @@ public abstract class Square {
     	lightsOn = !lightsOn;
     }
 
-
-    /**
-     * This abstract method will allow the placement of
-     * an item on the current square.
-     */
     public abstract void place(Item item);
 
 	public abstract void isEntrance();
+
+	public abstract int askANinja();
+
+	public abstract boolean checkIsClear();
+
+	public abstract ActiveAgent getNinja();
+
+	public abstract void deleteNinja();
+
+	public abstract void placeNinja();
+	
+	public abstract void placeNinja(ActiveAgent tempNinja);	
 	
 }

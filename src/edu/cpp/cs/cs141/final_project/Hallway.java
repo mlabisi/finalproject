@@ -12,6 +12,8 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * This class is a {@link Square} that represents a
  * hallway in the game. The hallway can either be
@@ -20,10 +22,11 @@ package edu.cpp.cs.cs141.final_project;
  * @author Mora Labisi
  * @author Logan Carichner
  */
-public class Hallway extends Square {
+public class Hallway extends Square implements Serializable {
     private boolean isClear;
     private boolean isEntrance;
     private boolean hasNinja;
+    private boolean restricted = false;
     private ActiveAgent ninjaAssassin;
     private Item item;
     
@@ -38,6 +41,14 @@ public class Hallway extends Square {
 
     public void placeNinja() {
     	ninjaAssassin = new ActiveAgent();
+    	isClear = false;
+    	hasNinja = true;
+    }
+    
+    public void placeNinja(ActiveAgent ninja) {
+    	ninjaAssassin = ninja;
+    	isClear = false;
+    	hasNinja = true;
     }
     
     public boolean hasNinja() {
@@ -109,6 +120,28 @@ public class Hallway extends Square {
 		}else if (lightsOn()) {
 			return 32;
 		}
-		return 35;
+		return 42;
+	}
+
+	public void restrict() {
+		restricted = true;		
+	}
+	
+	public boolean isOffLimits() {
+		return restricted;
+	}
+	
+	public ActiveAgent getNinja() {
+		return ninjaAssassin;
+	}
+	
+	public void deleteNinja() {
+		ninjaAssassin = null;
+		isClear = true;
+		hasNinja = false;
+	}
+	
+	public int askANinja() {
+		return ninjaAssassin.agentMove();
 	}
 }

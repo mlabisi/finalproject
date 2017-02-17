@@ -18,12 +18,14 @@
 
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * @author Robert Delfin
  * @author Logan Carichner
  *
  */
-public class Engine {
+public class Engine implements Serializable {
 	private Board board;
 	private boolean debug;
 	private int turns;
@@ -43,18 +45,13 @@ public class Engine {
 		board.printBoard();
 	}
 	
-	public void printBoardDebug() {
-		board.printBoardDebugged();
-	}
-	
 	public static int roll(int num) {
-		int generated = (int) Math.floor(Math.random() * num);
+		int generated = (int) Math.floor(Math.random() * (num));
 		return generated;
 	}
 
 	public void enemyTurn() {
-		// TODO Auto-generated method stub
-		
+		board.moveNinjas();
 	}
 	
 

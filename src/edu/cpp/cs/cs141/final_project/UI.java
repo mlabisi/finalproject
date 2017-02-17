@@ -29,16 +29,27 @@ public class UI {
 	public UI() {
 		game = new Engine();
 		game.printBoard();
-//		game.printBoardDebug();
+		debugLoop();		//debug
 	}
 	
-	/**
-	 * This method will get the player's name and return it.
-	 */
-	public String getPlayerName() {
-		return null;
+	public void debugLoop() {
+		for (int i = 100 ; i > 0 ; i--) {
+			game.enemyTurn();
+			dialogueWait(1);
+			System.out.println();
+			game.printBoard();
+		}
 	}
-
+	
+	public static void dialogueWait(int i) {
+		for ( ; i > 0 ; i--) {
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+			}
+		}
+	}
+	
 	/**
 	 * This method can be called by other classes to print to the console.
 	 * @param string the string to be printed

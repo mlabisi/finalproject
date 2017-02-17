@@ -14,8 +14,6 @@ public class ActiveAgent {
 	private boolean alive;
 	private String agentName;
 	private int agentHealth;
-	private int positionX;
-	private int positionY;
 
 	/**
 	 * This constructor takes no arguments and creates an enemy ninja assassin.
@@ -24,9 +22,6 @@ public class ActiveAgent {
 		alive = true;
 		agentName = "Ninja Assassin";
 		agentHealth = 1;
-		positionX = Board.verifyPosition(Engine.random(Board.getSize()));
-		positionY = Board.verifyPosition(Engine.random(Board.getSize()));
-
 	}
 
 	/**
@@ -39,8 +34,6 @@ public class ActiveAgent {
 		alive = true;
 		agentName = name;
 		agentHealth = 3;
-		positionX = 9;
-		positionY = 0;
 	}
 
 	/**
@@ -67,25 +60,8 @@ public class ActiveAgent {
  * This method changes the agent's position.
  * @param direction a string representing a direction of movement
  */
-	public void agentMove(String direction) {
-		//Each case in this switch also verifies that the X or Y position values are within the range of the board
-		switch (direction) {
-		case "up":
-			positionY = (positionY > 0) ? positionY -= 1 : 0;
-			break;
-		case "down":
-			positionY = (positionY < 8) ? positionY += 1 : 8;
-			break;
-		case "left":
-			positionX = (positionX > 0) ? positionX -= 1 : 0;
-			break;
-		case "right":
-			positionX = (positionX < 8) ? positionX += 1 : 8;
-			break;
-		default:
-			UI.callException("Motion");
-			break;
-		}
-		
-
+	public int agentMove() {
+		int direction = Engine.roll(4);
+		return direction;
+	}
 }

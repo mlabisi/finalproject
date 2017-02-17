@@ -171,10 +171,7 @@ public class Board {
                         str += "\n";
                         i = 0;
                     }
-                    if(column.checkHasUser())
-                        str += AgentType.PLAYER;
-                    else
-                        str += column;
+                    str += column;
                     ++i;
                 }
             }

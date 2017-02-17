@@ -109,7 +109,8 @@ public abstract class Square {
 
     /**
      * This abstract method will allow the placement of
-     * an item on the current square.
+     * an item on the current square. It takes the
+     * {@link Item}'s {@link ItemType} as a {@code String}.
      */
     public void place(Item item){
         setIsClear(false);

@@ -32,13 +32,13 @@ public class Engine implements Serializable {
 	private int lives;
 	private int enemies;
 	private int boardSize;
+	private boolean win = false;
 	
 	public Engine() {
 		boardSize = UI.getBoardSize();
 		debug = UI.debugStart();
 		board = new Board(boardSize, debug);
 		turns = 0;
-		
 	}
 	
 	public void printBoard() {
@@ -53,6 +53,21 @@ public class Engine implements Serializable {
 	public void enemyTurn() {
 		board.moveNinjas();
 	}
+
+	public void killNinja() {
+		board.killNinja();
+	}
+
+	public int getNumRooms() {
+		return board.getNumRooms();
+	}
 	
+	public boolean getState() {
+		return win;
+	}
+	
+	public void quit() {
+		System.exit(0);
+	}
 
 }

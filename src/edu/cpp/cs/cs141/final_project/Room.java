@@ -78,12 +78,6 @@ public class Room extends Square implements Serializable {
 	}
 
 	@Override
-	public boolean hasNinja() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void restrict() {
 		// TODO Auto-generated method stub
 		
@@ -101,25 +95,43 @@ public class Room extends Square implements Serializable {
 	}
 
 	@Override
-	public ActiveAgent getNinja() {
+	public ActiveAgent getAgent() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteNinja() {
+	public void deleteAgent() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void placeNinja(ActiveAgent tempNinja) {
+	public void placeAgent(ActiveAgent tempNinja) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void placeNinja() {
+	public void placeAgent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void killAgent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean hasAgent() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void placeSpy() {
 		// TODO Auto-generated method stub
 		
 	}

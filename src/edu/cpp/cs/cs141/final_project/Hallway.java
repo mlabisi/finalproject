@@ -25,9 +25,9 @@ import java.io.Serializable;
 public class Hallway extends Square implements Serializable {
     private boolean isClear;
     private boolean isEntrance;
-    private boolean hasNinja;
+    private boolean hasAgent;
     private boolean restricted = false;
-    private ActiveAgent ninjaAssassin;
+    private ActiveAgent agent;
     private Item item;
     
     /**
@@ -38,21 +38,33 @@ public class Hallway extends Square implements Serializable {
     	isEntrance = false;
     	setType("Hallway");
     }
+    
+    public void placeSpy() {
+    	agent = new ActiveAgent("player");
+    	isClear = false;
+    	hasAgent = true;
+    }
 
-    public void placeNinja() {
-    	ninjaAssassin = new ActiveAgent();
-    	isClear = false;
-    	hasNinja = true;
+    public void killAgent() {
+    	agent.takeDamage(10);
+    	agent = null;
+    	hasAgent = false;
     }
     
-    public void placeNinja(ActiveAgent ninja) {
-    	ninjaAssassin = ninja;
+    public void placeAgent() {
+    	agent = new ActiveAgent();
     	isClear = false;
-    	hasNinja = true;
+    	hasAgent = true;
     }
     
-    public boolean hasNinja() {
-    	return hasNinja;
+    public void placeAgent(ActiveAgent ninja) {
+    	agent = ninja;
+    	isClear = false;
+    	hasAgent = true;
+    }
+    
+    public boolean hasAgent() {
+    	return hasAgent;
     }
     
     @Override
@@ -113,7 +125,7 @@ public class Hallway extends Square implements Serializable {
 	 * 
 	 */
 	public char getSymbol() {
-		if (lightsOn() && hasNinja) {
+		if (lightsOn() && hasAgent) {
 			return 78;
 		}else if (lightsOn()) {
 			return 32;
@@ -129,17 +141,17 @@ public class Hallway extends Square implements Serializable {
 		return restricted;
 	}
 	
-	public ActiveAgent getNinja() {
-		return ninjaAssassin;
+	public ActiveAgent getAgent() {
+		return agent;
 	}
 	
-	public void deleteNinja() {
-		ninjaAssassin = null;
+	public void deleteAgent() {
+		agent = null;
 		isClear = true;
-		hasNinja = false;
+		hasAgent = false;
 	}
 	
 	public int askANinja() {
-		return ninjaAssassin.agentMove();
+		return agent.agentMove();
 	}
 }

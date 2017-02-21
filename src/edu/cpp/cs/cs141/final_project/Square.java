@@ -40,7 +40,7 @@ public abstract class Square implements Serializable {
 	
     public abstract void hasBriefcase();
     
-    public abstract boolean hasNinja();
+    public abstract boolean hasAgent();
     
     public boolean lightsOn() {
     	return lightsOn;
@@ -58,12 +58,16 @@ public abstract class Square implements Serializable {
 
 	public abstract boolean checkIsClear();
 
-	public abstract ActiveAgent getNinja();
+	public abstract ActiveAgent getAgent();
 
-	public abstract void deleteNinja();
+	public abstract void deleteAgent();
 
-	public abstract void placeNinja();
+	public abstract void placeAgent();
 	
-	public abstract void placeNinja(ActiveAgent tempNinja);	
+	public abstract void placeAgent(ActiveAgent tempNinja);
+
+	public abstract void killAgent();
+
+	public abstract void placeSpy();
 	
 }

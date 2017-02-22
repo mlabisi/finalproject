@@ -34,6 +34,7 @@ public class Board implements Serializable {
 	private int[][] ninjas;
 	private int[] player;
 	private boolean debug;
+	private boolean init;
 	final private int boardSize;
 
 	/**
@@ -42,6 +43,7 @@ public class Board implements Serializable {
 	public Board(boolean debug) {
 		boardSize = 9;
 		this.debug = debug;
+		init = true;
 		makeBoard();
 		fillBoard();
 		makeRooms();
@@ -54,8 +56,28 @@ public class Board implements Serializable {
 		locateEnemies();
 		locatePlayer();
 		debugRooms();
+		init = false;
 	}
 
+	public Board(int size, boolean debug) {
+		boardSize = size;
+		this.debug = debug;
+		init = true;
+		makeBoard();
+		fillBoard();
+		makeRooms();
+		locateRooms();
+		locateHallways();
+		insertBriefcase();
+		insertEnemies();
+		insertPlayer();
+		insertItems();
+		locateEnemies();
+		locatePlayer();
+		debugRooms();
+		init = false;
+	}
+	
 	private void locatePlayer() {
 		// TODO Auto-generated method stub
 		
@@ -67,28 +89,12 @@ public class Board implements Serializable {
 	}
 
 	private void insertPlayer() {
-		grid[0][8].placeSpy();
-		
+		grid[boardSize - 1][0].placeSpy();
 	}
 
 	public void killNinja() {
 		grid[ninjas[1][0]][ninjas[1][1]].killAgent();
 		locateEnemies();
-	}
-
-	public Board(int size, boolean debug) {
-		boardSize = size;
-		this.debug = debug;
-		makeBoard();
-		fillBoard();
-		makeRooms();
-		locateRooms();
-		locateHallways();
-		insertBriefcase();
-		insertEnemies();
-		locateEnemies();
-		// placePowerUps();
-		debugRooms();
 	}
 
 	/**
@@ -208,15 +214,19 @@ public class Board implements Serializable {
 	 * assassin in the grid
 	 */
 	private void locateEnemies() {
-		int numEnemies = 2 * boardSize / 3;
+		int numEnemies = 0;
+		if (init) 
+			numEnemies = 2 * boardSize / 3;
+		else 
+			numEnemies = ninjas.length - 1;
 		int temp = 0;
 		ninjas = new int[numEnemies][2];
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].hasAgent()) {
+				if (grid[i][j].hasAgent() && temp < ninjas.length) {
 					ninjas[temp][0] = i;
 					ninjas[temp][1] = j;
-					temp += 1;
+					temp++;
 				}
 			}
 		}
@@ -226,7 +236,7 @@ public class Board implements Serializable {
 	 * This method checks to see if debug mode is on, then turns on the lights
 	 * in every room if it is.
 	 */
-	private void debugRooms() {
+	public void debugRooms() {
 		if (debug) {
 			for (int i = 0; i < grid.length; i++) {
 				for (int j = 0; j < grid[i].length; j++) {

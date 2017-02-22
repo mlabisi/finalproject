@@ -35,6 +35,12 @@ public class ActiveAgent {
 		agentName = name;
 		agentHealth = 3;
 	}
+	
+	public boolean isPlayer() {
+		if (agentName.compareToIgnoreCase("player") == 0)
+			return true;
+		return false;
+	}
 
 	/**
 	 * This method deals an amount of damage to the agent's HP.

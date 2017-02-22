@@ -31,8 +31,7 @@ public class UI {
 		sc = new Scanner(System.in);
 		game = new Engine();
 		mainMenu(true);
-		game.printBoard();	//debug
-		debugLoop();		//debug
+//		debugLoop();		//debug
 	}
 	
 	public void debugLoop() {
@@ -40,7 +39,7 @@ public class UI {
 			game.enemyTurn();
 			game.killNinja();
 			dialogueWait(1);
-			System.out.println();
+			printLn();
 			game.printBoard();
 		}
 	}
@@ -86,7 +85,7 @@ public class UI {
 			newGame();
 			break;
 		case 2:
-			gameHelp();
+			gameHelp(0);
 			break;
 		case 3:
 			loadGame();
@@ -104,27 +103,52 @@ public class UI {
 	
 	private void newGame() {
 		System.out.println("The game begins...");
-		dialogueWait(3);
-		System.out.println("You are a secret agent working for the world's most elite spy agency...");
-		dialogueWait(2);
-		System.out.println("Your mission is to retrieve the intelligence from one of the " + game.getNumRooms() + " rooms within this building.");
-		dialogueWait(2);
-		System.out.println("You have several tools at your disposal on this mission:");
-		dialogueWait(1);
-		System.out.println();
-		System.out.println("- (1) TeleDart RD206 Pistol");
-		dialogueWait(1);
-		System.out.println("- (1) TeleDart 98X.2 Toxic Dart");
-		dialogueWait(1);
-		System.out.println("- (1) AN/PVS-7A Night Vision Goggles");
-		dialogueWait(1);
-		System.out.println("- (2) PX1 Instant-Health kits");
-		dialogueWait(2);
+		dialogueWait(10);
 		runGame();
 	}
 
-	private void gameHelp() {
-		// TODO Auto-generated method stub
+	private void gameHelp(int section) {
+			System.out.println("+---------------------------------GAME HELP---------------------------------+");
+		switch (section) {
+		case 0:
+			System.out.println("+---------------------------------THE STORY---------------------------------+");
+			dialogueWait(4);
+			System.out.println("|   You are a secret agent working for the world's most elite spy agency.   |");
+			dialogueWait(4);
+			System.out.println("|    Your mission is to retrieve the intelligence from one of the rooms     |");
+			System.out.println("|                           within this building.                           |");
+			dialogueWait(4);
+			System.out.println("|         You have several tools at your disposal on this mission:          |");
+			dialogueWait(4);
+			System.out.println("|       - (1) TeleDart RD206 Pistol   |- (1) AN/PVS-7A Night Vision Goggles |");
+			dialogueWait(4);
+			System.out.println("|       - (1) TeleDart 98X.2 Dart     |- (2) PX1 Instant-Health kits        |");
+			dialogueWait(4);
+			break;
+		case 1:
+			System.out.println("+---------------------------------YOUR TURN---------------------------------+");
+			dialogueWait(4);
+			System.out.println("|   On your turn, you should 'Look around' with your night vision goggles.  |");
+			dialogueWait(4);
+			System.out.println("|After surveying your surroundings you can 'move' or 'shoot' in a direction.|");
+			dialogueWait(4);
+			System.out.println("|Your Dart Gun can shoot the entire length of the building. If you choose to|");
+			System.out.println("|     shoot, it will hit the first enemy it reaches in a straight line.     |");
+			dialogueWait(4);
+			System.out.println("|        You can move one space in whatever direction you choose to.        |");
+			dialogueWait(4);
+			System.out.println("| If you are north of a room, you can move down to access the room and look |");
+			System.out.println("|                      for the intelligence briefcase.                      |");
+			break;
+		case 3:
+			
+		default:
+			System.out.println("|                     What area would you like help in?                     |");
+			System.out.println("|                     1. The Story  | 3.                                    |");
+			System.out.println("|                     2. Your Turn  | 4. Return to Game                     |");
+		}
+			System.out.println("+---------------------------------------------------------------------------+");
+		printLn();
 		
 	}
 
@@ -139,7 +163,10 @@ public class UI {
 	 */
 	private void runGame() {
 		do {
+			game.printBoard();
 			playerTurn(false);
+			System.out.println("You can hear a shuffling in the darkness, as the ninja assassins hunting you move about...");
+			dialogueWait(8);
 			game.enemyTurn();
 		} while (game.getState() == false);
 	}
@@ -151,29 +178,54 @@ public class UI {
 		System.out.println("It is your turn, what action will you take?");
 		int choice = 0;
 		if (looked) {
-			System.out.println("1. Move");
-			System.out.println("2. Shoot");
+			System.out.println("1. Move     |// Look around");
+			System.out.println("2. Shoot    |4. Save game");
+			System.out.println("5. Help     |6. Debug mode: " + game.getDebug());
 		}else {
-			System.out.println("// 1. Move");
-			System.out.println("// 2. Shoot");
-			System.out.println("3. Look around");
+			System.out.println("// Move     |3. Look around");
+			System.out.println("// Shoot    |4. Save game");
+			System.out.println("5. Help     |6. Debug mode: " + game.getDebug());
 		}
 		choice = sc.nextInt();
 		sc.nextLine();
 		switch (choice) {
 		case 1:
-			playerMove();
+			if (!looked) {
+				System.out.println("You should look around before you move.");
+				printLn();
+				dialogueWait(8);
+				playerTurn(false);
+			} else
+				playerMove();
 			break;
 		case 2:
-			playerShoot();
+			if (!looked) {
+				System.out.println("You should look around before you move.");
+				printLn();
+				dialogueWait(8);
+				playerTurn(false);
+			} else
+				playerShoot();
 			break;
 		case 3:
 			if (looked) {
-				System.out.println("You've already looked around.");
+				System.out.println("You've already looked around this turn.");
 				printLn();
-				dialogueWait(2);
+				dialogueWait(8);
 				playerTurn(true);
-			} else playerLook();
+			} else 
+				playerLook();
+			break;
+		case 4:
+			saveGame();
+			break;
+		case 5:
+			gameHelp(0);
+		case 6:
+			game.toggleDebug();
+			game.printBoard();
+			if (looked) playerTurn(true);
+			else playerTurn(false);
 			break;
 		default:
 			System.out.println("Please enter a valid choice.");
@@ -182,6 +234,10 @@ public class UI {
 			else playerTurn(false);
 			break;
 		}
+	}
+	
+	private void saveGame() {
+		//TODO
 	}
 	
 	private void playerMove() {
@@ -193,6 +249,8 @@ public class UI {
 	}
 	
 	private void playerLook() {
+		printLn();
+		dialogueWait(8);
 		
 	}
 	/**

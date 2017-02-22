@@ -125,7 +125,9 @@ public class Hallway extends Square implements Serializable {
 	 * 
 	 */
 	public char getSymbol() {
-		if (lightsOn() && hasAgent) {
+		if (hasAgent && agent.isPlayer()) {
+			return 80;
+		}else if (hasAgent && lightsOn()) {
 			return 78;
 		}else if (lightsOn()) {
 			return 32;

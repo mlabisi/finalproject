@@ -52,6 +52,18 @@ public class Engine implements Serializable {
 
 	public void enemyTurn() {
 		board.moveNinjas();
+		turns++;
+	}
+	
+	public String getDebug() {
+		if (debug)
+			return "ON";
+		return "OFF";
+	}
+	
+	public void toggleDebug() {
+		debug = !debug;
+		board.debugRooms();
 	}
 
 	public void killNinja() {

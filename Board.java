@@ -77,15 +77,15 @@ public class Board implements Serializable {
 		debugRooms();
 		init = false;
 	}
-	
+
 	private void locatePlayer() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void insertItems() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void insertPlayer() {
@@ -215,9 +215,9 @@ public class Board implements Serializable {
 	 */
 	private void locateEnemies() {
 		int numEnemies = 0;
-		if (init) 
+		if (init)
 			numEnemies = 2 * boardSize / 3;
-		else 
+		else
 			numEnemies = ninjas.length - 1;
 		int temp = 0;
 		ninjas = new int[numEnemies][2];
@@ -279,8 +279,10 @@ public class Board implements Serializable {
 		for (int i = 0; i < ninjas.length; i++) {
 			do {
 				direction = grid[ninjas[i][0]][ninjas[i][1]].askANinja();
-				validDirection = checkValidDirection(direction, i);
-			} while (validDirection == false); //while (i < grid.length && j < grid[i].length && hasenemy == false || isRoom == false);
+				validDirection = checkValidDirection("ninjas", direction, i);
+			} while (validDirection == false); // while (i < grid.length && j <
+												// grid[i].length && hasenemy ==
+												// false || isRoom == false);
 			// UI.printString(Arrays.toString(ninjas[i])); //Debug
 			moveAgent("ninjas", i, direction);
 		}
@@ -301,28 +303,42 @@ public class Board implements Serializable {
 		if (agent == "ninjas") {
 			ninjaX = ninjas[ninja][1];
 			ninjaY = ninjas[ninja][0];
-		}else if (agent == "player") {
+		} else if (agent == "player") {
 			ninjaX = player[1];
 			ninjaY = player[0];
-		}else UI.callException("agent");
+		} else
+			UI.callException("agent");
 		ActiveAgent tempNinja = null;
+		tempNinja = grid[ninjaY][ninjaX].getAgent();
 		grid[ninjaY][ninjaX].deleteAgent();
 		switch (direction) {
 		case 0: // Up
 			grid[ninjaY - 1][ninjaX].placeAgent(tempNinja);
-			ninjas[ninja][0] -= 1;
+			if (agent == "player")
+				player[0] -= 1;
+			else
+				ninjas[ninja][0] -= 1;
 			break;
 		case 1: // Left
 			grid[ninjaY][ninjaX - 1].placeAgent(tempNinja);
-			ninjas[ninja][1] -= 1;
+			if (agent == "player")
+				player[1] -= 1;
+			else
+				ninjas[ninja][1] -= 1;
 			break;
 		case 2: // Down
 			grid[ninjaY + 1][ninjaX].placeAgent(tempNinja);
-			ninjas[ninja][0] += 1;
+			if (agent == "player")
+				player[0] += 1;
+			else
+				ninjas[ninja][0] += 1;
 			break;
 		case 3: // Right
 			grid[ninjaY][ninjaX + 1].placeAgent(tempNinja);
-			ninjas[ninja][1] += 1;
+			if (agent == "player")
+				player[1] += 1;
+			else
+				ninjas[ninja][1] += 1;
 			break;
 		default:
 			UI.callException("ToDo");
@@ -330,8 +346,8 @@ public class Board implements Serializable {
 	}
 
 	/**
-	 * This method checks to see if the ninja can move in the direction its AI
-	 * has requested.
+	 * This method checks to see if the agent can move in the direction it has
+	 * requested.
 	 * 
 	 * @param direction
 	 *            The integer value representing the direction the ninja wants
@@ -341,9 +357,17 @@ public class Board implements Serializable {
 	 * @return True if the ninja can move in the requested direction, else
 	 *         false.
 	 */
-	private boolean checkValidDirection(int direction, int ninja) {
-		int ninjaX = ninjas[ninja][1];
-		int ninjaY = ninjas[ninja][0];
+	private boolean checkValidDirection(String agent, int direction, int ninja) {
+		int ninjaX = 0;
+		int ninjaY = 0;
+		if (agent == "ninjas") {
+			ninjaX = ninjas[ninja][1];
+			ninjaY = ninjas[ninja][0];
+		} else if (agent == "player") {
+			ninjaX = player[1];
+			ninjaY = player[0];
+		} else
+			UI.callException("agent");
 		switch (direction) {
 		case 0: // Up
 			if (ninjaY - 1 < 0)
@@ -367,7 +391,9 @@ public class Board implements Serializable {
 	}
 
 	public void playerMove(int playerMovement) {
-		// TODO Auto-generated method stub
-		
+		if (checkValidDirection("player", playerMovement, 0))
+			moveAgent("player", playerMovement, 0);
+		else
+			UI.callException("Player Movement");
 	}
 }

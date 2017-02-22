@@ -139,15 +139,24 @@ public class UI {
 			dialogueWait(4);
 			System.out.println("| If you are north of a room, you can move down to access the room and look |");
 			System.out.println("|                      for the intelligence briefcase.                      |");
+			dialogueWait(4);
 			break;
 		case 3:
 			
 		default:
 			System.out.println("|                     What area would you like help in?                     |");
-			System.out.println("|                     1. The Story  | 3.                                    |");
+			dialogueWait(4);
+			System.out.println("|                     1. The Story  | 3. Winning Game                       |");
+			dialogueWait(4);
 			System.out.println("|                     2. Your Turn  | 4. Return to Game                     |");
+			dialogueWait(4);
 		}
-			System.out.println("+---------------------------------------------------------------------------+");
+		System.out.println("+---------------------------------------------------------------------------+");
+		dialogueWait(8);
+		if (section < 0)
+			section = sc.nextInt();
+		else 
+			gameHelp(-1);
 		printLn();
 		
 	}

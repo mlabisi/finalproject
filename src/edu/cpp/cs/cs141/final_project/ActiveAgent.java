@@ -35,7 +35,7 @@ public class ActiveAgent {
 		agentName = name;
 		agentHealth = 3;
 	}
-	
+
 	public boolean isPlayer() {
 		if (agentName.compareToIgnoreCase("player") == 0)
 			return true;
@@ -62,10 +62,12 @@ public class ActiveAgent {
 			alive = false;
 	}
 
-/**
- * This method changes the agent's position.
- * @param direction a string representing a direction of movement
- */
+	/**
+	 * This method asks the agent where it wants to move.
+	 * 
+	 * @param direction
+	 *            a string representing a direction of movement
+	 */
 	public int agentMove() {
 		int direction = Engine.roll(4);
 		return direction;

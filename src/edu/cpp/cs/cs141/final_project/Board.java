@@ -54,7 +54,6 @@ public class Board implements Serializable {
 		insertPlayer();
 		insertItems();
 		locateEnemies();
-		locatePlayer();
 		debugRooms();
 		init = false;
 	}
@@ -73,14 +72,8 @@ public class Board implements Serializable {
 		insertPlayer();
 		insertItems();
 		locateEnemies();
-		locatePlayer();
 		debugRooms();
 		init = false;
-	}
-
-	private void locatePlayer() {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void insertItems() {
@@ -90,6 +83,9 @@ public class Board implements Serializable {
 
 	private void insertPlayer() {
 		grid[boardSize - 1][0].placeSpy();
+		player = new int[2];
+		player[0] = boardSize - 1;
+		player[1] = 0;
 	}
 
 	public void killNinja() {
@@ -280,12 +276,15 @@ public class Board implements Serializable {
 			do {
 				direction = grid[ninjas[i][0]][ninjas[i][1]].askANinja();
 				validDirection = checkValidDirection("ninjas", direction, i);
-			} while (validDirection == false); // while (i < grid.length && j <
-												// grid[i].length && hasenemy ==
-												// false || isRoom == false);
-			// UI.printString(Arrays.toString(ninjas[i])); //Debug
-			moveAgent("ninjas", i, direction);
+			} while (validDirection == false); 
+			moveAgent("ninjas", direction, i);
 		}
+	}
+	
+	public boolean checkIfEntrance() {
+		int ninjaY = player[0];
+		int ninjaX = player[1];
+		return grid[ninjaY][ninjaX].checkEntry();
 	}
 
 	/**
@@ -297,15 +296,15 @@ public class Board implements Serializable {
 	 *            The integer value representing one of four directions for the
 	 *            ninja to move
 	 */
-	private void moveAgent(String agent, int ninja, int direction) {
-		int ninjaX = 0;
+	public void moveAgent(String agent, int direction, int ninja) {
 		int ninjaY = 0;
-		if (agent == "ninjas") {
-			ninjaX = ninjas[ninja][1];
+		int ninjaX = 0;
+		if (agent.compareToIgnoreCase("ninjas") == 0) {
 			ninjaY = ninjas[ninja][0];
-		} else if (agent == "player") {
-			ninjaX = player[1];
+			ninjaX = ninjas[ninja][1];
+		} else if (agent.compareToIgnoreCase("player") == 0) {
 			ninjaY = player[0];
+			ninjaX = player[1];
 		} else
 			UI.callException("agent");
 		ActiveAgent tempNinja = null;
@@ -314,28 +313,28 @@ public class Board implements Serializable {
 		switch (direction) {
 		case 0: // Up
 			grid[ninjaY - 1][ninjaX].placeAgent(tempNinja);
-			if (agent == "player")
+			if (agent.compareToIgnoreCase("player") == 0)
 				player[0] -= 1;
 			else
 				ninjas[ninja][0] -= 1;
 			break;
 		case 1: // Left
 			grid[ninjaY][ninjaX - 1].placeAgent(tempNinja);
-			if (agent == "player")
+			if (agent.compareToIgnoreCase("player") == 0)
 				player[1] -= 1;
 			else
 				ninjas[ninja][1] -= 1;
 			break;
 		case 2: // Down
 			grid[ninjaY + 1][ninjaX].placeAgent(tempNinja);
-			if (agent == "player")
+			if (agent.compareToIgnoreCase("player") == 0)
 				player[0] += 1;
 			else
 				ninjas[ninja][0] += 1;
 			break;
 		case 3: // Right
 			grid[ninjaY][ninjaX + 1].placeAgent(tempNinja);
-			if (agent == "player")
+			if (agent.compareToIgnoreCase("player") == 0)
 				player[1] += 1;
 			else
 				ninjas[ninja][1] += 1;
@@ -357,15 +356,15 @@ public class Board implements Serializable {
 	 * @return True if the ninja can move in the requested direction, else
 	 *         false.
 	 */
-	private boolean checkValidDirection(String agent, int direction, int ninja) {
-		int ninjaX = 0;
+	public boolean checkValidDirection(String agent, int direction, int ninja) {
 		int ninjaY = 0;
-		if (agent == "ninjas") {
-			ninjaX = ninjas[ninja][1];
+		int ninjaX = 0;
+		if (agent.compareToIgnoreCase("ninjas") == 0) {
 			ninjaY = ninjas[ninja][0];
-		} else if (agent == "player") {
-			ninjaX = player[1];
+			ninjaX = ninjas[ninja][1];
+		} else if (agent.compareToIgnoreCase("player") == 0) {
 			ninjaY = player[0];
+			ninjaX = player[1];
 		} else
 			UI.callException("agent");
 		switch (direction) {
@@ -388,12 +387,5 @@ public class Board implements Serializable {
 		default:
 			return false;
 		}
-	}
-
-	public void playerMove(int playerMovement) {
-		if (checkValidDirection("player", playerMovement, 0))
-			moveAgent("player", playerMovement, 0);
-		else
-			UI.callException("Player Movement");
 	}
 }

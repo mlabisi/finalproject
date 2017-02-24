@@ -26,6 +26,7 @@ public class Hallway extends Square implements Serializable {
     private boolean isClear;
     private boolean isEntrance;
     private boolean hasAgent;
+    private boolean hasPlayer;
     private boolean restricted = false;
     private ActiveAgent agent;
     private Item item;
@@ -43,6 +44,7 @@ public class Hallway extends Square implements Serializable {
     	agent = new ActiveAgent("player");
     	isClear = false;
     	hasAgent = true;
+    	hasPlayer = true;
     }
 
     public void killAgent() {
@@ -59,6 +61,8 @@ public class Hallway extends Square implements Serializable {
     
     public void placeAgent(ActiveAgent ninja) {
     	agent = ninja;
+    	if (agent.isPlayer())
+    		hasPlayer = true;
     	isClear = false;
     	hasAgent = true;
     }
@@ -125,7 +129,7 @@ public class Hallway extends Square implements Serializable {
 	 * 
 	 */
 	public char getSymbol() {
-		if (hasAgent && agent.isPlayer()) {
+		if (hasPlayer) {
 			return 80;
 		}else if (hasAgent && lightsOn()) {
 			return 78;
@@ -151,6 +155,7 @@ public class Hallway extends Square implements Serializable {
 		agent = null;
 		isClear = true;
 		hasAgent = false;
+		hasPlayer = false;
 	}
 	
 	public int askANinja() {

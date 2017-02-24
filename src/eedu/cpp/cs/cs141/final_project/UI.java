@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin RodrÃ­guez
  *
  * Final Project: Spy Game
  *

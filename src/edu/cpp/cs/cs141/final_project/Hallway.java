@@ -156,6 +156,8 @@ public class Hallway extends Square implements Serializable {
 			return symbol;
 		}else if (lightsOn()) {
 			return 32;
+		} else if(item.checkPickedUp()){
+		    return 42;
 		}
 		return 42;
 	}

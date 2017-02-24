@@ -433,9 +433,5 @@ public class UI {
 		System.exit(0);		
 	}
 
-	public static int getPlayerMovement() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

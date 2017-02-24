@@ -1,7 +1,7 @@
 package edu.cpp.cs.cs141.final_project;
 
 /**
- * CS 141: Intro to Programming and Problem Solving Professor: Edwin Rodríguez
+ * CS 141: Intro to Programming and Problem Solving Professor: Edwin Rodrï¿½guez
  *
  * Final Project: Spy Game
  *
@@ -14,6 +14,9 @@ public class ActiveAgent {
 	private boolean alive;
 	private String agentName;
 	private int agentHealth;
+	private int ammo;
+	private boolean hasRadar;
+	private boolean isInvulnerable;
 
 	/**
 	 * This constructor takes no arguments and creates an enemy ninja assassin.
@@ -34,6 +37,9 @@ public class ActiveAgent {
 		alive = true;
 		agentName = name;
 		agentHealth = 3;
+		ammo = 1;
+		isInvulnerable = false;
+		hasRadar = false;
 	}
 
 	public boolean isPlayer() {
@@ -64,12 +70,39 @@ public class ActiveAgent {
 
 	/**
 	 * This method asks the agent where it wants to move.
-	 * 
-	 * @param direction
+	 *
 	 *            a string representing a direction of movement
 	 */
 	public int agentMove() {
 		int direction = Engine.roll(4);
 		return direction;
 	}
+
+	public int getAmmo(){
+		return ammo;
+	}
+
+	public void incAmmo(){
+		if(ammo == 0)
+			++ammo;
+	}
+
+	public boolean hasAmmo(){
+		if(ammo == 1)
+			return true;
+		return false;
+	}
+
+	public void toggleIsInvulnerable(){
+		isInvulnerable = !isInvulnerable;
+	}
+
+	public void toggleHasRadar(boolean value){
+		hasRadar = !hasRadar;
+	}
+
+	public boolean checkHasRadar(){
+		return hasRadar;
+	}
+
 }

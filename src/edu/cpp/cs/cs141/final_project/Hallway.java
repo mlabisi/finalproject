@@ -135,7 +135,6 @@ public class Hallway extends Square implements Serializable {
     	this.item = item;
 		symbol = item.getType().toChar();
 		hasItem = true;
-		isClear = false;
 	}
 
 	private void useItem(){

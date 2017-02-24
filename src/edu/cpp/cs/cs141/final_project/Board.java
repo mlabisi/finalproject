@@ -481,7 +481,7 @@ public class Board implements Serializable {
 
 		switch(direction){
 		case 0: //Shoots Up
-			for(int i = playerY; playerY > -1; i--){
+			for(int i = playerY; playerY >= 0; i--){
 				if(grid[i][playerX].hasAgent() && !grid[i][playerX].getAgent().isPlayer()) {
 					grid[i][playerX].killAgent();
 					break;

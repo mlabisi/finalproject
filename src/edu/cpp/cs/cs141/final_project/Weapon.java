@@ -25,28 +25,31 @@ public class Weapon {
 	 */
 	public Weapon(){
 	}
+
 	/**
 	 * 	This represents whether or not the 
 	 * agent has ammo in the gun.
 	 */
-	private boolean hasAmmo;
+	public boolean hasAmmo = true;
+
 	/**
 	 *  This represents the maximum ammunition
 	 *  the agent can have
 	 */
-	private int maxAmmo;
-	/**
-	 * This method will kill the ninja-assassin if the 
-	 * bullet hits the ninja-assassin.
-	 */
-	public void killEnemy(){
-		
-	}
+	private int maxAmmo = 1;
+
 	/**
 	 * This represents the action of the ninja-assassin
 	 * attacking the agent.
 	 */
 	public int stabAgent(int agentHealth){
-       		return agentHealth;
+		return agentHealth;
+	}
+	public boolean checkAmmo(){
+		if(maxAmmo == 1){
+			maxAmmo--;
+			hasAmmo = false;
+		}
+		return hasAmmo;
 	}
 }

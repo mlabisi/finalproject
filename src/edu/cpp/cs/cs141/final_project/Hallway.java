@@ -27,10 +27,12 @@ public class Hallway extends Square implements Serializable {
     private boolean isEntrance;
     private boolean hasAgent;
     private boolean hasPlayer;
+	private boolean hasItem;
     private boolean restricted = false;
     private ActiveAgent agent;
     private Item item;
-    
+    private char symbol;
+
     /**
      * This is the constructor for the hallway class.
      */
@@ -52,7 +54,15 @@ public class Hallway extends Square implements Serializable {
     	agent = null;
     	hasAgent = false;
     }
-    
+
+	public boolean hasItem() {
+		return hasItem;
+	}
+
+	public void toggleHasItem() {
+		hasItem = !hasItem;
+	}
+
     public void placeAgent() {
     	agent = new ActiveAgent();
     	isClear = false;
@@ -61,8 +71,10 @@ public class Hallway extends Square implements Serializable {
     
     public void placeAgent(ActiveAgent ninja) {
     	agent = ninja;
-    	if (agent.isPlayer())
+    	if (agent.isPlayer()){
     		hasPlayer = true;
+    		useItem();
+    	}
     	isClear = false;
     	hasAgent = true;
     }
@@ -120,8 +132,16 @@ public class Hallway extends Square implements Serializable {
 
 	@Override
 	public void place(Item item) {
-		// TODO Auto-generated method stub
-		
+    	this.item = item;
+		symbol = item.getType().toChar();
+		hasItem = true;
+		isClear = false;
+	}
+
+	private void useItem(){
+    	if(hasItem())
+			((PowerUp)item).effect(agent);
+
 	}
 	@Override
 	/**
@@ -133,6 +153,8 @@ public class Hallway extends Square implements Serializable {
 			return 80;
 		}else if (hasAgent && lightsOn()) {
 			return 78;
+		}else if (hasItem && lightsOn()) {
+			return symbol;
 		}else if (lightsOn()) {
 			return 32;
 		}

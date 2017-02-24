@@ -13,7 +13,9 @@
 package edu.cpp.cs.cs141.final_project;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+
 
 /**
  * This class represents the board that the game takes place on. It is composed
@@ -35,6 +37,10 @@ public class Board implements Serializable {
 	private int[] player;
 	private boolean debug;
 	private boolean init;
+	private ArrayList<Hallway> halls;
+	private Square bulletSquare, invulSquare, radarSquare, caseRoom;
+
+
 	final private int boardSize;
 
 	/**
@@ -44,15 +50,16 @@ public class Board implements Serializable {
 		boardSize = 9;
 		this.debug = debug;
 		init = true;
+		halls = new ArrayList<>();
 		makeBoard();
 		fillBoard();
 		makeRooms();
 		locateRooms();
 		locateHallways();
 		insertBriefcase();
+		insertItems();
 		insertEnemies();
 		insertPlayer();
-		insertItems();
 		locateEnemies();
 		debugRooms();
 		init = false;
@@ -62,22 +69,42 @@ public class Board implements Serializable {
 		boardSize = size;
 		this.debug = debug;
 		init = true;
+		halls = new ArrayList<>();
 		makeBoard();
 		fillBoard();
 		makeRooms();
 		locateRooms();
 		locateHallways();
 		insertBriefcase();
+		insertItems();
 		insertEnemies();
 		insertPlayer();
-		insertItems();
 		locateEnemies();
 		debugRooms();
 		init = false;
 	}
 
 	private void insertItems() {
-		// TODO Auto-generated method stub
+		Collections.shuffle(halls);
+		ArrayList<Integer> remove = new ArrayList<>();
+
+		for(Hallway hall : halls){
+			if(!(hall.checkIsClear()))
+				remove.add(halls.indexOf(hall));
+		}
+
+		for(int i = 0; i < remove.size(); ++i){
+			halls.remove(remove.get(i));
+		}
+
+		bulletSquare = halls.get(0);
+		invulSquare = halls.get(1);
+		radarSquare = halls.get(2);
+
+		bulletSquare.place(new ExtraBullet());
+		invulSquare.place(new Invulnerability());
+		radarSquare.place(new Radar());
+
 
 	}
 
@@ -108,6 +135,7 @@ public class Board implements Serializable {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				grid[i][j] = new Hallway();
+				halls.add((Hallway)grid[i][j]);
 			}
 		}
 		if (grid.length > 3)
@@ -186,6 +214,7 @@ public class Board implements Serializable {
 	public void insertBriefcase() {
 		int roomNum = Engine.roll(rooms.length);
 		grid[rooms[roomNum][0]][rooms[roomNum][1]].hasBriefcase();
+		caseRoom = grid[rooms[roomNum][0]][rooms[roomNum][1]];
 	}
 
 	/**
@@ -258,13 +287,20 @@ public class Board implements Serializable {
 	 * state.
 	 */
 	public void printBoard() {
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				UI.printString("[" + grid[i][j].getSymbol() + "]");
-			}
-			UI.printLn();
+		int playerY = player[0];
+		int playerX = player[1];
+
+		if((grid[playerY][playerX]).getAgent().checkHasRadar()) {
+			caseRoom.switchLights(true);
 		}
+			for (int i = 0; i < grid.length; i++) {
+				for (int j = 0; j < grid[i].length; j++) {
+					UI.printString("[" + grid[i][j].getSymbol() + "]");
+				}
+				UI.printLn();
+			}
 	}
+
 
 	/**
 	 * This method moves each ninja's location.

@@ -50,6 +50,10 @@ public abstract class Square implements Serializable {
     	lightsOn = !lightsOn;
     }
 
+    public void switchLights(boolean allLights){
+        lightsOn = allLights;
+    }
+
     public abstract void place(Item item);
 
 	public abstract void isEntrance();

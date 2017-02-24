@@ -81,5 +81,17 @@ public class Engine implements Serializable {
 	public void quit() {
 		System.exit(0);
 	}
+	
+	public boolean checkPlayerMove(int direction) {
+		return board.checkValidDirection("player", direction, 0);
+	}
+	
+	public void movePlayer(int direction) {
+		board.moveAgent("player", direction, 0);
+	}
+	
+	public boolean checkEntrance() {
+		return board.checkIfEntrance();
+	}
 
 }

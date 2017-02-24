@@ -69,5 +69,7 @@ public abstract class Square implements Serializable {
 	public abstract void killAgent();
 
 	public abstract void placeSpy();
+
+	public abstract boolean checkEntry();
 	
 }

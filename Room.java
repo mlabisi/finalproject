@@ -136,4 +136,10 @@ public class Room extends Square implements Serializable {
 		
 	}
 
+	@Override
+	public boolean checkEntry() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

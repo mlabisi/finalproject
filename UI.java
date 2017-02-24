@@ -47,7 +47,7 @@ public class UI {
 	public static void dialogueWait(int i) {
 		for ( ; i > 0 ; i--) {
 			try {
-				Thread.sleep(150);
+				Thread.sleep(150);		//default 150
 			} catch (InterruptedException e) {
 			}
 		}
@@ -85,7 +85,7 @@ public class UI {
 			newGame();
 			break;
 		case 2:
-			gameHelp(0);
+			gameHelp(-1);
 			break;
 		case 3:
 			loadGame();
@@ -108,57 +108,65 @@ public class UI {
 	}
 
 	private void gameHelp(int section) {
-			System.out.println("+---------------------------------GAME HELP---------------------------------+");
+		printLn();
 		switch (section) {
-		case 0:
+		case 1:
+			System.out.println("+---------------------------------GAME HELP---------------------------------+");
 			System.out.println("+---------------------------------THE STORY---------------------------------+");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|   You are a secret agent working for the world's most elite spy agency.   |");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|    Your mission is to retrieve the intelligence from one of the rooms     |");
 			System.out.println("|                           within this building.                           |");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|         You have several tools at your disposal on this mission:          |");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|       - (1) TeleDart RD206 Pistol   |- (1) AN/PVS-7A Night Vision Goggles |");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|       - (1) TeleDart 98X.2 Dart     |- (2) PX1 Instant-Health kits        |");
-			dialogueWait(4);
+			dialogueWait(2);
 			break;
-		case 1:
+		case 2:
+			System.out.println("+---------------------------------GAME HELP---------------------------------+");
 			System.out.println("+---------------------------------YOUR TURN---------------------------------+");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|   On your turn, you should 'Look around' with your night vision goggles.  |");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|After surveying your surroundings you can 'move' or 'shoot' in a direction.|");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|Your Dart Gun can shoot the entire length of the building. If you choose to|");
 			System.out.println("|     shoot, it will hit the first enemy it reaches in a straight line.     |");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|        You can move one space in whatever direction you choose to.        |");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("| If you are north of a room, you can move down to access the room and look |");
 			System.out.println("|                      for the intelligence briefcase.                      |");
-			dialogueWait(4);
+			dialogueWait(2);
 			break;
 		case 3:
-			
+			System.out.println("+---------------------------------GAME HELP---------------------------------+");
+			System.out.println("MAKE THIS");
+			break;
+		case 4:
+			playerTurn(false);
+			break;
 		default:
+			System.out.println("+---------------------------------GAME HELP---------------------------------+");
 			System.out.println("|                     What area would you like help in?                     |");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|                     1. The Story  | 3. Winning Game                       |");
-			dialogueWait(4);
+			dialogueWait(2);
 			System.out.println("|                     2. Your Turn  | 4. Return to Game                     |");
-			dialogueWait(4);
+			dialogueWait(2);
+			break;
 		}
 		System.out.println("+---------------------------------------------------------------------------+");
-		dialogueWait(8);
+		dialogueWait(16);
 		if (section < 0)
 			section = sc.nextInt();
 		else 
 			gameHelp(-1);
-		printLn();
-		
+		gameHelp(section);
 	}
 
 	private void loadGame() {
@@ -174,7 +182,6 @@ public class UI {
 		do {
 			game.printBoard();
 			playerTurn(false);
-			System.out.println("You can hear a shuffling in the darkness, as the ninja assassins hunting you move about...");
 			dialogueWait(8);
 			game.enemyTurn();
 		} while (game.getState() == false);
@@ -186,14 +193,18 @@ public class UI {
 	public void playerTurn(boolean looked) {
 		System.out.println("It is your turn, what action will you take?");
 		int choice = 0;
-		if (looked) {
+		if (looked && game.checkEntrance()) {
+			System.out.println("1. Move     |// Look around    |7. Access intel");
+			System.out.println("2. Shoot    |5. Save game");
+			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
+		}else if (looked) {
 			System.out.println("1. Move     |// Look around");
-			System.out.println("2. Shoot    |4. Save game");
-			System.out.println("5. Help     |6. Debug mode: " + game.getDebug());
+			System.out.println("2. Shoot    |5. Save game");
+			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
 		}else {
-			System.out.println("// Move     |3. Look around");
-			System.out.println("// Shoot    |4. Save game");
-			System.out.println("5. Help     |6. Debug mode: " + game.getDebug());
+			System.out.println("// Move     |4. Look around");
+			System.out.println("// Shoot    |5. Save game");
+			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
 		}
 		choice = sc.nextInt();
 		sc.nextLine();
@@ -209,7 +220,7 @@ public class UI {
 			break;
 		case 2:
 			if (!looked) {
-				System.out.println("You should look around before you move.");
+				System.out.println("You should look around before you shoot.");
 				printLn();
 				dialogueWait(8);
 				playerTurn(false);
@@ -217,25 +228,32 @@ public class UI {
 				playerShoot();
 			break;
 		case 3:
+			gameHelp(-1);
+			break;
+		case 4:
 			if (looked) {
 				System.out.println("You've already looked around this turn.");
 				printLn();
 				dialogueWait(8);
-				playerTurn(true);
 			} else 
 				playerLook();
-			break;
-		case 4:
-			saveGame();
+			game.printBoard();
+			playerTurn(true);
 			break;
 		case 5:
-			gameHelp(0);
+			saveGame();
+			break;
 		case 6:
 			game.toggleDebug();
 			game.printBoard();
 			if (looked) playerTurn(true);
 			else playerTurn(false);
 			break;
+		case 7:
+			if (game.checkEntrance()) {
+				checkIntel();
+		 		break;
+		    }				
 		default:
 			System.out.println("Please enter a valid choice.");
 			dialogueWait(2);
@@ -245,12 +263,65 @@ public class UI {
 		}
 	}
 	
+	private void checkIntel() {
+	System.out.println("mlem");
+		
+	}
+
 	private void saveGame() {
 		//TODO
 	}
 	
 	private void playerMove() {
-		
+		System.out.println("Please choose a direction to move in.");
+		int choice = 0;
+		System.out.println("1. Up    |3. Right");
+		System.out.println("2. Down  |4. Left");
+		choice = sc.nextInt();
+		sc.nextLine();
+		switch (choice) {
+		case 1: 
+			if (game.checkPlayerMove(0))
+				game.movePlayer(0);
+			else {
+				System.out.println("You cannot move in that direction.");
+				dialogueWait(2);
+				playerMove();
+			}
+			break;
+		case 2:
+			if (game.checkPlayerMove(2))
+				game.movePlayer(2);
+			else {
+				System.out.println("You cannot move in that direction.");
+				dialogueWait(2);
+				playerMove();
+			}
+			break;
+		case 3:
+			if (game.checkPlayerMove(3))
+				game.movePlayer(3);
+			else {
+				System.out.println("You cannot move in that direction.");
+				dialogueWait(2);
+				playerMove();
+			}
+			break;
+		case 4:
+			if (game.checkPlayerMove(1))
+				game.movePlayer(1);
+			else {
+				System.out.println("You cannot move in that direction.");
+				dialogueWait(2);
+				playerMove();
+			}
+			break;
+		default:
+			System.out.println("That is not a valid choice.");
+			dialogueWait(2);
+			playerMove();
+			break;
+		}
 	}
 	
 	private void playerShoot() {
@@ -260,8 +331,8 @@ public class UI {
 	private void playerLook() {
 		printLn();
 		dialogueWait(8);
-		
 	}
+	
 	/**
 	 * This method tells the engine to run the enemy's turn.
 	 */

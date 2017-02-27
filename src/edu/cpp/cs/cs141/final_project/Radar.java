@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodr�guez
+ * Professor: Edwin Rodriguez
  *
  * Programming Assignment #4
  *

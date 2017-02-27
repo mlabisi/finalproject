@@ -39,4 +39,22 @@ public enum ItemType {
     public char toChar(){
         return ICON;
     }
+
+    public String getMessage(){
+        String msg = "You picked up ";
+        switch(ICON){
+            case 'R':
+                msg += " a Radar!";
+                break;
+            case 'I':
+                msg += "an Invulnerability Shield!";
+                break;
+            case 'B':
+                msg += "an Extra Bullet!";
+                break;
+            case '!':
+                msg = "You found the briefcase!";
+        }
+        return msg;
+    }
 }

@@ -23,8 +23,6 @@ import java.io.Serializable;
 public class Room extends Square implements Serializable {
 
 	private boolean hasBriefcase;
-	private char symbol1 = 63;
-	private char symbol2 = 33;
 
 	/**
 	 * This is the constructor for the room.
@@ -69,12 +67,12 @@ public class Room extends Square implements Serializable {
 	
 	@Override
 	public char getSymbol() {
-		if (lightsOn() && hasBriefcase)
-			return symbol2;
-		else //if (lightsOn())
-			return symbol1;
-//		else
-//			return 35;
+		if (!hasBriefcase)
+			return 63;
+		else if (hasBriefcase && super.lightsOn())
+			return ItemType.BRIEFCASE.toChar();
+
+		return 63;
 	}
 
 	@Override

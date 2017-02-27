@@ -33,9 +33,10 @@ public class Board implements Serializable {
     private int[][] rooms;
     private int[][] hallways;
     private int[][] ninjas;
-    private int[] player;
     private boolean debug;
     private boolean init;
+    private boolean checkedRadar = false;
+    private boolean checkedMsg = false;
     private ActiveAgent spy;
     private ArrayList<Hallway> halls;
     private Square bulletSquare, invulSquare, radarSquare, spySquare, caseRoom;
@@ -171,12 +172,6 @@ public class Board implements Serializable {
         spy.setColumn(0);
 
         spySquare = grid[spy.getRow()][spy.getColumn()];
-        /*
-        grid[boardSize - 1][0].placeSpy();
-		player = new int[2];
-		player[0] = boardSize - 1;
-		player[1] = 0;
-		*/
     }
 
     /**
@@ -202,8 +197,8 @@ public class Board implements Serializable {
      */
     public void insertBriefcase() {
         int roomNum = Engine.roll(rooms.length);
-        grid[rooms[roomNum][0]][rooms[roomNum][1]].hasBriefcase();
         caseRoom = grid[rooms[roomNum][0]][rooms[roomNum][1]];
+        caseRoom.hasBriefcase();
     }
 
     private void insertItems() {
@@ -234,11 +229,9 @@ public class Board implements Serializable {
      * state.
      */
     public void printBoard() {
-        //int playerY = player[0];
-        //int playerX = player[1];
-
-        if (spy.checkHasRadar()) {
-        	caseRoom.switchLights();
+        if (spy.checkHasRadar() && !checkedRadar) {
+            caseRoom.switchLights();
+        	checkedRadar = true;
         }
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -249,6 +242,13 @@ public class Board implements Serializable {
                 UI.printString("[" + grid[i][j].getSymbol() + "]");
             }
             UI.printLn();
+        }
+
+        if(((Hallway) spySquare).hasItem() && !checkedMsg){
+            UI.printString((((Hallway) spySquare).getItem().getType().getMessage()));
+            UI.printLn();
+            UI.printLn();
+            checkedMsg = true;
         }
     }
 
@@ -301,9 +301,6 @@ public class Board implements Serializable {
     }
 
     public void lookInDirection(int direction) {
-        // reveal rooms
-        // int playerY = player[0];
-        // int playerX = player[1];
         switch (direction) {
             case 0: // Up
                 if (!(spy.getRow() - 1 < 0) && grid[spy.getRow() - 1][spy.getColumn()].getType().compareToIgnoreCase("Room") != 0) {
@@ -482,9 +479,6 @@ public class Board implements Serializable {
     }
 
     public void shoot(int direction) {
-        //int playerY = player[0];
-        //int playerX = player[1];
-
         switch (direction) {
             case 0: // Shoots Up
                 for (int i = (spy.getRow() - 1); i >= 0; --i) {
@@ -511,8 +505,6 @@ public class Board implements Serializable {
     }
 
     public boolean checkIfEntrance() {
-        //int ninjaY = player[0];
-        //int ninjaX = player[1];
         return grid[spy.getRow()][spy.getColumn()].checkEntry();
     }
 

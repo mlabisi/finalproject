@@ -139,11 +139,12 @@ public class Hallway extends Square implements Serializable {
 	public void useItem(Item item){
 		((PowerUp)item).effect(agent);
 	}
-	@Override
+
 	/**
 	 * This method overrides the abstract square's method, and returns the character to display
 	 * 
 	 */
+	@Override
 	public char getSymbol() {
 		if (hasPlayer) {
 			return 80;

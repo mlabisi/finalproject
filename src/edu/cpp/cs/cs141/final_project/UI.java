@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin Rodr�guez
  *
  * Final Project: Spy Game
  *
@@ -91,6 +91,7 @@ public class UI {
 			loadGame();
 			break;
 		case 4:
+			System.out.println("Goodbye!");
 			game.quit();
 			break;
 		default:
@@ -195,16 +196,19 @@ public class UI {
 		int choice = 0;
 		if (looked && game.checkEntrance()) {
 			System.out.println("1. Move     |// Look around    |7. Access intel");
-			System.out.println("2. Shoot    |5. Save game");
+			System.out.println("2. Shoot    |5. Save game      |0. Quit");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
+			System.out.println("Lives: " + game.getLives() + "     |Ammo: " + game.getPlayerAmmo());
 		}else if (looked) {
-			System.out.println("1. Move     |// Look around");
+			System.out.println("1. Move     |// Look around    |0. Quit");
 			System.out.println("2. Shoot    |5. Save game");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
+			System.out.println("Lives: " + game.getLives() + "     |Ammo: " + game.getPlayerAmmo());
 		}else {
-			System.out.println("// Move     |4. Look around");
+			System.out.println("// Move     |4. Look around    |0. Quit");
 			System.out.println("// Shoot    |5. Save game");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
+			System.out.println("Lives: " + game.getLives() + "     |Ammo: " + game.getPlayerAmmo());
 		}
 		choice = sc.nextInt();
 		sc.nextLine();
@@ -253,7 +257,10 @@ public class UI {
 			if (game.checkEntrance()) {
 				checkIntel();
 		 		break;
-		    }				
+		    }
+		case 0:
+            System.out.println("Goodbye!");
+            game.quit();
 		default:
 			System.out.println("Please enter a valid choice.");
 			dialogueWait(2);
@@ -323,9 +330,45 @@ public class UI {
 			break;
 		}
 	}
-	
+
 	private void playerShoot() {
-		
+		System.out.println("Please choose a direction to shoot. ");
+		int choice = 0;
+		System.out.println("1. Up    |3. Right");
+		System.out.println("2. Down  |4. Left");
+		choice = sc.nextInt();
+		sc.nextLine();
+		switch(choice){
+			case 1:
+				if(!game.checkGun())
+					game.shootGun(0);
+				else
+					System.out.println("You have no ammo!!");
+				break;
+			case 2:
+				if(!game.checkGun())
+					game.shootGun(1);
+				else
+					System.out.println("You have no ammo!");
+				break;
+			case 3:
+				if(!game.checkGun())
+					game.shootGun(2);
+				else
+					System.out.println("You have no ammo!");
+				break;
+			case 4:
+				if(!game.checkGun())
+					game.shootGun(3);
+				else
+					System.out.println("You have no ammo!");
+				break;
+			default:
+				System.out.println("That is not a valid choice.");
+				dialogueWait(2);
+				playerShoot();
+				break;
+		}
 	}
 	
 	private void playerLook() {
@@ -338,22 +381,22 @@ public class UI {
 		choice = sc.nextInt();
 		sc.nextLine();
 		switch(choice) {
-		case 1:
-			game.lookInDir(0);
-			break;
-		case 2:
-			game.lookInDir(2);
-			break;
-		case 3:
-			game.lookInDir(3);
-			break;
-		case 4:
-			game.lookInDir(1);
-			break;
-		default:
-			System.out.println("Invalid input. Please try again.");
-			playerLook();
-			break;
+			case 1:
+				game.lookInDir(0);
+				break;
+			case 2:
+				game.lookInDir(2);
+				break;
+			case 3:
+				game.lookInDir(3);
+				break;
+			case 4:
+				game.lookInDir(1);
+				break;
+			default:
+				System.out.println("Invalid input. Please try again.");
+				playerLook();
+				break;
 		}
 		printLn();
 		dialogueWait(8);
@@ -393,9 +436,5 @@ public class UI {
 		System.exit(0);		
 	}
 
-	public static int getPlayerMovement() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

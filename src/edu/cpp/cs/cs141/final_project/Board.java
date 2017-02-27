@@ -483,21 +483,25 @@ public class Board implements Serializable {
             case 0: // Shoots Up
                 for (int i = (spy.getRow() - 1); i >= 0; --i) {
                     grid[i][spy.getColumn()].deleteAgent();
+                    break;
                 }
                 break;
             case 1: // Shoots down
                 for (int i = (spy.getRow() + 1); i < boardSize; ++i) {
                     grid[i][spy.getColumn()].deleteAgent();
+                    break;
                 }
                 break;
             case 2: // Shoots right
                 for (int i = (spy.getColumn() + 1); i < boardSize; ++i) {
                     grid[spy.getRow()][i].deleteAgent();
+                    break;
                 }
                 break;
             case 3: // Shoots left
                 for (int i = (spy.getColumn() - 1); i >= 0; --i) {
                     grid[spy.getRow()][i].deleteAgent();
+                    break;
                 }
                 break;
         }

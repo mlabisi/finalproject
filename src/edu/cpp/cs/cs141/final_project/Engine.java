@@ -108,4 +108,12 @@ public class Engine implements Serializable {
     public void shootGun(int direction) {
         board.shoot(direction);
     }
+    
+    public int getPlayerAmmo(){
+    	return board.getAmmo();
+    }
+    
+    public int getLives(){
+    	return lives;
+    }
 }

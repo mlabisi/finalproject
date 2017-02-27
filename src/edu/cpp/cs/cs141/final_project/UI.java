@@ -198,14 +198,17 @@ public class UI {
 			System.out.println("1. Move     |// Look around    |7. Access intel");
 			System.out.println("2. Shoot    |5. Save game      |0. Quit");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
+			System.out.println("Lives: " + game.getLives() + "     |Ammo: " + game.getPlayerAmmo());
 		}else if (looked) {
 			System.out.println("1. Move     |// Look around    |0. Quit");
 			System.out.println("2. Shoot    |5. Save game");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
+			System.out.println("Lives: " + game.getLives() + "     |Ammo: " + game.getPlayerAmmo());
 		}else {
 			System.out.println("// Move     |4. Look around    |0. Quit");
 			System.out.println("// Shoot    |5. Save game");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
+			System.out.println("Lives: " + game.getLives() + "     |Ammo: " + game.getPlayerAmmo());
 		}
 		choice = sc.nextInt();
 		sc.nextLine();

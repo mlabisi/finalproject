@@ -550,5 +550,8 @@ public class Board implements Serializable {
         debug = !debug;
     }
 
+    public int getAmmo(){
+    	return spy.getAmmo();
+    }
 
 }

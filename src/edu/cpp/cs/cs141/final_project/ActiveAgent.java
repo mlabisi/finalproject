@@ -1,7 +1,7 @@
 package edu.cpp.cs.cs141.final_project;
 
 /**
- * CS 141: Intro to Programming and Problem Solving Professor: Edwin Rodr�guez
+ * CS 141: Intro to Programming and Problem Solving Professor: Edwin Rodriguez
  *
  * Final Project: Spy Game
  *

@@ -17,6 +17,12 @@ public class ActiveAgent {
 	private int ammo;
 	private boolean hasRadar;
 	private boolean isInvulnerable;
+	private boolean isPlayer;
+    /**
+     * The following integers represent the player's x and y coordinates
+     */
+    private int row;
+	private int column;
 
 	/**
 	 * This constructor takes no arguments and creates an enemy ninja assassin.
@@ -25,6 +31,7 @@ public class ActiveAgent {
 		alive = true;
 		agentName = "Ninja Assassin";
 		agentHealth = 1;
+		isPlayer = false;
 	}
 
 	/**
@@ -40,12 +47,15 @@ public class ActiveAgent {
 		ammo = 1;
 		isInvulnerable = false;
 		hasRadar = false;
+		isPlayer = false;
+
+		if (agentName.compareToIgnoreCase("player") == 0){
+			isPlayer =  true;
+		}
 	}
 
 	public boolean isPlayer() {
-		if (agentName.compareToIgnoreCase("player") == 0)
-			return true;
-		return false;
+		return isPlayer;
 	}
 
 	/**
@@ -104,5 +114,21 @@ public class ActiveAgent {
 	public boolean checkHasRadar(){
 		return hasRadar;
 	}
+
+	public void setRow(int value){
+	    row = value;
+    }
+
+    public void setColumn(int value){
+	    column = value;
+    }
+
+    public int getRow(){
+        return row;
+    }
+
+    public int getColumn(){
+        return column;
+    }
 
 }

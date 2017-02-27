@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin Rodrï¿½guez
  * <p>
  * Final Project: Spy Game
  * <p>
@@ -25,511 +25,525 @@ import java.util.Collections;
  * @author Logan Carichner
  */
 public class Board implements Serializable {
-	/**
-	 * This is a 2D array that represents {@code this} game {@link Board}. It
-	 * can be filled with the {@link #fillBoard()} method.
-	 */
-	private Square[][] grid;
-	private int[][] rooms;
-	private int[][] hallways;
-	private int[][] ninjas;
-	private int[] player;
-	private boolean debug;
-	private boolean init;
-	private ArrayList<Hallway> halls;
-	private Square bulletSquare, invulSquare, radarSquare, caseRoom;
+    /**
+     * This is a 2D array that represents {@code this} game {@link Board}. It
+     * can be filled with the {@link #fillBoard()} method.
+     */
+    private Square[][] grid;
+    private int[][] rooms;
+    private int[][] hallways;
+    private int[][] ninjas;
+    private int[] player;
+    private boolean debug;
+    private boolean init;
+    private ActiveAgent spy;
+    private ArrayList<Hallway> halls;
+    private Square bulletSquare, invulSquare, radarSquare, spySquare, caseRoom;
 
-	final private int boardSize;
+    final private int boardSize;
 
-	/**
-	 * This is the default constructor for the board.
-	 */
-	public Board(boolean debug) {
-		boardSize = 9;
-		this.debug = debug;
-		init = true;
-		halls = new ArrayList<>();
-		makeBoard();
-		fillBoard();
-		makeRooms();
-		locateRooms();
-		locateHallways();
-		insertBriefcase();
-		insertItems();
-		insertEnemies();
-		insertPlayer();
-		locateEnemies();
-		debugRooms();
-		init = false;
-	}
+    /**
+     * This is the default constructor for the board.
+     */
+    public Board(boolean debug) {
+        boardSize = 9;
+        this.debug = debug;
+        init = true;
+        halls = new ArrayList<>();
+        makeBoard();
+        fillBoard();
+        makeRooms();
+        locateRooms();
+        locateHallways();
+        insertPlayer();
+        insertEnemies();
+        insertBriefcase();
+        insertItems();
+        locateEnemies();
+        debugRooms();
+        init = false;
+    }
 
-	public Board(int size, boolean debug) {
-		boardSize = size;
-		this.debug = debug;
-		init = true;
-		halls = new ArrayList<>();
-		makeBoard();
-		fillBoard();
-		makeRooms();
-		locateRooms();
-		locateHallways();
-		insertBriefcase();
-		insertItems();
-		insertEnemies();
-		insertPlayer();
-		locateEnemies();
-		debugRooms();
-		init = false;
-	}
+    public Board(int size, boolean debug) {
+        boardSize = size;
+        this.debug = debug;
+        init = true;
+        halls = new ArrayList<>();
+        makeBoard();
+        fillBoard();
+        makeRooms();
+        locateRooms();
+        locateHallways();
+        insertPlayer();
+        insertEnemies();
+        insertBriefcase();
+        insertItems();
+        locateEnemies();
+        debugRooms();
+        init = false;
+    }
 
-	private void insertItems() {
-		Collections.shuffle(halls);
-		ArrayList<Integer> remove = new ArrayList<>();
 
-		for (Hallway hall : halls) {
-			if (!(hall.checkIsClear()))
-				remove.add(halls.indexOf(hall));
-		}
+    /**
+     * This method initiates the board as an array of square objects.
+     */
+    public void makeBoard() {
+        grid = new Square[boardSize][boardSize];
+    }
 
-		for (int i = 0; i < remove.size(); ++i) {
-			halls.remove(remove.get(i));
-		}
 
-		bulletSquare = halls.get(0);
-		invulSquare = halls.get(1);
-		radarSquare = halls.get(2);
+    /**
+     * This method makes every single square into a hallway object, which can
+     * hold players, enemies, or items
+     */
+    public void fillBoard() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                grid[i][j] = new Hallway();
+                if ((i == (boardSize - 1)) && j == 0) {
+                    continue;
+                }
+                halls.add((Hallway) grid[i][j]);
+            }
+        }
+        if (grid.length > 3)
+            assignOffLimits();
+    }
 
-		bulletSquare.place(new ExtraBullet());
-		invulSquare.place(new Invulnerability());
-		radarSquare.place(new Radar());
 
-	}
+    /**
+     * This method replaces the hallway object with a room object inside each
+     * 3x3 square section of the grid
+     */
+    public void makeRooms() {
+        int roomsInBoard = getNumRooms();
+        for (int i = 1; i < grid.length; i++) {
+            for (int j = 1; j < grid[i].length; j++) {
+                if ((i + 2) % 3 == 0 && (j + 2) % 3 == 0) {
+                    grid[i][j] = new Room();
+                    grid[i - 1][j].isEntrance();
+                }
+            }
+        }
+    }
 
-	private void insertPlayer() {
-		grid[boardSize - 1][0].placeSpy();
+
+    /**
+     * This method creates an array containing the location of each room object
+     * in the grid.
+     */
+    public void locateRooms() {
+        rooms = new int[getNumRooms()][2];
+        int temp = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j].getType() == "Room") {
+                    rooms[temp][0] = i;
+                    rooms[temp][1] = j;
+                    temp += 1;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * This method creates an array containing the location of each hallway
+     * object in the grid.
+     */
+    public void locateHallways() {
+        hallways = new int[boardSize * boardSize - getNumRooms()][2];
+        int temp = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j].getType() != "Room") {
+                    hallways[temp][0] = i;
+                    hallways[temp][1] = j;
+                    temp += 1;
+                }
+            }
+        }
+    }
+
+    private void insertPlayer() {
+        spy = new ActiveAgent();
+        spy.setRow(boardSize - 1);
+        spy.setColumn(0);
+
+        spySquare = grid[spy.getRow()][spy.getColumn()];
+        /*
+        grid[boardSize - 1][0].placeSpy();
 		player = new int[2];
 		player[0] = boardSize - 1;
 		player[1] = 0;
-	}
+		*/
+    }
 
-	public void killNinja() {
-		grid[ninjas[1][0]][ninjas[1][1]].killAgent();
-		locateEnemies();
-	}
+    /**
+     * This method places a number of ninja assassin objects into the grid based
+     * on the size of the grid
+     */
+    private void insertEnemies() {
+        int numEnemies = 2 * boardSize / 3;
+        while (numEnemies > 0) {
+            int hallwayNum = Engine.roll(hallways.length);
+            if (!grid[hallways[hallwayNum][0]][hallways[hallwayNum][1]].hasAgent()) {
+                if (!grid[hallways[hallwayNum][0]][hallways[hallwayNum][1]].isOffLimits()) {
+                    grid[hallways[hallwayNum][0]][hallways[hallwayNum][1]].placeAgent(new ActiveAgent());
+                    numEnemies -= 1;
+                }
+            }
+        }
+    }
 
-	/**
-	 * This method initiates the board as an array of square objects.
-	 */
-	public void makeBoard() {
-		grid = new Square[boardSize][boardSize];
-	}
+    /**
+     * This method places the briefcase object within one of the rooms at
+     * random.
+     */
+    public void insertBriefcase() {
+        int roomNum = Engine.roll(rooms.length);
+        grid[rooms[roomNum][0]][rooms[roomNum][1]].hasBriefcase();
+        caseRoom = grid[rooms[roomNum][0]][rooms[roomNum][1]];
+    }
 
-	/**
-	 * This method makes every single square into a hallway object, which can
-	 * hold players, enemies, or items
-	 */
-	public void fillBoard() {
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				grid[i][j] = new Hallway();
-				halls.add((Hallway) grid[i][j]);
-			}
-		}
-		if (grid.length > 3)
-			assignOffLimits();
-	}
+    private void insertItems() {
+        Collections.shuffle(halls);
+        ArrayList<Integer> remove = new ArrayList<>();
 
-	/**
-	 * This method sets the spaces closest to the player spawn point as off
-	 * limits to enemy placement
-	 */
-	private void assignOffLimits() {
-		int temp = 3;
-		while (temp > 0) {
-			grid[grid.length - temp][0].restrict();
-			grid[grid.length - 1][temp].restrict();
-			temp -= 1;
-		}
-	}
+        for (Hallway hall : halls) {
+            if (!(hall.checkIsClear()))
+                remove.add(halls.indexOf(hall));
+        }
 
-	/**
-	 * This method replaces the hallway object with a room object inside each
-	 * 3x3 square section of the grid
-	 */
-	public void makeRooms() {
-		int roomsInBoard = getNumRooms();
-		for (int i = 1; i < grid.length; i++) {
-			for (int j = 1; j < grid[i].length; j++) {
-				if ((i + 2) % 3 == 0 && (j + 2) % 3 == 0) {
-					grid[i][j] = new Room();
-					grid[i - 1][j].isEntrance();
-				}
-			}
-		}
-	}
+        for (int i = 0; i < remove.size(); ++i) {
+            halls.remove(remove.get(i));
+        }
 
-	/**
-	 * This method creates an array containing the location of each room object
-	 * in the grid.
-	 */
-	public void locateRooms() {
-		rooms = new int[getNumRooms()][2];
-		int temp = 0;
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].getType() == "Room") {
-					rooms[temp][0] = i;
-					rooms[temp][1] = j;
-					temp += 1;
-				}
-			}
-		}
-	}
+        bulletSquare = halls.get(0);
+        invulSquare = halls.get(1);
+        radarSquare = halls.get(2);
 
-	/**
-	 * This method creates an array containing the location of each hallway
-	 * object in the grid.
-	 */
-	public void locateHallways() {
-		hallways = new int[boardSize * boardSize - getNumRooms()][2];
-		int temp = 0;
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].getType() != "Room") {
-					hallways[temp][0] = i;
-					hallways[temp][1] = j;
-					temp += 1;
-				}
-			}
-		}
-	}
+        bulletSquare.place(new ExtraBullet());
+        invulSquare.place(new Invulnerability());
+        radarSquare.place(new Radar());
 
-	/**
-	 * This method places the briefcase object within one of the rooms at
-	 * random.
-	 */
-	public void insertBriefcase() {
-		int roomNum = Engine.roll(rooms.length);
-		grid[rooms[roomNum][0]][rooms[roomNum][1]].hasBriefcase();
-		caseRoom = grid[rooms[roomNum][0]][rooms[roomNum][1]];
-	}
+    }
 
-	/**
-	 * This method places a number of ninja assassin objects into the grid based
-	 * on the size of the grid
-	 */
-	private void insertEnemies() {
-		int numEnemies = 2 * boardSize / 3;
-		while (numEnemies > 0) {
-			int hallwayNum = Engine.roll(hallways.length);
-			if (!grid[hallways[hallwayNum][0]][hallways[hallwayNum][1]].hasAgent()) {
-				if (!grid[hallways[hallwayNum][0]][hallways[hallwayNum][1]].isOffLimits()) {
-					grid[hallways[hallwayNum][0]][hallways[hallwayNum][1]].placeAgent(new ActiveAgent());
-					numEnemies -= 1;
-				}
-			}
-		}
-	}
+    /**
+     * This method calls the UI to print out the entire board in its current
+     * state.
+     */
+    public void printBoard() {
+        //int playerY = player[0];
+        //int playerX = player[1];
 
-	/**
-	 * This method creates an array containing the locations of each ninja
-	 * assassin in the grid
-	 */
-	private void locateEnemies() {
-		int numEnemies = 0;
-		if (init)
-			numEnemies = 2 * boardSize / 3;
-		else
-			for (int i = 0; i < grid.length; i++) {
-				for (int j = 0; j < grid[i].length; j++) {
-					if (grid[i][j].hasAgent() && !grid[i][j].getAgent().isPlayer())
-						numEnemies++;
-				}
-			}
-		int temp = 0;
-		ninjas = new int[numEnemies][2];
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].hasAgent() && temp < ninjas.length) {
-					ninjas[temp][0] = i;
-					ninjas[temp][1] = j;
-					temp++;
-				}
-			}
-		}
-	}
+        if (spy.checkHasRadar()) {
+        	caseRoom.switchLights(true);
+        }
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if(grid[i][j] == spySquare){
+                    UI.printString("[P]");
+                    continue;
+                }
+                UI.printString("[" + grid[i][j].getSymbol() + "]");
+            }
+            UI.printLn();
+        }
+    }
 
-	/**
-	 * This method checks to see if debug mode is on, then turns on the lights
-	 * in every room if it is.
-	 */
-	public void debugRooms() {
-		if (debug) {
-			for (int i = 0; i < grid.length; i++) {
-				for (int j = 0; j < grid[i].length; j++) {
-					grid[i][j].switchLights(true);
-				}
-			}
-		} else {
-			for (int i = 0; i < grid.length; ++i) {
-				for (int j = 0; j < grid[i].length; ++j) {
-					grid[i][j].switchLights(false);
-				}
-			}
-		}
-	}
+    /**
+     * This method creates an array containing the locations of each ninja
+     * assassin in the grid
+     */
+    private void locateEnemies() {
+        int numEnemies = 0;
+        if (init)
+            numEnemies = 2 * boardSize / 3;
+        else
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[i].length; j++) {
+                    if (grid[i][j].hasAgent() && !grid[i][j].getAgent().isPlayer())
+                        numEnemies++;
+                }
+            }
+        int temp = 0;
+        ninjas = new int[numEnemies][2];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j].hasAgent() && temp < ninjas.length) {
+                    ninjas[temp][0] = i;
+                    ninjas[temp][1] = j;
+                    temp++;
+                }
+            }
+        }
+    }
 
-	/**
-	 * This method gets the number of rooms for the grid based on the size of
-	 * the grid.
-	 *
-	 * @return
-	 */
-	public int getNumRooms() {
-		int num = boardSize / 3;
-		return num * num;
-	}
+    /**
+     * This method checks to see if debug mode is on, then turns on the lights
+     * in every room if it is.
+     */
+    public void debugRooms() {
+        if (debug) {
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[i].length; j++) {
+                    grid[i][j].switchLights(true);
+                }
+            }
+        } else {
+            for (int i = 0; i < grid.length; ++i) {
+                for (int j = 0; j < grid[i].length; ++j) {
+                    grid[i][j].switchLights(false);
+                }
+            }
+        }
+    }
 
-	/**
-	 * This method calls the UI to print out the entire board in its current
-	 * state.
-	 */
-	public void printBoard() {
-		int playerY = player[0];
-		int playerX = player[1];
+    public void lookInDirection(int direction) {
+        // reveal rooms
+        // int playerY = player[0];
+        // int playerX = player[1];
+        switch (direction) {
+            case 0: // Up
+                if (!(spy.getRow() - 1 < 0) && grid[spy.getRow() - 1][spy.getColumn()].getType().compareToIgnoreCase("Room") != 0) {
+                    grid[spy.getRow() - 1][spy.getColumn()].switchLights(true);
+                    if (!(spy.getRow() - 2 < 0) && grid[spy.getRow() - 2][spy.getColumn()].getType().compareToIgnoreCase("Room") != 0) {
+                        grid[spy.getRow() - 2][spy.getColumn()].switchLights(true);
+                    }
+                }
+                break;
+            case 1: // Left
+                if (!(spy.getColumn() - 1 < 0) && grid[spy.getRow()][spy.getColumn() - 1].getType().compareToIgnoreCase("Room") != 0) {
+                    grid[spy.getRow()][spy.getColumn() - 1].switchLights(true);
+                    if (!(spy.getColumn() - 2 < 0) && grid[spy.getRow()][spy.getColumn() - 2].getType().compareToIgnoreCase("Room") != 0) {
+                        grid[spy.getRow()][spy.getColumn() - 2].switchLights(true);
+                    }
+                }
+                break;
+            case 2: // Down
+                if (!(spy.getRow() + 1 >= grid.length)
+                        && grid[spy.getRow() + 1][spy.getColumn()].getType().compareToIgnoreCase("Room") != 0) {
+                    grid[spy.getRow() + 1][spy.getColumn()].switchLights(true);
+                    if (!(spy.getRow() + 2 >= grid.length)
+                            && grid[spy.getRow() + 2][spy.getColumn()].getType().compareToIgnoreCase("Room") != 0) {
+                        grid[spy.getRow() + 2][spy.getColumn()].switchLights(true);
+                    }
+                }
+                break;
+            case 3: // Right
+                if (!(spy.getColumn() + 1 >= grid.length)
+                        && grid[spy.getRow()][spy.getColumn() + 1].getType().compareToIgnoreCase("Room") != 0) {
+                    grid[spy.getRow()][spy.getColumn() + 1].switchLights(true);
+                    if (!(spy.getColumn() + 2 >= grid.length)
+                            && grid[spy.getRow()][spy.getColumn() + 2].getType().compareToIgnoreCase("Room") != 0) {
+                        grid[spy.getRow()][spy.getColumn() + 2].switchLights(true);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        printBoard();
+        debugRooms();
+    }
 
-		if ((grid[playerY][playerX]).getAgent().checkHasRadar() && !debug) {
-			caseRoom.switchLights(true);
-		}
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				UI.printString("[" + grid[i][j].getSymbol() + "]");
-			}
-			UI.printLn();
-		}
-	}
+    /**
+     * This method checks to see if the agent can move in the direction it has
+     * requested.
+     *
+     * @param direction The integer value representing the direction the ninja wants
+     *                  to move.
+     * @param ninja     The integer value representing the ninja in the ninjas array.
+     * @return True if the ninja can move in the requested direction, else
+     * false.
+     */
+    public boolean checkValidDirection(String agent, int direction, int ninja) {
+        int ninjaY = playerOrNinja(agent, ninja)[0];
+        int ninjaX = playerOrNinja(agent, ninja)[1];
+        switch (direction) {
+            case 0: // Up
+                if (ninjaY - 1 < 0)
+                    return false;
+                return grid[ninjaY - 1][ninjaX].checkIsClear();
+            case 1: // Left
+                if (ninjaX - 1 < 0)
+                    return false;
+                return grid[ninjaY][ninjaX - 1].checkIsClear();
+            case 2: // Down
+                if (ninjaY + 1 >= grid.length)
+                    return false;
+                return grid[ninjaY + 1][ninjaX].checkIsClear();
+            case 3: // Right
+                if (ninjaX + 1 >= grid.length)
+                    return false;
+                return grid[ninjaY][ninjaX + 1].checkIsClear();
+            default:
+                return false;
+        }
+    }
 
-	/**
-	 * This method moves each ninja's location.
-	 */
-	public void moveNinjas() {
-		boolean validDirection = false;
-		int direction = 0;
-		for (int i = 0; i < ninjas.length; i++) {
-			do {
-				direction = grid[ninjas[i][0]][ninjas[i][1]].askANinja();
-				validDirection = checkValidDirection("ninjas", direction, i);
-			} while (validDirection == false);
-			moveAgent("ninjas", direction, i);
-		}
-	}
+    private int[] playerOrNinja(String agent, int ninja) {
+        int[] indices = new int[2];
 
-	public boolean checkIfEntrance() {
-		int ninjaY = player[0];
-		int ninjaX = player[1];
-		return grid[ninjaY][ninjaX].checkEntry();
-	}
+        if (agent.compareToIgnoreCase("ninjas") == 0) {
+            indices[0] = ninjas[ninja][0];
+            indices[1] = ninjas[ninja][1];
+        } else if(agent.compareToIgnoreCase("player") == 0){
+            indices[0] = spy.getRow();
+            indices[1] = spy.getColumn();
+        }
+            UI.callException("agent");
 
-	/**
-	 * This method moves a single ninja to the location its AI has requested.
-	 *
-	 * @param ninja
-	 *            The integer location of this ninja within the ninjas array
-	 * @param direction
-	 *            The integer value representing one of four directions for the
-	 *            ninja to move
-	 */
-	public void moveAgent(String agent, int direction, int ninja) {
-		int ninjaY = 0;
-		int ninjaX = 0;
-		if (agent.compareToIgnoreCase("ninjas") == 0) {
-			ninjaY = ninjas[ninja][0];
-			ninjaX = ninjas[ninja][1];
-		} else if (agent.compareToIgnoreCase("player") == 0) {
-			ninjaY = player[0];
-			ninjaX = player[1];
-		} else
-			UI.callException("agent");
-		ActiveAgent tempNinja = null;
-		tempNinja = grid[ninjaY][ninjaX].getAgent();
-		grid[ninjaY][ninjaX].deleteAgent();
-		switch (direction) {
-		case 0: // Up
-			grid[ninjaY - 1][ninjaX].placeAgent(tempNinja);
-			if (agent.compareToIgnoreCase("player") == 0)
-				player[0] -= 1;
-			else
-				ninjas[ninja][0] -= 1;
-			break;
-		case 1: // Left
-			grid[ninjaY][ninjaX - 1].placeAgent(tempNinja);
-			if (agent.compareToIgnoreCase("player") == 0)
-				player[1] -= 1;
-			else
-				ninjas[ninja][1] -= 1;
-			break;
-		case 2: // Down
-			grid[ninjaY + 1][ninjaX].placeAgent(tempNinja);
-			if (agent.compareToIgnoreCase("player") == 0)
-				player[0] += 1;
-			else
-				ninjas[ninja][0] += 1;
-			break;
-		case 3: // Right
-			grid[ninjaY][ninjaX + 1].placeAgent(tempNinja);
-			if (agent.compareToIgnoreCase("player") == 0)
-				player[1] += 1;
-			else
-				ninjas[ninja][1] += 1;
-			break;
-		default:
-			UI.callException("ToDo");
-		}
-	}
+        return indices;
+    }
 
-	/**
-	 * This method checks to see if the agent can move in the direction it has
-	 * requested.
-	 *
-	 * @param direction
-	 *            The integer value representing the direction the ninja wants
-	 *            to move.
-	 * @param ninja
-	 *            The integer value representing the ninja in the ninjas array.
-	 * @return True if the ninja can move in the requested direction, else
-	 *         false.
-	 */
-	public boolean checkValidDirection(String agent, int direction, int ninja) {
-		int ninjaY = 0;
-		int ninjaX = 0;
-		if (agent.compareToIgnoreCase("ninjas") == 0) {
-			ninjaY = ninjas[ninja][0];
-			ninjaX = ninjas[ninja][1];
-		} else if (agent.compareToIgnoreCase("player") == 0) {
-			ninjaY = player[0];
-			ninjaX = player[1];
-		} else
-			UI.callException("agent");
-		switch (direction) {
-		case 0: // Up
-			if (ninjaY - 1 < 0)
-				return false;
-			return grid[ninjaY - 1][ninjaX].checkIsClear();
-		case 1: // Left
-			if (ninjaX - 1 < 0)
-				return false;
-			return grid[ninjaY][ninjaX - 1].checkIsClear();
-		case 2: // Down
-			if (ninjaY + 1 >= grid.length)
-				return false;
-			return grid[ninjaY + 1][ninjaX].checkIsClear();
-		case 3: // Right
-			if (ninjaX + 1 >= grid.length)
-				return false;
-			return grid[ninjaY][ninjaX + 1].checkIsClear();
-		default:
-			return false;
-		}
-	}
+    /**
+     * This method moves a single ninja to the location its AI has requested.
+     *
+     * @param ninja     The integer location of this ninja within the ninjas array
+     * @param direction The integer value representing one of four directions for the
+     *                  ninja to move
+     */
+    public void moveAgent(String agent, int direction, int ninja) {
+        int ninjaY = playerOrNinja(agent, ninja)[0];
+        int ninjaX = playerOrNinja(agent, ninja)[1];
 
-	public void lookInDirection(int direction) {
-		// reveal rooms
-		int playerY = player[0];
-		int playerX = player[1];
-		switch (direction) {
-		case 0: // Up
-			if (!(playerY - 1 < 0) && grid[playerY - 1][playerX].getType().compareToIgnoreCase("Room") != 0) {
-				grid[playerY - 1][playerX].switchLights(true);
-				if (!(playerY - 2 < 0) && grid[playerY - 2][playerX].getType().compareToIgnoreCase("Room") != 0) {
-					grid[playerY - 2][playerX].switchLights(true);
-				}
-			}
-			break;
-		case 1: // Left
-			if (!(playerX - 1 < 0) && grid[playerY][playerX - 1].getType().compareToIgnoreCase("Room") != 0) {
-				grid[playerY][playerX - 1].switchLights(true);
-				if (!(playerX - 2 < 0) && grid[playerY][playerX - 2].getType().compareToIgnoreCase("Room") != 0) {
-					grid[playerY][playerX - 2].switchLights(true);
-				}
-			}
-			break;
-		case 2: // Down
-			if (!(playerY + 1 >= grid.length)
-					&& grid[playerY + 1][playerX].getType().compareToIgnoreCase("Room") != 0) {
-				grid[playerY + 1][playerX].switchLights(true);
-				if (!(playerY + 2 >= grid.length)
-						&& grid[playerY + 2][playerX].getType().compareToIgnoreCase("Room") != 0) {
-					grid[playerY + 2][playerX].switchLights(true);
-				}
-			}
-			break;
-		case 3: // Right
-			if (!(playerX + 1 >= grid.length)
-					&& grid[playerY][playerX + 1].getType().compareToIgnoreCase("Room") != 0) {
-				grid[playerY][playerX + 1].switchLights(true);
-				if (!(playerX + 2 >= grid.length)
-						&& grid[playerY][playerX + 2].getType().compareToIgnoreCase("Room") != 0) {
-					grid[playerY][playerX + 2].switchLights(true);
-				}
-			}
-			break;
-		default:
-			break;
-		}
-		printBoard();
-		debugRooms();
-	}
+        ActiveAgent tempNinja;
+        tempNinja = grid[ninjaY][ninjaX].getAgent();
+        // delete old ninja AFTER the switch statement
+        switch (direction) {
+            case 0: // Up
+                if (agent.compareToIgnoreCase("player") == 0) {
+                    spy.setRow(spy.getRow() - 1);
+                    spySquare = grid[spy.getRow()][spy.getColumn()];
+                } else {
+                    grid[ninjaY - 1][ninjaX].placeAgent(tempNinja);
+                    ninjas[ninja][0] -= 1;
+                }
+                break;
+            case 1: // Left
+                if (agent.compareToIgnoreCase("player") == 0) {
+                    spy.setColumn(spy.getColumn() - 1);
+                    spySquare = grid[spy.getRow()][spy.getColumn()];
+            }else {
+                    ninjas[ninja][1] -= 1;
+                    grid[ninjaY][ninjaX - 1].placeAgent(tempNinja);
+                }
+                    break;
+            case 2: // Down
+                if (agent.compareToIgnoreCase("player") == 0) {
+                    spy.setRow(spy.getRow() + 1);
+                    spySquare = grid[spy.getRow()][spy.getColumn()];
+                }else {
+                    ninjas[ninja][0] += 1;
+                    grid[ninjaY + 1][ninjaX].placeAgent(tempNinja);
+                }
+                    break;
+            case 3: // Right
+                if (agent.compareToIgnoreCase("player") == 0) {
+                    spy.setColumn(spy.getColumn() + 1);
+                    spySquare = grid[spy.getRow()][spy.getColumn()];
+                }else {
+                    ninjas[ninja][1] += 1;
+                    grid[ninjaY][ninjaX + 1].placeAgent(tempNinja);
+                }
+                    break;
+            default:
+                UI.callException("ToDo");
+        }
+        // delete the old ninja now that the movement has completed
+        grid[ninjaY][ninjaX].deleteAgent();
 
-	public void toggleDebug() {
-		debug = !debug;
-	}
+    }
 
-	public void shoot(int direction) {
-		int playerY = player[0];
-		int playerX = player[1];
+    /**
+     * This method moves each ninja's location.
+     */
+    public void moveNinjas() {
+        boolean validDirection = false;
+        int direction = 0;
+        for (int i = 0; i < ninjas.length; i++) {
+            do {
+                direction = grid[ninjas[i][0]][ninjas[i][1]].askANinja();
+                validDirection = checkValidDirection("ninjas", direction, i);
+            } while (validDirection == false);
+            moveAgent("ninjas", direction, i);
+        }
+    }
 
-		switch (direction) {
-		case 0: // Shoots Up
-			for (int i = playerY; playerY >= 0; i++) {
-				if (grid[i][playerX].hasAgent() && !grid[i][playerX].getAgent().isPlayer()) {
-					grid[i][playerX].killAgent();
-					break;
-				} else if (grid[i][playerX].getType().compareToIgnoreCase("room") == 0) {
-					break;
-				}
-			}
-			break;
-		case 1: // Shoots down
-			for (int i = playerY; playerY < grid.length; i++) {
-				if (grid[i][playerX].hasAgent() && !grid[i][playerX].getAgent().isPlayer()) {
-					grid[i][playerX].killAgent();
-					break;
-				} else if (grid[i][playerX].getType().compareToIgnoreCase("room") == 0) {
-					break;
-				}
-			}
-			break;
-		case 2: // Shoots right
-			for (int i = playerX; playerX < grid.length; i++) {
-				if (grid[playerY][i].hasAgent() && !grid[playerY][i].getAgent().isPlayer()) {
-					grid[playerY][i].killAgent();
-					break;
-				} else if (grid[playerY][i].getType().compareToIgnoreCase("room") == 0) {
-					break;
-				}
-			}
-			break;
-		case 3: // Shoots left
-			for (int i = playerX; playerX >= 0; i--) {
-				if (grid[playerY][i].hasAgent() && !grid[playerY][i].getAgent().isPlayer()) {
-					grid[playerY][i].killAgent();
-					break;
-				} else if (grid[playerY][i].getType().compareToIgnoreCase("room") == 0) {
-					break;
-				}
-			}
-			break;
-		}
-		locateEnemies();
-	}
+    public void shoot(int direction) {
+        //int playerY = player[0];
+        //int playerX = player[1];
+
+        switch (direction) {
+            case 0: // Shoots Up
+                for (int i = (spy.getRow() - 1); i >= 0; --i) {
+                    grid[i][spy.getColumn()].deleteAgent();
+                }
+                break;
+            case 1: // Shoots down
+                for (int i = (spy.getRow() + 1); i < boardSize; ++i) {
+                    grid[i][spy.getColumn()].deleteAgent();
+                }
+                break;
+            case 2: // Shoots right
+                for (int i = (spy.getColumn() + 1); i < boardSize; ++i) {
+                    grid[spy.getRow()][i].deleteAgent();
+                }
+                break;
+            case 3: // Shoots left
+                for (int i = (spy.getColumn() - 1); i >= 0; --i) {
+                    grid[spy.getRow()][i].deleteAgent();
+                }
+                break;
+        }
+        locateEnemies();
+    }
+
+    public boolean checkIfEntrance() {
+        //int ninjaY = player[0];
+        //int ninjaX = player[1];
+        return grid[spy.getRow()][spy.getColumn()].checkEntry();
+    }
+
+
+
+    public void killNinja() {
+        grid[ninjas[1][0]][ninjas[1][1]].killAgent();
+        locateEnemies();
+    }
+
+
+    /**
+     * This method sets the spaces closest to the player spawn point as off
+     * limits to enemy placement
+     */
+    private void assignOffLimits() {
+        int temp = 3;
+        while (temp > 0) {
+            grid[grid.length - temp][0].restrict();
+            grid[grid.length - 1][temp].restrict();
+            temp -= 1;
+        }
+    }
+
+
+    /**
+     * This method gets the number of rooms for the grid based on the size of
+     * the grid.
+     *
+     * @return
+     */
+    public int getNumRooms() {
+        int num = boardSize / 3;
+        return num * num;
+    }
+
+
+    public void toggleDebug() {
+        debug = !debug;
+    }
+
+
 }

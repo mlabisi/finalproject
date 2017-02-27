@@ -73,7 +73,6 @@ public class Hallway extends Square implements Serializable {
     	agent = ninja;
     	if (agent.isPlayer()){
     		hasPlayer = true;
-    		useItem();
     	}
     	isClear = false;
     	hasAgent = true;
@@ -156,7 +155,7 @@ public class Hallway extends Square implements Serializable {
 			return symbol;
 		}else if (lightsOn()) {
 			return 32;
-		} else if(item.checkPickedUp()){
+		} else if(hasItem && item.checkPickedUp()){
 		    return 42;
 		}
 		return 42;

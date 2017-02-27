@@ -91,6 +91,7 @@ public class UI {
 			loadGame();
 			break;
 		case 4:
+			System.out.println("Goodbye!");
 			game.quit();
 			break;
 		default:
@@ -195,14 +196,14 @@ public class UI {
 		int choice = 0;
 		if (looked && game.checkEntrance()) {
 			System.out.println("1. Move     |// Look around    |7. Access intel");
-			System.out.println("2. Shoot    |5. Save game      |0. Quit");
+			System.out.println("2. Shoot    |5. Save game      |0. Main Menu");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
 		}else if (looked) {
-			System.out.println("1. Move     |// Look around    |0. Quit");
+			System.out.println("1. Move     |// Look around    |0. Main Menu");
 			System.out.println("2. Shoot    |5. Save game");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
 		}else {
-			System.out.println("// Move     |4. Look around    |0. Quit");
+			System.out.println("// Move     |4. Look around    |0. Main Menu");
 			System.out.println("// Shoot    |5. Save game");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
 		}
@@ -255,8 +256,7 @@ public class UI {
 		 		break;
 		    }
 		case 0:
-			System.out.println("Goodbye!");
-			System.exit(0);
+			mainMenu(false);
 			break;
 		default:
 			System.out.println("Please enter a valid choice.");

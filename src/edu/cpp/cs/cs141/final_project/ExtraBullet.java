@@ -35,7 +35,9 @@ public class ExtraBullet extends PowerUp {
 
     @Override
     public void effect(ActiveAgent player) {
-        player.incAmmo();
+        if(player.getAmmo() < 1)
+            player.incAmmo();
+        super.togglePickedUp();
     }
 
 }

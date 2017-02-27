@@ -215,8 +215,8 @@ public class Board implements Serializable {
                 remove.add(halls.indexOf(hall));
         }
 
-        for (int i = 0; i < remove.size(); ++i) {
-            halls.remove(remove.get(i));
+        for (Integer index : remove) {
+            halls.remove(index);
         }
 
         bulletSquare = halls.get(0);
@@ -238,7 +238,7 @@ public class Board implements Serializable {
         //int playerX = player[1];
 
         if (spy.checkHasRadar()) {
-        	caseRoom.switchLights(true);
+        	caseRoom.switchLights();
         }
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -417,6 +417,9 @@ public class Board implements Serializable {
                 if (agent.compareToIgnoreCase("player") == 0) {
                     spy.setRow(spy.getRow() - 1);
                     spySquare = grid[spy.getRow()][spy.getColumn()];
+                    if(((Hallway) spySquare).hasItem()){
+                        ((PowerUp) ((Hallway) spySquare).getItem()).effect(spy);
+                    }
                 } else {
                     grid[ninjaY - 1][ninjaX].placeAgent(tempNinja);
                     ninjas[ninja][0] -= 1;
@@ -426,6 +429,8 @@ public class Board implements Serializable {
                 if (agent.compareToIgnoreCase("player") == 0) {
                     spy.setColumn(spy.getColumn() - 1);
                     spySquare = grid[spy.getRow()][spy.getColumn()];
+                    if(((Hallway) spySquare).hasItem()){
+                        ((PowerUp) ((Hallway) spySquare).getItem()).effect(spy);                    }
             }else {
                     ninjas[ninja][1] -= 1;
                     grid[ninjaY][ninjaX - 1].placeAgent(tempNinja);
@@ -435,6 +440,8 @@ public class Board implements Serializable {
                 if (agent.compareToIgnoreCase("player") == 0) {
                     spy.setRow(spy.getRow() + 1);
                     spySquare = grid[spy.getRow()][spy.getColumn()];
+                    if(((Hallway) spySquare).hasItem()){
+                        ((PowerUp) ((Hallway) spySquare).getItem()).effect(spy);                    }
                 }else {
                     ninjas[ninja][0] += 1;
                     grid[ninjaY + 1][ninjaX].placeAgent(tempNinja);
@@ -444,6 +451,8 @@ public class Board implements Serializable {
                 if (agent.compareToIgnoreCase("player") == 0) {
                     spy.setColumn(spy.getColumn() + 1);
                     spySquare = grid[spy.getRow()][spy.getColumn()];
+                    if(((Hallway) spySquare).hasItem()){
+                        ((PowerUp) ((Hallway) spySquare).getItem()).effect(spy);                    }
                 }else {
                     ninjas[ninja][1] += 1;
                     grid[ninjaY][ninjaX + 1].placeAgent(tempNinja);
@@ -467,7 +476,7 @@ public class Board implements Serializable {
             do {
                 direction = grid[ninjas[i][0]][ninjas[i][1]].askANinja();
                 validDirection = checkValidDirection("ninjas", direction, i);
-            } while (validDirection == false);
+            } while (!validDirection);
             moveAgent("ninjas", direction, i);
         }
     }

@@ -32,6 +32,7 @@ public class ActiveAgent {
 		agentName = "Ninja Assassin";
 		agentHealth = 1;
 		isPlayer = false;
+		isInvulnerable = false;
 	}
 
 	/**

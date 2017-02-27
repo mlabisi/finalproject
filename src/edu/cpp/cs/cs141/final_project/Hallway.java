@@ -136,10 +136,8 @@ public class Hallway extends Square implements Serializable {
 		hasItem = true;
 	}
 
-	private void useItem(){
-    	if(hasItem())
-			((PowerUp)item).effect(agent);
-
+	public void useItem(Item item){
+		((PowerUp)item).effect(agent);
 	}
 	@Override
 	/**
@@ -149,14 +147,12 @@ public class Hallway extends Square implements Serializable {
 	public char getSymbol() {
 		if (hasPlayer) {
 			return 80;
-		}else if (hasAgent && lightsOn()) {
+		}else if (hasAgent && super.lightsOn) {
 			return 78;
-		}else if (hasItem && lightsOn()) {
+		}else if (hasItem && !item.checkPickedUp() && super.lightsOn) {
 			return symbol;
-		}else if (lightsOn()) {
+		}else if (super.lightsOn) {
 			return 32;
-		} else if(hasItem && item.checkPickedUp()){
-		    return 42;
 		}
 		return 42;
 	}
@@ -183,4 +179,8 @@ public class Hallway extends Square implements Serializable {
 	public int askANinja() {
 		return agent.agentMove();
 	}
+
+	public Item getItem(){
+	    return item;
+    }
 }

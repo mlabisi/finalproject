@@ -40,9 +40,9 @@ public class Board implements Serializable {
     private ActiveAgent spy;
     private ArrayList<Hallway> halls;
     private Square spySquare;
-    Square bulletSquare;
-    Square invulSquare;
-    Square radarSquare;
+    private Square bulletSquare;
+    private Square invulSquare;
+    private Square radarSquare;
     private Square caseRoom;
 
     final private int boardSize;

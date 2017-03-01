@@ -110,14 +110,10 @@ public class Engine implements Serializable {
     }
     
     public int getPlayerAmmo(){
-    	return board.getAmmo();
+    	return gun.currentAmmo();
     }
     
     public int getLives(){
     	return lives;
-    }
-
-    public Board getBoard(){
-        return board;
     }
 }

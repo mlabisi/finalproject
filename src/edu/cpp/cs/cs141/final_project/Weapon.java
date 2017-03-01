@@ -50,6 +50,12 @@ public class Weapon {
 			maxAmmo--;
 			hasAmmo = false;
 		}
+		else
+			hasAmmo = true;
 		return hasAmmo;
 	}
+	public int currentAmmo(){
+		return maxAmmo;
+	}
 }
+

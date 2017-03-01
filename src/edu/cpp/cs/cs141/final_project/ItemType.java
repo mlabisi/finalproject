@@ -44,7 +44,7 @@ public enum ItemType {
         String msg = "You picked up ";
         switch(ICON){
             case 'R':
-                msg += " a Radar!";
+                msg += "a Radar!";
                 break;
             case 'I':
                 msg += "an Invulnerability Shield!";

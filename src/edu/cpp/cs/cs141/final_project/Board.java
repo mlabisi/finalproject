@@ -235,7 +235,7 @@ public class Board implements Serializable {
      */
     public void printBoard() {
         if (spy.checkHasRadar() && !checkedRadar) {
-            caseRoom.switchLights();
+            caseRoom.switchLights(true);
         	checkedRadar = true;
         }
         for (int i = 0; i < grid.length; i++) {
@@ -487,24 +487,40 @@ public class Board implements Serializable {
         switch (direction) {
             case 0: // Shoots Up
                 for (int i = (spy.getRow() - 1); i >= 0; --i) {
+                    if(grid[--i][spy.getColumn()].getType().equals("Room"))
+                        break;
+                    if(grid[--i][spy.getColumn()].checkIsClear())
+                        continue;
                     grid[i][spy.getColumn()].deleteAgent();
                     break;
                 }
                 break;
             case 1: // Shoots down
                 for (int i = (spy.getRow() + 1); i < boardSize; ++i) {
+                    if(grid[++i][spy.getColumn()].getType().equals("Room"))
+                        break;
+                    if(grid[++i][spy.getColumn()].checkIsClear())
+                        continue;
                     grid[i][spy.getColumn()].deleteAgent();
                     break;
                 }
                 break;
             case 2: // Shoots right
                 for (int i = (spy.getColumn() + 1); i < boardSize; ++i) {
+                    if(grid[spy.getRow()][++i].getType().equals("Room"))
+                        break;
+                    if(grid[spy.getRow()][++i].checkIsClear())
+                        continue;
                     grid[spy.getRow()][i].deleteAgent();
                     break;
                 }
                 break;
             case 3: // Shoots left
                 for (int i = (spy.getColumn() - 1); i >= 0; --i) {
+                    if(grid[spy.getRow()][--i].getType().equals("Room"))
+                        break;
+                    if(grid[spy.getRow()][--i].checkIsClear())
+                        continue;
                     grid[spy.getRow()][i].deleteAgent();
                     break;
                 }

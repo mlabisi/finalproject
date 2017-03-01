@@ -30,7 +30,7 @@ public class Weapon {
 	 * 	This represents whether or not the 
 	 * agent has ammo in the gun.
 	 */
-	public boolean hasAmmo = true;
+	private boolean hasAmmo = true;
 
 	/**
 	 *  This represents the maximum ammunition

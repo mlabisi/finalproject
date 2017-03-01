@@ -199,6 +199,7 @@ public class Board implements Serializable {
         int roomNum = Engine.roll(rooms.length);
         caseRoom = grid[rooms[roomNum][0]][rooms[roomNum][1]];
         caseRoom.hasBriefcase();
+        caseRoom.place(new Briefcase());
     }
 
     private void insertItems() {

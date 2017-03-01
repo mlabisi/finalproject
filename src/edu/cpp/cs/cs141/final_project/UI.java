@@ -91,7 +91,6 @@ public class UI {
 			loadGame();
 			break;
 		case 4:
-			System.out.println("Goodbye!");
 			game.quit();
 			break;
 		default:
@@ -259,8 +258,9 @@ public class UI {
 		 		break;
 		    }
 		case 0:
-            System.out.println("Goodbye!");
-            game.quit();
+			System.out.println("Goodbye!");
+			System.exit(0);
+			break;
 		default:
 			System.out.println("Please enter a valid choice.");
 			dialogueWait(2);
@@ -271,7 +271,6 @@ public class UI {
 	}
 	
 	private void checkIntel() {
-	System.out.println("mlem");
 		
 	}
 
@@ -436,5 +435,9 @@ public class UI {
 		System.exit(0);		
 	}
 
+	public static int getPlayerMovement() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

@@ -116,4 +116,8 @@ public class Engine implements Serializable {
     public int getLives(){
     	return lives;
     }
+
+    public Board getBoard(){
+        return board;
+    }
 }

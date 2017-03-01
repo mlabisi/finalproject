@@ -36,7 +36,7 @@ public class Weapon {
 	 *  This represents the maximum ammunition
 	 *  the agent can have
 	 */
-	public int maxAmmo = 1;
+	private int maxAmmo = 1;
 
 	/**
 	 * This represents the action of the ninja-assassin
@@ -50,8 +50,6 @@ public class Weapon {
 			maxAmmo--;
 			hasAmmo = false;
 		}
-		else
-			hasAmmo = true;
 		return hasAmmo;
 	}
 }

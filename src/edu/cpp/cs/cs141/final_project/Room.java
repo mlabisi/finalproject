@@ -69,7 +69,7 @@ public class Room extends Square implements Serializable {
 	public char getSymbol() {
 		if (!hasBriefcase)
 			return 63;
-		else if (hasBriefcase && super.lightsOn())
+		else if (hasBriefcase && super.lightsOn)
 			return ItemType.BRIEFCASE.toChar();
 
 		return 63;

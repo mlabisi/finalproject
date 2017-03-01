@@ -39,7 +39,11 @@ public class Board implements Serializable {
     private boolean checkedMsg = false;
     private ActiveAgent spy;
     private ArrayList<Hallway> halls;
-    private Square bulletSquare, invulSquare, radarSquare, spySquare, caseRoom;
+    private Square spySquare;
+    private Square bulletSquare;
+    private Square invulSquare;
+    private Square radarSquare;
+    private Square caseRoom;
 
     final private int boardSize;
 
@@ -553,6 +557,14 @@ public class Board implements Serializable {
 
     public int getAmmo(){
     	return spy.getAmmo();
+    }
+
+    public Square getSpySquare(){
+        return spySquare;
+    }
+
+    public Square getCaseRoom(){
+        return caseRoom;
     }
 
 }

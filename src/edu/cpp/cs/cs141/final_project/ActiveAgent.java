@@ -18,7 +18,8 @@ public class ActiveAgent {
 	private boolean hasRadar;
 	private boolean isInvulnerable;
 	private boolean isPlayer;
-    /**
+
+	/**
      * The following integers represent the player's x and y coordinates
      */
     private int row;

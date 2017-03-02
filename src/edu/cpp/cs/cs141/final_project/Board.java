@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodr�guez
+ * Professor: Edwin Rodriguez
  * <p>
  * Final Project: Spy Game
  * <p>
@@ -39,7 +39,11 @@ public class Board implements Serializable {
     private boolean checkedMsg = false;
     private ActiveAgent spy;
     private ArrayList<Hallway> halls;
-    private Square bulletSquare, invulSquare, radarSquare, spySquare, caseRoom;
+    private Square spySquare;
+    private Square bulletSquare;
+    private Square invulSquare;
+    private Square radarSquare;
+    private Square caseRoom;
 
     final private int boardSize;
 
@@ -170,7 +174,6 @@ public class Board implements Serializable {
         spy = new ActiveAgent();
         spy.setRow(boardSize - 1);
         spy.setColumn(0);
-
         spySquare = grid[spy.getRow()][spy.getColumn()];
     }
 
@@ -197,8 +200,10 @@ public class Board implements Serializable {
      */
     public void insertBriefcase() {
         int roomNum = Engine.roll(rooms.length);
+        grid[rooms[roomNum][0]][rooms[roomNum][1]].hasBriefcase();
         caseRoom = grid[rooms[roomNum][0]][rooms[roomNum][1]];
         caseRoom.hasBriefcase();
+        caseRoom.place(new Briefcase());
     }
 
     private void insertItems() {
@@ -229,10 +234,6 @@ public class Board implements Serializable {
      * state.
      */
     public void printBoard() {
-        if (spy.checkHasRadar() && !checkedRadar) {
-            caseRoom.switchLights();
-        	checkedRadar = true;
-        }
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if(grid[i][j] == spySquare){
@@ -482,22 +483,42 @@ public class Board implements Serializable {
         switch (direction) {
             case 0: // Shoots Up
                 for (int i = (spy.getRow() - 1); i >= 0; --i) {
+                    if(grid[--i][spy.getColumn()].getType().equals("Room"))
+                        break;
+                    if(grid[--i][spy.getColumn()].checkIsClear())
+                        continue;
                     grid[i][spy.getColumn()].deleteAgent();
+                    break;
                 }
                 break;
             case 1: // Shoots down
                 for (int i = (spy.getRow() + 1); i < boardSize; ++i) {
+                    if(grid[++i][spy.getColumn()].getType().equals("Room"))
+                        break;
+                    if(grid[++i][spy.getColumn()].checkIsClear())
+                        continue;
                     grid[i][spy.getColumn()].deleteAgent();
+                    break;
                 }
                 break;
             case 2: // Shoots right
                 for (int i = (spy.getColumn() + 1); i < boardSize; ++i) {
+                    if(grid[spy.getRow()][++i].getType().equals("Room"))
+                        break;
+                    if(grid[spy.getRow()][++i].checkIsClear())
+                        continue;
                     grid[spy.getRow()][i].deleteAgent();
+                    break;
                 }
                 break;
             case 3: // Shoots left
                 for (int i = (spy.getColumn() - 1); i >= 0; --i) {
+                    if(grid[spy.getRow()][--i].getType().equals("Room"))
+                        break;
+                    if(grid[spy.getRow()][--i].checkIsClear())
+                        continue;
                     grid[spy.getRow()][i].deleteAgent();
+                    break;
                 }
                 break;
         }
@@ -548,6 +569,27 @@ public class Board implements Serializable {
 
     public int getAmmo(){
     	return spy.getAmmo();
+    }
+
+    public Square getSpySquare(){
+        return spySquare;
+    }
+
+    public Square getCaseRoom(){
+        return caseRoom;
+    }
+    
+    public boolean checkCaseRoom(){
+    	return ((Room) (grid[spy.getRow() + 1][spy.getColumn()])).checkHasBriefcase();
+    }
+    
+    public void checkRadarEffect(){
+    	ActiveAgent player = spySquare.getAgent();
+        if (player.checkHasRadar()) {
+            for(int i = 0; i < rooms.length; ++i){
+            	grid[rooms[i][0]][rooms[i][1]].switchLights(true);
+            }
+        }
     }
 
 }

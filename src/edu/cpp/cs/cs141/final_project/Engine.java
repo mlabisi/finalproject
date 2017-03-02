@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodr�guez
+ * Professor: Edwin Rodriguez
  * <p>
  * Programming Assignment Final Project
  * <p>
@@ -110,10 +110,18 @@ public class Engine implements Serializable {
     }
     
     public int getPlayerAmmo(){
-    	return board.getAmmo();
+    	return gun.currentAmmo();
     }
     
     public int getLives(){
     	return lives;
+    }
+    
+    public boolean checkCaseRoom(){
+    	return board.checkCaseRoom();
+    }
+    
+    public void endGame(){
+    	win = true;
     }
 }

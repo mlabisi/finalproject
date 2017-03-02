@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodr�guez
+ * Professor: Edwin Rodriguez
  *
  * Final Project: Spy Game
  *
@@ -198,17 +198,17 @@ public class UI {
 			System.out.println("1. Move     |// Look around    |7. Access intel");
 			System.out.println("2. Shoot    |5. Save game      |0. Quit");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
-			System.out.println("Lives: " + game.getLives() + "     |Ammo: " + game.getPlayerAmmo());
+			System.out.println("Lives: " + game.getLives() + "    |Ammo: " + game.getPlayerAmmo());
 		}else if (looked) {
 			System.out.println("1. Move     |// Look around    |0. Quit");
 			System.out.println("2. Shoot    |5. Save game");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
-			System.out.println("Lives: " + game.getLives() + "     |Ammo: " + game.getPlayerAmmo());
+			System.out.println("Lives: " + game.getLives() + "    |Ammo: " + game.getPlayerAmmo());
 		}else {
 			System.out.println("// Move     |4. Look around    |0. Quit");
 			System.out.println("// Shoot    |5. Save game");
 			System.out.println("3. Help     |6. Debug mode: " + game.getDebug());
-			System.out.println("Lives: " + game.getLives() + "     |Ammo: " + game.getPlayerAmmo());
+			System.out.println("Lives: " + game.getLives() + "    |Ammo: " + game.getPlayerAmmo());
 		}
 		choice = sc.nextInt();
 		sc.nextLine();
@@ -271,8 +271,12 @@ public class UI {
 	}
 	
 	private void checkIntel() {
-	System.out.println("mlem");
-		
+		if(game.checkCaseRoom()){
+			System.out.println("Congratulations, you have found the briefcase!");
+			//game.endGame();
+		}else{
+			System.out.println("This room does not contain the briefcase you are looking for.");
+		}
 	}
 
 	private void saveGame() {

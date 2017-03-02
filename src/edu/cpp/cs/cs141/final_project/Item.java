@@ -50,7 +50,7 @@ public abstract class Item {
      *
      */
     public void togglePickedUp(){
-        obtained = !obtained;
+        obtained = true;
     }
 
 

@@ -116,4 +116,12 @@ public class Engine implements Serializable {
     public int getLives(){
     	return lives;
     }
+    
+    public boolean checkCaseRoom(){
+    	return board.checkCaseRoom();
+    }
+    
+    public void endGame(){
+    	win = true;
+    }
 }

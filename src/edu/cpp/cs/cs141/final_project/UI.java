@@ -271,6 +271,12 @@ public class UI {
 	}
 	
 	private void checkIntel() {
+		if(game.checkCaseRoom()){
+			System.out.println("Congratulations, you have found the briefcase!");
+			//game.endGame();
+		}else{
+			System.out.println("This room does not contain the briefcase you are looking for.");
+		}
 	}
 
 	private void saveGame() {

@@ -174,7 +174,6 @@ public class Board implements Serializable {
         spy = new ActiveAgent();
         spy.setRow(boardSize - 1);
         spy.setColumn(0);
-
         spySquare = grid[spy.getRow()][spy.getColumn()];
     }
 
@@ -201,6 +200,7 @@ public class Board implements Serializable {
      */
     public void insertBriefcase() {
         int roomNum = Engine.roll(rooms.length);
+        grid[rooms[roomNum][0]][rooms[roomNum][1]].hasBriefcase();
         caseRoom = grid[rooms[roomNum][0]][rooms[roomNum][1]];
         caseRoom.hasBriefcase();
         caseRoom.place(new Briefcase());
@@ -234,10 +234,6 @@ public class Board implements Serializable {
      * state.
      */
     public void printBoard() {
-        if (spy.checkHasRadar() && !checkedRadar) {
-            caseRoom.switchLights(true);
-        	checkedRadar = true;
-        }
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if(grid[i][j] == spySquare){
@@ -484,7 +480,52 @@ public class Board implements Serializable {
     }
 
     public void shoot(int direction) {
+    	int playerX = spy.getColumn();//0
+    	int playerY = spy.getRow(); //8 
         switch (direction) {
+            case 0: // Shoots Up
+                for (int i = playerY; i >= 0; i--) {
+                	if (grid[i][playerX].hasAgent() && !grid[i][playerX].getAgent().isPlayer()){
+                		grid[i][playerX].deleteAgent();
+                		break;
+                	}
+                	else if (grid[i][playerX].getType().compareToIgnoreCase("room") == 0)
+                		break;
+                }
+                break;
+            case 1: // Shoots down
+                for (int i = playerY; i < boardSize; i++) {
+                	if (grid[i][playerX].hasAgent() && !grid[i][playerX].getAgent().isPlayer()){
+                		grid[i][playerX].deleteAgent();
+                		break;
+                	}
+                	else if (grid[i][playerX].getType().compareToIgnoreCase("room") == 0)
+                		break;
+                }
+                break;
+            case 2: // Shoots right
+                for (int i = playerX; i < boardSize; i++) {
+                	if (grid[playerY][i].hasAgent() && !grid[playerY][i].getAgent().isPlayer()){
+                		grid[playerY][i].deleteAgent();
+                		break;
+                	}
+                	else if (grid[playerY][i].getType().compareToIgnoreCase("room") == 0)
+                		break;
+                }
+                break;
+            case 3: // Shoots left
+                for (int i = playerX; i >= 0; i--) {
+                	if (grid[playerY][i].hasAgent() && !grid[playerY][i].getAgent().isPlayer()){
+                		grid[playerY][i].deleteAgent();
+                		break;
+                	}
+                	else if (grid[playerY][i].getType().compareToIgnoreCase("room") == 0)
+                		break;
+                }
+                break;
+        }
+        //Mora's version
+        /*switch (direction) {
             case 0: // Shoots Up
                 for (int i = (spy.getRow() - 1); i >= 0; --i) {
                     if(grid[--i][spy.getColumn()].getType().equals("Room"))
@@ -525,7 +566,7 @@ public class Board implements Serializable {
                     break;
                 }
                 break;
-        }
+        }*/
         locateEnemies();
     }
 
@@ -581,6 +622,19 @@ public class Board implements Serializable {
 
     public Square getCaseRoom(){
         return caseRoom;
+    }
+    
+    public boolean checkCaseRoom(){
+    	return ((Room) (grid[spy.getRow() + 1][spy.getColumn()])).checkHasBriefcase();
+    }
+    
+    public void checkRadarEffect(){
+    	ActiveAgent player = spySquare.getAgent();
+        if (player.checkHasRadar()) {
+            for(int i = 0; i < rooms.length; ++i){
+            	grid[rooms[i][0]][rooms[i][1]].switchLights(true);
+            }
+        }
     }
 
 }

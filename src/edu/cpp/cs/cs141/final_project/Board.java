@@ -482,8 +482,56 @@ public class Board implements Serializable {
             moveAgent("ninjas", direction, i);
         }
     }
-
+    
     public void shoot(int direction) {
+    	int playerX = spy.getColumn();//0
+    	int playerY = spy.getRow(); //8 
+        switch (direction) {
+            case 0: // Shoots Up
+                for (int i = playerY; i >= 0; i--) {
+                	if (grid[i][playerX].hasAgent() && !grid[i][playerX].getAgent().isPlayer()){
+                		grid[i][playerX].deleteAgent();
+                		break;
+                	}
+                	else if (grid[i][playerX].getType().compareToIgnoreCase("room") == 0)
+                		break;
+                }
+                break;
+            case 1: // Shoots down
+                for (int i = playerY; i < boardSize; i++) {
+                	if (grid[i][playerX].hasAgent() && !grid[i][playerX].getAgent().isPlayer()){
+                		grid[i][playerX].deleteAgent();
+                		break;
+                	}
+                	else if (grid[i][playerX].getType().compareToIgnoreCase("room") == 0)
+                		break;
+                }
+                break;
+            case 2: // Shoots right
+                for (int i = playerX; i < boardSize; i++) {
+                	if (grid[playerY][i].hasAgent() && !grid[playerY][i].getAgent().isPlayer()){
+                		grid[playerY][i].deleteAgent();
+                		break;
+                	}
+                	else if (grid[playerY][i].getType().compareToIgnoreCase("room") == 0)
+                		break;
+                }
+                break;
+            case 3: // Shoots left
+                for (int i = playerX; i >= 0; i--) {
+                	if (grid[playerY][i].hasAgent() && !grid[playerY][i].getAgent().isPlayer()){
+                		grid[playerY][i].deleteAgent();
+                		break;
+                	}
+                	else if (grid[playerY][i].getType().compareToIgnoreCase("room") == 0)
+                		break;
+                }
+                break;
+        }
+        locateEnemies();
+    }
+    //Mora's shoot method
+    /*public void shoot(int direction) {
         switch (direction) {
             case 0: // Shoots Up
                 for (int i = (spy.getRow() - 1); i >= 0; --i) {
@@ -527,7 +575,7 @@ public class Board implements Serializable {
                 break;
         }
         locateEnemies();
-    }
+    }*/
 
     public boolean checkIfEntrance() {
         return grid[spy.getRow()][spy.getColumn()].checkEntry();

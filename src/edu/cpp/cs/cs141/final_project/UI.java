@@ -37,8 +37,7 @@ public class UI {
 	public void debugLoop() {
 		for (int i = 250 ; i > 0 ; i--) {
 			game.enemyTurn();
-			game.killNinja();
-			dialogueWait(1);
+			dialogueWait(2);
 			printLn();
 			game.printBoard();
 		}
@@ -47,7 +46,7 @@ public class UI {
 	public static void dialogueWait(int i) {
 		for ( ; i > 0 ; i--) {
 			try {
-				Thread.sleep(150);		//default 150
+				Thread.sleep(125);		//default 150
 			} catch (InterruptedException e) {
 			}
 		}
@@ -110,6 +109,7 @@ public class UI {
 
 	private void gameHelp(int section) {
 		printLn();
+		boolean end = false;
 		switch (section) {
 		case 1:
 			System.out.println("+---------------------------------GAME HELP---------------------------------+");
@@ -150,6 +150,7 @@ public class UI {
 			break;
 		case 4:
 			playerTurn(false);
+			end = true;
 			break;
 		default:
 			System.out.println("+---------------------------------GAME HELP---------------------------------+");
@@ -161,13 +162,15 @@ public class UI {
 			dialogueWait(2);
 			break;
 		}
+		if (!end) {
 		System.out.println("+---------------------------------------------------------------------------+");
 		dialogueWait(16);
-		if (section < 0)
-			section = sc.nextInt();
-		else 
-			gameHelp(-1);
-		gameHelp(section);
+			if (section < 0)
+				section = sc.nextInt();
+			else 
+				gameHelp(-1);
+			gameHelp(section);
+		}
 	}
 
 	private void loadGame() {
@@ -184,10 +187,43 @@ public class UI {
 			game.printBoard();
 			playerTurn(false);
 			dialogueWait(8);
+			int playerHP = checkPlayerHP();
 			game.enemyTurn();
+			checkPlayerHP(playerHP);
 		} while (game.getState() == false);
 	}
 
+	public int checkPlayerHP() {
+		return game.getLives();
+	}
+	
+	public void checkPlayerHP(int HP) {
+		if (game.getLives() < HP) {
+			if (game.getLives() != 0) {
+				System.out.println("You crawl back to the starting position to nurse your wounds, ");
+				System.out.println("and use up one of your health kits in the process!");
+			} else {
+				System.out.println("All out of health kits, you are unable to stop the bleeding from your fresh wound!");
+				dialogueWait(6);
+				System.out.println("You collapse into a pool of your own blood, your body going still as you bleed out...");
+				dialogueWait(6);
+				gameOver();
+			}
+			dialogueWait(8);
+		}
+	}
+	
+	public static void stab() {
+		System.out.println("Ow! Something stabbed you in the darkness!");
+		dialogueWait(8);
+	}
+	
+	public void gameOver() {
+		System.out.println("You died before finding the briefcase.");
+		dialogueWait(6);
+		System.out.println("Game Over");
+		game.quit();
+	}
 	/**
 	 * This method gives the player options to take on their turn.
 	 */

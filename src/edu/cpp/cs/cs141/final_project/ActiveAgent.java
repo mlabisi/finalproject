@@ -19,11 +19,11 @@ public class ActiveAgent {
 	private boolean isInvulnerable;
 	private boolean isPlayer;
 
-	/**
-     * The following integers represent the player's x and y coordinates
-     */
-    private int row;
-	private int column;
+//	/**
+//     * The following integers represent the player's x and y coordinates
+//     */
+//    private int row;
+//	private int column;
 
 	/**
 	 * This constructor takes no arguments and creates an enemy ninja assassin.
@@ -56,6 +56,10 @@ public class ActiveAgent {
 		}
 	}
 
+	public int getHP() {
+		return agentHealth;
+	}
+	
 	public boolean isPlayer() {
 		return isPlayer;
 	}
@@ -117,20 +121,20 @@ public class ActiveAgent {
 		return hasRadar;
 	}
 
-	public void setRow(int value){
-	    row = value;
-    }
+//	public void setRow(int value){
+//	    row = value;
+//  }
 
-    public void setColumn(int value){
-	    column = value;
-    }
+//    public void setColumn(int value){
+//	    column = value;
+//    }
 
-    public int getRow(){
-        return row;
-    }
+//    public int getRow(){
+//        return row;
+//    }
 
-    public int getColumn(){
-        return column;
-    }
+//    public int getColumn(){
+//        return column;
+//    }
 
 }

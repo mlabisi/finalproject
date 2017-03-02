@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin RodrÃ­guez
+ * Professor: Edwin Rodríguez
  *
  * Final Project: Spy Game
  *
@@ -31,6 +31,7 @@ public abstract class Square implements Serializable {
     public String getType() {
     	return squareType;
     }
+    public abstract boolean hasPlayer();
     
     public abstract void restrict();
     

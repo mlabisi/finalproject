@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin RodrÃ­guez
+ * Professor: Edwin Rodríguez
  *
  * Final Project: Spy Game
  *
@@ -69,9 +69,8 @@ public class Room extends Square implements Serializable {
 	public char getSymbol() {
 		if (!hasBriefcase)
 			return 63;
-		else if (hasBriefcase && super.lightsOn)
+		else if (hasBriefcase && lightsOn)
 			return ItemType.BRIEFCASE.toChar();
-
 		return 63;
 	}
 
@@ -136,6 +135,12 @@ public class Room extends Square implements Serializable {
 
 	@Override
 	public boolean checkEntry() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasPlayer() {
 		// TODO Auto-generated method stub
 		return false;
 	}

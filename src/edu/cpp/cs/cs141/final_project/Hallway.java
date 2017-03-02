@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin RodrÃ­guez
+ * Professor: Edwin Rodríguez
  *
  * Final Project: Spy Game
  *
@@ -82,10 +82,13 @@ public class Hallway extends Square implements Serializable {
     	return hasAgent;
     }
     
+    public boolean hasPlayer() {
+    	return hasPlayer;
+    }
+    
     @Override
     public void setType(String string) {
     	squareType = string;
-    	
     }
     
     @Override
@@ -148,11 +151,11 @@ public class Hallway extends Square implements Serializable {
 	public char getSymbol() {
 		if (hasPlayer) {
 			return 80;
-		}else if (hasAgent && super.lightsOn) {
+		}else if (hasAgent && lightsOn) {
 			return 78;
-		}else if (hasItem && !item.checkPickedUp() && super.lightsOn) {
+		}else if (hasItem && !item.checkPickedUp() && lightsOn) {
 			return symbol;
-		}else if (super.lightsOn) {
+		}else if (lightsOn) {
 			return 32;
 		}
 		return 42;
@@ -182,6 +185,8 @@ public class Hallway extends Square implements Serializable {
 	}
 
 	public Item getItem(){
-	    return item;
+		Item temp = item;
+		item = null;
+	    return temp;
     }
 }

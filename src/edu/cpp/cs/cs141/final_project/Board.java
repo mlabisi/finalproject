@@ -478,7 +478,7 @@ public class Board implements Serializable {
             moveAgent("ninjas", direction, i);
         }
     }
-
+    
     public void shoot(int direction) {
     	int playerX = spy.getColumn();//0
     	int playerY = spy.getRow(); //8 
@@ -524,8 +524,11 @@ public class Board implements Serializable {
                 }
                 break;
         }
-        //Mora's version
-        /*switch (direction) {
+        locateEnemies();
+    }
+    //Mora's shoot method
+    /*public void shoot(int direction) {
+        switch (direction) {
             case 0: // Shoots Up
                 for (int i = (spy.getRow() - 1); i >= 0; --i) {
                     if(grid[--i][spy.getColumn()].getType().equals("Room"))
@@ -566,9 +569,9 @@ public class Board implements Serializable {
                     break;
                 }
                 break;
-        }*/
+        }
         locateEnemies();
-    }
+    }*/
 
     public boolean checkIfEntrance() {
         return grid[spy.getRow()][spy.getColumn()].checkEntry();

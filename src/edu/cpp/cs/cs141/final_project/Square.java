@@ -23,7 +23,7 @@ import java.io.Serializable;
  * @author Logan Carichner
  */
 public abstract class Square implements Serializable {
-    protected boolean lightsOn = false;
+    private boolean lightsOn = false;
     protected String squareType;
 
     public abstract void setType(String string);

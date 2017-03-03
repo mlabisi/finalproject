@@ -36,7 +36,7 @@ public class UI {
 	public UI() {
 		sc = new Scanner(System.in);
 //		game = new Engine();		//debug
-		game = new Engine(9, 1);
+		game = new Engine(9);
 		mainMenu(true);
 //		debugLoop();		//debug
 	}
@@ -189,9 +189,9 @@ public class UI {
 			game.printBoard();
 			playerTurn(false);
 			dialogueWait(8);
-//			int playerHP = checkPlayerHP();
+			int playerHP = checkPlayerHP();
 			game.enemyTurn();
-//			checkPlayerHurt(playerHP);
+			checkPlayerHurt(playerHP);
 		} while (game.getState() == false);
 	}
 

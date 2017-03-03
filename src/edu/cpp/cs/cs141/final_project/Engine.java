@@ -27,11 +27,9 @@ import java.io.Serializable;
  */
 public class Engine implements Serializable {
     private Board board;
-    private Weapon gun;
     private boolean debug;
     private int turns;
     private int lives;
-//    private int enemies;
     private int boardSize;
     private boolean win = false;
 
@@ -39,15 +37,13 @@ public class Engine implements Serializable {
         boardSize = UI.getBoardSize();
         debug = UI.debugStart();
         board = new Board(boardSize, debug);
-        gun = new Weapon();
         turns = 0;
     }
     
-    public Engine(int i, int j) {
+    public Engine(int i) {
     	boardSize = i;
     	debug = false;
     	board = new Board(boardSize, debug);
-    	gun = new Weapon();
     }
 
     public void printBoard() {
@@ -75,10 +71,6 @@ public class Engine implements Serializable {
         board.toggleDebug();
         board.debugRooms();
     }
-
- //   public void killNinja() {
-//        board.killNinja();
-//   }
 
     public int getNumRooms() {
         return board.getNumRooms();

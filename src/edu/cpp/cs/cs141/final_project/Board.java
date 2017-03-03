@@ -206,11 +206,11 @@ public class Board implements Serializable {
 
 		halls.get(0).place(new ExtraBullet());
 		halls.get(1).place(new Invulnerability());
-		//halls.get(2).place(new Radar());
+		halls.get(2).place(new Radar());
 		//Places the Invulnerability next to the spy when starting game
 		//grid[player[0]][player[1] + 1].place (new Invulnerability()); 
 		//Place the Radar next to the spy when starting game
-		grid[player[0]][player[1] + 1].place(new Radar());
+		//grid[player[0]][player[1] + 1].place(new Radar());
 	}
 
 	/**

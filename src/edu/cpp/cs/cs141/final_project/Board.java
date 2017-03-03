@@ -206,9 +206,11 @@ public class Board implements Serializable {
 
 		halls.get(0).place(new ExtraBullet());
 		halls.get(1).place(new Invulnerability());
-		halls.get(2).place(new Radar());
+		//halls.get(2).place(new Radar());
 		//Places the Invulnerability next to the spy when starting game
 		//grid[player[0]][player[1] + 1].place (new Invulnerability()); 
+		//Place the Radar next to the spy when starting game
+		grid[player[0]][player[1] + 1].place(new Radar());
 	}
 
 	/**
@@ -216,6 +218,7 @@ public class Board implements Serializable {
 	 * state.
 	 */
 	public void printBoard() {
+		checkRadarEffect();
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				UI.printString("[" + grid[i][j].getSymbol() + "]");
@@ -265,6 +268,7 @@ public class Board implements Serializable {
 			for (int i = 0; i < grid.length; ++i)
 				for (int j = 0; j < grid[i].length; ++j)
 					grid[i][j].switchLights(false);
+		checkRadarEffect();
 	}
 
 	public void lookInDirection(int direction) {

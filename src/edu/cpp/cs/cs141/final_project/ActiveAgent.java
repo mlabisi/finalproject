@@ -122,31 +122,64 @@ public class ActiveAgent implements Serializable{
 	}
 
     /**
-     * This method will
+     * This method will change the value of hasRadar.
      *
-     * @param value
+     * @param value Boolean value to be assigned
      */
     public void toggleHasRadar(boolean value) {
 		hasRadar = value;
 	}
 
-	public boolean checkHasRadar() {
+    /**
+     * This method will check the value of hasRadar
+     *
+     * @return The value of hasRadar
+     */
+    public boolean checkHasRadar() {
 		return hasRadar;
 	}
-	
-	public void pickUpAmmo() {
+
+    /**
+     * This method will call the pickUpAmmo method on the gun
+     */
+    public void pickUpAmmo() {
 		gun.pickUpAmmo();
 	}
-	public void setInvul(int num){
+
+    /**
+     * This method will set the number that the counter will
+     * begin at for the Invulnerability power up.
+     *
+     * @param num The number to be assigned
+     */
+    public void setInvul(int num){
 		invulCount = num;
 	}
-	public void tickInvul(){
+
+    /**
+     * This method will run the counter for the Invulnerability
+     * power up.
+     */
+    public void tickInvul(){
 		invulCount -= 1;
 	}
-	public int getInvul(){
+
+    /**
+     * This method will tell the current value of the counter for
+     * the Invulnerability power up.
+     *
+     * @return The value of invulCount
+     */
+    public int getInvul(){
 		return invulCount;
 	}
-	public boolean checkHasInvul(){
+
+    /**
+     * This method will check the value of isInvulnerable.
+     *
+     * @return The value of isInvulnerable
+     */
+    public boolean checkHasInvul(){
 		return isInvulnerable;
 	}
 	

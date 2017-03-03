@@ -176,7 +176,8 @@ public class UI {
 			break;
 		case 3:
 			System.out.println("+---------------------------------GAME HELP---------------------------------+");
-			System.out.println("MAKE THIS");
+			System.out.println("|------------------------------WINNING THE GAME-----------------------------|");
+			System.out.println("|                 Find the room with the briefcase to win!                  |");
 			break;
 		case 4:
 			if (!started)

@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin RodrÃ­guez
  *
  * Final Project: Spy Game
  *
@@ -42,6 +42,7 @@ public class Hallway extends Square implements Serializable {
     	setType("Hallway");
     }
     
+
     /* (non-Javadoc)
      * @see edu.cpp.cs.cs141.final_project.Square#placeSpy()
      */

@@ -43,11 +43,9 @@ public class Engine implements Serializable {
         turns = 0;
     }
     
-    /**
-     * @param i
-     * @param j
-     */
-    public Engine(int i, int j) {
+
+
+    public Engine(int i) {
     	boardSize = i;
     	debug = false;
     	board = new Board(boardSize, debug);
@@ -72,6 +70,7 @@ public class Engine implements Serializable {
     /**
      * 
      */
+
     public void enemyTurn() {
         board.moveNinjas();
         turns++;
@@ -80,11 +79,13 @@ public class Engine implements Serializable {
     /**
      * @return
      */
+
     public String getDebug() {
         if (debug)
             return "ON";
         return "OFF";
     }
+
 
     /**
      * 
@@ -95,12 +96,14 @@ public class Engine implements Serializable {
         board.debugRooms();
     }
 
+
     /**
      * @return
      */
     public int getNumRooms() {
         return board.getNumRooms();
     }
+
 
     /**
      * @return
@@ -145,12 +148,14 @@ public class Engine implements Serializable {
         board.lookInDirection(direction);
     }
 
+
     /**
      * @return
      */
     public boolean checkGun(){
         return (board.getAmmo() == 1) ? true : false;
     }
+
 
     /**
      * @param direction
@@ -159,13 +164,14 @@ public class Engine implements Serializable {
         board.shoot(direction);
     }
     
+
     /**
      * @return
      */
     public int getPlayerAmmo(){
     	return board.getAmmo();
     }
-    
+
     /**
      * @return
      */
@@ -174,14 +180,14 @@ public class Engine implements Serializable {
     	lives = board.getPlayerLives();
     	return lives;
     }
-    
+
     /**
      * @return
      */
     public boolean checkCaseRoom(){
     	return board.checkCaseRoom();
     }
-    
+
     /**
      * 
      */

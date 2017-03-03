@@ -23,9 +23,7 @@ import java.util.Collections;
  *
  * @author Mora Labisi
  * @author Logan Carichner
- * @author Diana Choi
- * @author William Hang
- * @author Robert Delfin
+
  */
 public class Board implements Serializable {
 	/**
@@ -117,7 +115,6 @@ public class Board implements Serializable {
 	 * 3x3 square section of the grid
 	 */
 	public void makeRooms() {
-		// int roomsInBoard = getNumRooms();
 		for (int i = 1; i < grid.length; i++) {
 			for (int j = 1; j < grid[i].length; j++) {
 				if ((i + 2) % 3 == 0 && (j + 2) % 3 == 0) {
@@ -170,16 +167,7 @@ public class Board implements Serializable {
 		player[1] = 0;
 		grid[player[0]][player[1]].placeSpy();
 	}
-
-	// Mora's Insert Player
-	// private void insertPlayer() {
-	// spy = new ActiveAgent();
-	// spy.setRow(boardSize - 1);
-	// spy.setColumn(0);
-	// grid[player[0]][player[1]] = grid[spy.getRow()][spy.getColumn()];
-	// grid[spy.getRow()][spy.getColumn()].placeAgent(spy);
-	// }
-
+  
 	/**
 	 * This method places a number of ninja assassin objects into the grid based
 	 * on the size of the grid
@@ -206,9 +194,6 @@ public class Board implements Serializable {
 		grid[rooms[roomNum][0]][rooms[roomNum][1]].hasBriefcase();
 	}
 
-	/**
-	 * 
-	 */
 	private void insertItems() {
 		Collections.shuffle(halls);
 		ArrayList<Integer> remove = new ArrayList<>();
@@ -230,20 +215,13 @@ public class Board implements Serializable {
 	 * state.
 	 */
 	public void printBoard() {
+
 		checkRadarEffect();
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				UI.printString("[" + grid[i][j].getSymbol() + "]");
 			}
 			UI.printLn();
-		}
-
-		if (((Hallway) grid[player[0]][player[1]]).hasItem() && !checkedMsg) {
-			UI.printString((((Hallway) grid[player[0]][player[1]]).getItem().getType().getMessage()));
-			UI.printLn();
-			UI.printLn();
-			checkedMsg = true;
-		}
 	}
 
 	/**
@@ -289,9 +267,6 @@ public class Board implements Serializable {
 					grid[i][j].switchLights(false);
 	}
 
-	/**
-	 * @param direction
-	 */
 	public void lookInDirection(int direction) {
 		int Y = player[0];
 		int X = player[1];
@@ -425,9 +400,6 @@ public class Board implements Serializable {
 		getPowerUp();
 	}
 
-	/**
-	 * 
-	 */
 	public void locatePlayer() {
 		int i = 0;
 		int j = 0;
@@ -440,6 +412,7 @@ public class Board implements Serializable {
 			}
 		}
 	}
+
 	public void getPowerUp() {
 		int Y = player[0];
 		int X = player[1];
@@ -472,10 +445,6 @@ public class Board implements Serializable {
 		}
 	}
 
-	/**
-	 * @param ninja
-	 * @return
-	 */
 	public boolean tryStab(int ninja) {
 		boolean stabDue = false;
 		int Y = ninjas[ninja][0];
@@ -518,13 +487,11 @@ public class Board implements Serializable {
 	 */
 	public void stab() {
 		UI.stab();
+
 		grid[player[0]][player[1]].getAgent().takeDamage(1);
 		resetPlayerPos();
 	}
 
-	/**
-	 * 
-	 */
 	public void resetPlayerPos() {
 		ActiveAgent temp = grid[player[0]][player[1]].getAgent();
 		grid[player[0]][player[1]].deleteAgent();
@@ -533,24 +500,17 @@ public class Board implements Serializable {
 		grid[player[0]][player[1]].placeAgent(temp);
 	}
 
-	/**
-	 * 
-	 */
 	public void updateLives() {
 		int HP = ((Hallway) grid[player[0]][player[1]]).getAgentHealth();
 	}
 	
-	/**
-	 * @return
-	 */
+
 	public int getPlayerLives() {
 		locatePlayer();
 		return ((Hallway) grid[player[0]][player[1]]).getAgentHealth();
 	}
 
-	/**
-	 * @param direction
-	 */
+
 	public void shoot(int direction) {
 		int playerY = player[0]; 	// 8
 		int playerX = player[1];	// 0
@@ -596,9 +556,6 @@ public class Board implements Serializable {
 		locateEnemies();
 	}
 
-	/**
-	 * @return
-	 */
 	public boolean checkIfEntrance() {
 		return grid[player[0]][player[1]].checkEntry();
 	}
@@ -634,23 +591,17 @@ public class Board implements Serializable {
 		debug = !debug;
 	}
 
-	/**
-	 * @return
-	 */
+
 	public int getAmmo() {
 		return grid[player[0]][player[1]].getAgent().getAmmo();
 	}
 
-	/**
-	 * @return
-	 */
+
 	public boolean checkCaseRoom() {
 		return ((Room) (grid[player[0] + 1][player[1]])).checkHasBriefcase();
 	}
 
-	/**
-	 * 
-	 */
+
 	public void checkRadarEffect() {
 		if (grid[player[0]][player[1]].getAgent().checkHasRadar()) {
 			for (int i = 0; i < rooms.length; ++i) {

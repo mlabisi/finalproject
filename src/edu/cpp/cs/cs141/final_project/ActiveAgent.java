@@ -13,12 +13,6 @@ import java.io.Serializable;
  * Labisi
  */
 
-
-/**
- * 
- * @author Logan Carichner
- *
- */
 public class ActiveAgent implements Serializable{
 	private String agentName;
 	private int agentHealth;

@@ -429,8 +429,9 @@ public class Board implements Serializable {
 	public void getPowerUp() {
 		int Y = player[0];
 		int X = player[1];
-		if (((Hallway) grid[Y][X]).hasItem())
-			((PowerUp) ((Hallway) grid[Y][X]).getItem()).effect(grid[Y][X].getAgent());
+		Hallway hall = (Hallway)(grid[Y][X]);
+		if (hall.hasItem())
+			hall.useItem(hall.getItem());
 	}
 	
 	/**

@@ -431,7 +431,7 @@ public class Board implements Serializable {
 		int X = player[1];
 		Hallway hall = (Hallway)(grid[Y][X]);
 		if (hall.hasItem())
-			hall.useItem(hall.getItem());
+			hall.useItem();
 	}
 	
 	/**

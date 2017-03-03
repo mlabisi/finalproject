@@ -80,40 +80,54 @@ public class ActiveAgent implements Serializable{
 	}
 
 	/**
-	 * This method
+	 * This method will call the shoot method on the gun.
 	 */
 	public void shoot() {
 		gun.shoot();
 	}
 
-	public boolean isPlayer() {
+    /**
+     * This method will tell whether or not the active agent is a
+     * player.
+     *
+     * @return The value of isPlayer
+     */
+    public boolean isPlayer() {
 		return isPlayer;
 	}
 
 	/**
 	 * This method deals an amount of damage to the agent's HP.
 	 * 
-	 * @param x
-	 *            the amount of damage
+	 * @param x The amount of damage
 	 */
 	public void takeDamage(int x) {
 		agentHealth -= x;
 	}
 
 	/**
-	 * This method asks the agent where it wants to move.
+	 * This method asks the agent where it wants to move. It is
+     * used for the AI.
 	 */
 	public int agentMove() {
 		int direction = Engine.roll(4);
 		return direction;
 	}
 
-	public void toggleIsInvulnerable() {
+    /**
+     * This method toggles the value of isInvulnerable.
+     */
+    public void toggleIsInvulnerable() {
 		isInvulnerable = !isInvulnerable;
 	}
 
-	public void toggleHasRadar(boolean value) {
-		hasRadar = !hasRadar;
+    /**
+     * This method will
+     *
+     * @param value
+     */
+    public void toggleHasRadar(boolean value) {
+		hasRadar = value;
 	}
 
 	public boolean checkHasRadar() {

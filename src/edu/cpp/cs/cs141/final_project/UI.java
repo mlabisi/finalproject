@@ -26,6 +26,7 @@ public class UI {
 	 * This class is the UI for the game, it will create a new game engine instance and then tell the game to make the player.
 	 *
 	 * @author Logan Carichner
+	 * @author Robert Delfin
 	 */
 	private Engine game;
 	private Scanner sc;
@@ -41,6 +42,9 @@ public class UI {
 //		debugLoop();		//debug
 	}
 	
+	/**
+	 * 
+	 */
 	public void debugLoop() {
 		for (int i = 250 ; i > 0 ; i--) {
 			game.enemyTurn();
@@ -50,6 +54,10 @@ public class UI {
 		}
 	}
 	
+
+	/**
+	 * @param i
+	 */
 	public static void dialogueWait(int i) {
 		for ( ; i > 0 ; i--) {
 			try {
@@ -67,6 +75,10 @@ public class UI {
 		System.out.print(string);
 	}
 	
+
+	/**
+	 * 
+	 */
 	public static void printLn() {
 		System.out.println();
 	}
@@ -109,12 +121,20 @@ public class UI {
 		}
 	}
 	
+
+	/**
+	 * 
+	 */
 	private void newGame() {
 		System.out.println("The game begins...");
 		dialogueWait(10);
 		runGame();
 	}
 
+
+	/**
+	 * @param section
+	 */
 	private void gameHelp(int section) {
 		printLn();
 		boolean end = false;
@@ -227,6 +247,49 @@ public class UI {
 		game.quit();
 	}
 	/**
+	 * @return
+	 */
+	public int checkPlayerHP() {
+		return game.getLives();
+	}
+	
+	/**
+	 * @param HP
+	 */
+	public void checkPlayerHurt(int HP) {
+		if (game.getLives() < HP) {
+			if (game.getLives() != 0) {
+				System.out.println("You crawl back to the starting position to nurse your wounds, ");
+				System.out.println("and use up one of your health kits in the process!");
+			} else {
+				System.out.println("All out of health kits, you are unable to stop the bleeding from your fresh wound!");
+				dialogueWait(6);
+				System.out.println("You collapse into a pool of your own blood, your body going still as you bleed out...");
+				dialogueWait(6);
+				gameOver();
+			}
+			dialogueWait(8);
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public static void stab() {
+		System.out.println("Ow! Something stabbed you in the darkness!");
+		dialogueWait(8);
+	}
+	
+	/**
+	 * 
+	 */
+	public void gameOver() {
+		System.out.println("You died before finding the briefcase.");
+		dialogueWait(6);
+		System.out.println("Game Over");
+		game.quit();
+	}
+	/**
 	 * This method gives the player options to take on their turn.
 	 */
 	public void playerTurn(boolean looked) {
@@ -308,6 +371,9 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void checkIntel() {
 		if(game.checkCaseRoom()){
 			System.out.println("Congratulations, you have found the briefcase!");
@@ -316,12 +382,47 @@ public class UI {
 			System.out.println("This room does not contain the briefcase you are looking for.");
 		}
 	}
+	
+	/**
+	 * 
+	 */
 	private void saveGame() {
 		Scanner kb = new Scanner(System.in);
 		String Filename;
 		System.out.println("Type a name of the file you want to save add .ser at the end");
 		Filename = kb.nextLine();
 		System.out.println("-----Saving Game-----");
+		
+		try{
+			FileOutputStream outFile = new FileOutputStream(Filename);
+			ObjectOutputStream out = new ObjectOutputStream(outFile);
+			
+			out.writeObject(game);
+			
+			out.close();
+			outFile.close();
+			dialogueWait(8);
+			System.out.println();
+			System.out.println("-----Game State Saved-----");
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void loadGame() {
+		Scanner kb = new Scanner(System.in);
+		String Filename;
+		System.out.println("Type a name of the file you want to load add .ser at the end");
+		Filename = kb.nextLine();
+		System.out.println("-----Loading Game-----");
+		System.out.println("");
+		
+		try{
 		
 		try{
 			FileOutputStream outFile = new FileOutputStream(Filename);
@@ -371,6 +472,9 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void playerMove() {
 		System.out.println("Please choose a direction to move in.");
 		int choice = 0;
@@ -423,6 +527,9 @@ public class UI {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void playerShoot() {
 		System.out.println("Please choose a direction to shoot. ");
 		int choice = 0;
@@ -463,6 +570,9 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void playerLook() {
 		printLn();
 		dialogueWait(8);
@@ -501,6 +611,9 @@ public class UI {
 		game.enemyTurn();
 	}
 
+	/**
+	 * @return
+	 */
 	public static int getBoardSize() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Boardsize?");
@@ -508,6 +621,9 @@ public class UI {
 		return num;
 	}
 
+	/**
+	 * @return
+	 */
 	public static boolean debugStart() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Debug mode? 1 for yes. 0 for no.");
@@ -515,6 +631,9 @@ public class UI {
 		return (num == 0) ? false : true;
 	}
 
+	/**
+	 * @param exception
+	 */
 	public static void callException(String exception) {
 		switch (exception) {
 		case "Motion":
@@ -524,9 +643,10 @@ public class UI {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private static void exit() {
 		System.exit(0);		
 	}
-
-
 }

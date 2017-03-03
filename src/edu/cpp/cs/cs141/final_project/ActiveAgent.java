@@ -12,6 +12,7 @@ import java.io.Serializable;
  * Team Magic!~<3 Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora
  * Labisi
  */
+
 public class ActiveAgent implements Serializable{
 	private String agentName;
 	private int agentHealth;

@@ -14,7 +14,18 @@ import java.io.Serializable;
  */
 
 public class ActiveAgent implements Serializable{
+
+	/**
+	 * This is a {@code String} that holds the name of {@code this}
+	 * {@link ActiveAgent}.
+	 */
 	private String agentName;
+
+	/**
+	 * This is an {@code int} representation of {@code this}
+	 * {@link ActiveAgent}'s health. Ninjas have {@code 1} and
+	 * agents {@code 3}.
+	 */
 	private int agentHealth;
 	private boolean hasRadar;
 	private boolean isInvulnerable;
@@ -35,8 +46,7 @@ public class ActiveAgent implements Serializable{
 	/**
 	 * This constructor takes a string argument and creates a player character.
 	 * 
-	 * @param name
-	 *            the name of the character
+	 * @param name The name of the character
 	 */
 	public ActiveAgent(String name) {
 		agentName = name;
@@ -50,14 +60,28 @@ public class ActiveAgent implements Serializable{
 		}
 	}
 
+	/**
+	 * This method will return the agent's health
+	 *
+	 * @return The agent's health
+	 */
 	public int getHP() {
 		return agentHealth;
 	}
 
+	/**
+	 * This method will return the amount of ammo in the
+	 * agent's gun.
+	 *
+	 * @return The amount of ammo in the gun
+	 */
 	public int getAmmo() {
 		return gun.getAmmo();
 	}
 
+	/**
+	 * This method
+	 */
 	public void shoot() {
 		gun.shoot();
 	}

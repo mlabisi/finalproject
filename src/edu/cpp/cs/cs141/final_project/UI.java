@@ -30,6 +30,7 @@ public class UI {
 	 */
 	private Engine game;
 	private Scanner sc;
+	private boolean started = false;
 
 	/**
 	 * This constructor builds the UI and starts the game with the engine.
@@ -100,6 +101,7 @@ public class UI {
 		sc.nextLine();
 		switch (choice) {
 		case 1:
+			started = true;
 			newGame();
 			break;
 		case 2:
@@ -177,8 +179,11 @@ public class UI {
 			System.out.println("MAKE THIS");
 			break;
 		case 4:
-			playerTurn(false);
-			end = true;
+			if (!started)
+				mainMenu(false);
+			else 
+				playerTurn(false);
+			end = true;				
 			break;
 		default:
 			System.out.println("+---------------------------------GAME HELP---------------------------------+");
@@ -346,7 +351,7 @@ public class UI {
 	private void checkIntel() {
 		if(game.checkCaseRoom()){
 			System.out.println("Congratulations, you have found the briefcase!");
-			//game.endGame();
+			exit();
 		}else{
 			System.out.println("This room does not contain the briefcase you are looking for.");
 		}
@@ -516,7 +521,7 @@ public class UI {
 	 */
 	private void playerLook() {
 		printLn();
-		dialogueWait(2);
+		dialogueWait(8);
 		System.out.println("Please choose a direction to look in.");
 		int choice = 0;
 		System.out.println("1. Up    |3. Right");

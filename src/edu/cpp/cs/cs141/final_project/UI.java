@@ -516,7 +516,7 @@ public class UI {
 	 */
 	private void playerLook() {
 		printLn();
-		dialogueWait(8);
+		dialogueWait(2);
 		System.out.println("Please choose a direction to look in.");
 		int choice = 0;
 		System.out.println("1. Up    |3. Right");

@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin RodrÃ­guez
+ * Professor: Edwin Rodríguez
  *
  * Final Project: Spy Game
  *
@@ -23,7 +23,7 @@ import java.io.Serializable;
  * @author Logan Carichner
  */
 public abstract class Square implements Serializable {
-    protected boolean lightsOn = false;
+    private boolean lightsOn = false;
     protected String squareType;
 
     public abstract void setType(String string);
@@ -31,6 +31,7 @@ public abstract class Square implements Serializable {
     public String getType() {
     	return squareType;
     }
+    public abstract boolean hasPlayer();
     
     public abstract void restrict();
     
@@ -49,9 +50,9 @@ public abstract class Square implements Serializable {
     public void switchLights() {
     	lightsOn = !lightsOn;
     }
-    
+
     public void switchLights(boolean allLights){
-    	lightsOn = allLights;
+        lightsOn = allLights;
     }
 
     public abstract void place(Item item);

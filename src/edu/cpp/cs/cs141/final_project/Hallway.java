@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin RodrÃ­guez
+ * Professor: Edwin Rodríguez
  *
  * Final Project: Spy Game
  *
@@ -12,36 +12,102 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * This class is a {@link Square} that represents a
  * hallway in the game. The hallway can either be
  * clear or there can be ninjas present.
  *
  * @author Mora Labisi
+ * @author Logan Carichner
  */
-public class Hallway extends Square {
-    /**
-     * This {@code boolean} flag represents whether
-     * or not {@code this} {@link Hallway} is clear.
-     */
+public class Hallway extends Square implements Serializable {
     private boolean isClear;
-
-    /**
-     * This {@code boolean} flag will determine
-     * whether or not this hallway is the entrance
-     * to a {@link Room}. Entrances have the coordinates
-     * grid[i-1][j] if the room's coordinates are
-     * grid[i][j].
-     */
     private boolean isEntrance;
+    private boolean hasAgent;
+    private boolean hasPlayer;
+	private boolean hasItem;
+    private boolean restricted = false;
+    private ActiveAgent agent;
+    private Item item;
+    private char symbol;
 
     /**
      * This is the constructor for the hallway class.
      */
     public Hallway(){
-        super(SquareType.HALLWAY);
+    	isClear = true;
+    	isEntrance = false;
+    	setType("Hallway");
+    }
+    
+    /* (non-Javadoc)
+     * @see edu.cpp.cs.cs141.final_project.Square#placeSpy()
+     */
+    public void placeSpy() {
+    	agent = new ActiveAgent("player");
+    	isClear = false;
+    	hasAgent = true;
+    	hasPlayer = true;
     }
 
+    public void killAgent() {
+//    	agent.takeDamage(10);
+//    	agent = null;
+//    	hasAgent = false;
+    }
+
+	public boolean hasItem() {
+		return hasItem;
+	}
+
+	public void toggleHasItem() {
+		hasItem = !hasItem;
+	}
+
+    public void placeAgent() {
+    	agent = new ActiveAgent();
+    	isClear = false;
+    	hasAgent = true;
+    }
+    
+    public int getAgentHealth() {
+    	return agent.getHP();
+    }
+    public void placeAgent(ActiveAgent ninja) {
+    	agent = ninja;
+    	if (agent.isPlayer())
+    		hasPlayer = true;
+    	isClear = false;
+    	hasAgent = true;
+    }
+    
+    public boolean hasAgent() {
+    	return hasAgent;
+    }
+    
+    public boolean hasPlayer() {
+    	return hasPlayer;
+    }
+    
+    @Override
+    public void setType(String string) {
+    	squareType = string;
+    }
+    
+    @Override
+    public void isEntrance() {
+    	isEntrance = true;
+    }
+    
+    public boolean checkEntry() {
+    	return isEntrance;
+    }
+    
+    @Override
+    public void hasBriefcase(){
+    }
     /**
      * @return The value of {@link #isClear}
      */
@@ -49,65 +115,83 @@ public class Hallway extends Square {
         return isClear;
     }
 
-    /**
-     * This method will change {@link #isClear} depending
-     * on whether or not there is an enemy present.
-     *
-     * @param value The value to be assigned to {@link #isClear}
-     */
-    public void setIsClear(boolean value){
-
+/**
+ * This method changes the hallway's #isClear boolean to the opposite of its current value
+ */
+    public void clear() {
+    	isClear = !isClear;
     }
 
     /**
-     * @return The value of {@link #isEntrance}
+     * This method checks whether the hallway is considered an entrance
+     * @return the value of #isEntrance
      */
     public boolean checkIsEntrance(){
         return isEntrance;
     }
 
     /**
-     * This method will be used to tell whether or not
-     * a hallway is an entrance.
-     *
-     * @param value The value to be given to {@link #isEntrance}
+     * This method sets the hallway as an entrance.
      */
-    public void setIsEntrance(boolean value){
-
+    public void setEntrance() {
+    	isEntrance = true;
     }
 
-    /**
-     * This method will allow the placement a
-     * {@link PowerUp}.
-     *
-     * @param item The {@link PowerUp} object
-     */
-    @Override
-    public void place(Item item){
-        setIsClear(false);
-    }
+	@Override
+	public void place(Item item) {
+    	this.item = item;
+		symbol = item.getType().toChar();
+		hasItem = true;
+	}
 
+	public void useItem(Item item){
+		((PowerUp)item).effect(agent);
+		item = null;
+		hasItem = false;
+	}
 
-    /**
-     * This method will reveal whether or not {@code this} {@link Hallway}
-     * is clear after the {@link } looks.
-     *
-     * @return The appropriate message
-     */
-    @Override
-    public String reveal(){
-        return " ";
+	/**
+	 * This method overrides the abstract square's method, and returns the character to display
+	 * 
+	 */
+	@Override
+	public char getSymbol() {
+		if (hasPlayer) {
+			return 80;
+		}else if (hasAgent && super.lightsOn()) {
+			return 78;
+		}else if (hasItem && !item.checkPickedUp() && super.lightsOn()) {
+			return symbol;
+		}else if (super.lightsOn()) {
+			return 32;
+		}
+		return 42;
+	}
 
-    }
+	public void restrict() {
+		restricted = true;		
+	}
+	
+	public boolean isOffLimits() {
+		return restricted;
+	}
+	
+	public ActiveAgent getAgent() {
+		return agent;
+	}
+	
+	public void deleteAgent() {
+		agent = null;
+		isClear = true;
+		hasAgent = false;
+		hasPlayer = false;
+	}
+	
+	public int askANinja() {
+		return agent.agentMove();
+	}
 
-    /**
-     * This will return the letter representation of the user,
-     * the enemy, or an item.
-     *
-     * @return The appropriate letter
-     */
-    @Override
-    public String toString(){
-        return " ";
+	public Item getItem(){
+		return item;
     }
 }

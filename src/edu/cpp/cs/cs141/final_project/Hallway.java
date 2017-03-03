@@ -145,9 +145,9 @@ public class Hallway extends Square implements Serializable {
 		hasItem = true;
 	}
 
-	public void useItem(Item item){
+	public void useItem(){
 		((PowerUp)item).effect(agent);
-		this.item = null;
+		item = null;
 		hasItem = false;
 	}
 

@@ -15,6 +15,9 @@
  *   Mora Labisi
  */
 package edu.cpp.cs.cs141.final_project;
+
+import java.io.Serializable;
+
 /**
  * This class represents the power-up that grants the spy the ability
  * to see the room the briefcase is located in. It inherits the location
@@ -23,7 +26,7 @@ package edu.cpp.cs.cs141.final_project;
  * @author Diana Choi
  *
  */
-public class Radar extends PowerUp {
+public class Radar extends PowerUp implements Serializable{
 
     /**
      *

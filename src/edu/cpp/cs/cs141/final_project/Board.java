@@ -35,12 +35,10 @@ public class Board implements Serializable {
 	private int[][] ninjas;
 	private boolean debug;
 	private boolean init;
+	private int[] player;
 	private boolean checkedRadar = false;
 	private boolean checkedMsg = false;
-	private int[] player;
-	// private ActiveAgent spy;
 	private ArrayList<Hallway> halls;
-	// private Square grid[player[0]][player[1]];
 	private Square bulletSquare;
 	private Square invulSquare;
 	private Square radarSquare;
@@ -262,7 +260,7 @@ public class Board implements Serializable {
 		else
 			for (int i = 0; i < grid.length; i++) {
 				for (int j = 0; j < grid[i].length; j++) {
-					if (grid[i][j].hasAgent() && !grid[i][j].getAgent().isPlayer())
+					if (grid[i][j].hasAgent() && !grid[i][j].hasPlayer())
 						numEnemies++;
 				}
 			}
@@ -270,7 +268,7 @@ public class Board implements Serializable {
 		ninjas = new int[numEnemies][2];
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].hasAgent() && temp < ninjas.length) {
+				if (grid[i][j].hasAgent() && !grid[i][j].hasPlayer() && temp < ninjas.length) {
 					ninjas[temp][0] = i;
 					ninjas[temp][1] = j;
 					temp++;
@@ -350,8 +348,9 @@ public class Board implements Serializable {
 	 *         false.
 	 */
 	public boolean checkValidDirection(String agent, int direction, int ninja) {
-		int agentY = playerOrNinja(agent, ninja)[0];
-		int agentX = playerOrNinja(agent, ninja)[1];
+		int agentY = (agent.compareToIgnoreCase("player") == 0) ? player[0] : ninjas[ninja][0];
+		int agentX = (agent.compareToIgnoreCase("player") == 0) ? player[1] : ninjas[ninja][1];
+		
 		switch (direction) {
 		case 0: // Up
 			if (agentY - 1 < 0)
@@ -374,19 +373,19 @@ public class Board implements Serializable {
 		}
 	}
 
-	private int[] playerOrNinja(String agent, int ninja) {
-		int[] indices = new int[2];
-
-		if (agent.compareToIgnoreCase("ninjas") == 0) {
-			indices[0] = ninjas[ninja][0];
-			indices[1] = ninjas[ninja][1];
-		} else if (agent.compareToIgnoreCase("player") == 0) {
-			indices[0] = player[0];
-			indices[1] = player[1];
-		}
-		// UI.callException("agent");
-		return indices;
-	}
+//	private int[] playerOrNinja(String agent, int ninja) {
+//		int[] indices = new int[2];
+//
+//		if (agent.compareToIgnoreCase("ninjas") == 0) {
+//			indices[0] = ninjas[ninja][0];
+//			indices[1] = ninjas[ninja][1];
+//		} else if (agent.compareToIgnoreCase("player") == 0) {
+//			indices[0] = player[0];
+//			indices[1] = player[1];
+//		}
+//		// UI.callException("agent");
+//		return indices;
+//	}
 
 	/**
 	 * This method moves a single ninja to the location its AI has requested.
@@ -398,8 +397,8 @@ public class Board implements Serializable {
 	 *            ninja to move
 	 */
 	public void moveAgent(String agent, int direction, int ninja) {
-		int agentY = playerOrNinja(agent, ninja)[0];
-		int agentX = playerOrNinja(agent, ninja)[1];
+		int agentY = (agent.compareToIgnoreCase("player") == 0) ? player[0] : ninjas[ninja][0];
+		int agentX = (agent.compareToIgnoreCase("player") == 0) ? player[1] : ninjas[ninja][1];
 
 		ActiveAgent tempAgent = grid[agentY][agentX].getAgent();
 		// delete old agent AFTER the switch statement
@@ -440,6 +439,18 @@ public class Board implements Serializable {
 		getPowerUp();
 	}
 
+	public void locatePlayer() {
+		int i = 0;
+		int j = 0;
+		for ( ; i < grid.length; i++) {
+			for ( ; j < grid.length; j++) {
+				if (grid[i][j].hasPlayer()) {
+					player[0] = i;
+					player[1] = j;
+				}
+			}
+		}
+	}
 	public void getPowerUp() {
 		int Y = player[0];
 		int X = player[1];
@@ -459,7 +470,8 @@ public class Board implements Serializable {
 			do {
 				direction = grid[ninjas[i][0]][ninjas[i][1]].askANinja();
 				validDirection = checkValidDirection("ninjas", direction, i);
-				stabDue = tryStab(i, direction);					tries++;
+				stabDue = tryStab(i);			
+				tries++;
 			} while (!validDirection && tries < 10 && !stabDue);
 				
 			if (!stabDue && tries != 10)
@@ -470,7 +482,7 @@ public class Board implements Serializable {
 		}
 	}
 
-	public boolean tryStab(int ninja, int direction) {
+	public boolean tryStab(int ninja) {
 		boolean stabDue = false;
 		int Y = ninjas[ninja][0];
 		int X = ninjas[ninja][1];
@@ -501,6 +513,7 @@ public class Board implements Serializable {
 					stabDue = true;
 				break;
 			default:
+				break;
 			}
 		}
 		return stabDue;
@@ -508,6 +521,7 @@ public class Board implements Serializable {
 	
 	public void stab() {
 		grid[player[0]][player[1]].getAgent().takeDamage(1);
+		resetPlayerPos();
 	}
 
 	public void resetPlayerPos() {
@@ -518,13 +532,18 @@ public class Board implements Serializable {
 		grid[player[0]][player[1]].placeAgent(temp);
 	}
 
-	public int updateLives() {
-		return grid[player[0]][player[1]].getAgent().getHP();
+	public void updateLives() {
+		int HP = ((Hallway) grid[player[0]][player[1]]).getAgentHealth();
+	}
+	
+	public int getPlayerLives() {
+		locatePlayer();
+		return ((Hallway) grid[player[0]][player[1]]).getAgentHealth();
 	}
 
 	public void shoot(int direction) {
-		int playerY = player[0]; // 8
-		int playerX = player[1];// 0
+		int playerY = player[0]; 	// 8
+		int playerX = player[1];	// 0
 		switch (direction) {
 		case 0: // Shoots Up
 			for (int i = playerY; i >= 0; i--) {
@@ -566,39 +585,14 @@ public class Board implements Serializable {
 		locateEnemies();
 	}
 
-	// Mora's shoot method
-	/*
-	 * public void shoot(int direction) { switch (direction) { case 0: // Shoots
-	 * Up for (int i = (spy.getRow() - 1); i >= 0; --i) {
-	 * if(grid[--i][spy.getColumn()].getType().equals("Room")) break;
-	 * if(grid[--i][spy.getColumn()].checkIsClear()) continue;
-	 * grid[i][spy.getColumn()].deleteAgent(); break; } break; case 1: // Shoots
-	 * down for (int i = (spy.getRow() + 1); i < boardSize; ++i) {
-	 * if(grid[++i][spy.getColumn()].getType().equals("Room")) break;
-	 * if(grid[++i][spy.getColumn()].checkIsClear()) continue;
-	 * grid[i][spy.getColumn()].deleteAgent(); break; } break; case 2: // Shoots
-	 * right for (int i = (spy.getColumn() + 1); i < boardSize; ++i) {
-	 * if(grid[spy.getRow()][++i].getType().equals("Room")) break;
-	 * if(grid[spy.getRow()][++i].checkIsClear()) continue;
-	 * grid[spy.getRow()][i].deleteAgent(); break; } break; case 3: // Shoots
-	 * left for (int i = (spy.getColumn() - 1); i >= 0; --i) {
-	 * if(grid[spy.getRow()][--i].getType().equals("Room")) break;
-	 * if(grid[spy.getRow()][--i].checkIsClear()) continue;
-	 * grid[spy.getRow()][i].deleteAgent(); break; } break; } locateEnemies(); }
-	 */
-
 	public boolean checkIfEntrance() {
-		try {
-			return grid[player[0] + 1][player[1]].checkEntry();
-		} catch (ArrayIndexOutOfBoundsException e) {
-			return false;
-		}
+		return grid[player[0]][player[1]].checkEntry();
 	}
 
-	public void killNinja() {
-		grid[ninjas[1][0]][ninjas[1][1]].killAgent();
-		locateEnemies();
-	}
+//	public void killNinja() {
+//		grid[ninjas[1][0]][ninjas[1][1]].killAgent();
+//		locateEnemies();
+//	}
 
 	/**
 	 * This method sets the spaces closest to the player spawn point as off
@@ -631,10 +625,6 @@ public class Board implements Serializable {
 	public int getAmmo() {
 		return grid[player[0]][player[1]].getAgent().getAmmo();
 	}
-
-//	public Square getCaseRoom() {
-//		return caseRoom;
-//	}
 
 	public boolean checkCaseRoom() {
 		return ((Room) (grid[player[0] + 1][player[1]])).checkHasBriefcase();

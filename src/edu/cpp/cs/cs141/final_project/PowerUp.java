@@ -17,6 +17,7 @@
 
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
 
 /**
  * This class represents the abstract concept of a power-up the spy
@@ -27,7 +28,7 @@ package edu.cpp.cs.cs141.final_project;
  * @author Mora Labisi
  *
  */
-public abstract class PowerUp extends Item {
+public abstract class PowerUp extends Item implements Serializable{
 
 
     /**

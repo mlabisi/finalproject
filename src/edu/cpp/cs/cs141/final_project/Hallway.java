@@ -50,9 +50,9 @@ public class Hallway extends Square implements Serializable {
     }
 
     public void killAgent() {
-    	agent.takeDamage(10);
-    	agent = null;
-    	hasAgent = false;
+//    	agent.takeDamage(10);
+//    	agent = null;
+//    	hasAgent = false;
     }
 
 	public boolean hasItem() {
@@ -69,11 +69,13 @@ public class Hallway extends Square implements Serializable {
     	hasAgent = true;
     }
     
+    public int getAgentHealth() {
+    	return agent.getHP();
+    }
     public void placeAgent(ActiveAgent ninja) {
     	agent = ninja;
-    	if (agent.isPlayer()){
+    	if (agent.isPlayer())
     		hasPlayer = true;
-    	}
     	isClear = false;
     	hasAgent = true;
     }

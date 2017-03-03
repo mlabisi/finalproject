@@ -16,13 +16,15 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * This class represents the {@link Briefcase} {@link Item}.
  *
  * @author Mora Labisi
  *
  */
-public class Briefcase extends Item {
+public class Briefcase extends Item implements Serializable{
 
     /**
      *

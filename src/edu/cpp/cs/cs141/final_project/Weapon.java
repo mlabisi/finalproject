@@ -12,6 +12,8 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * This class represents the weapons in the game which includes the
  * attributes and behaviors of the weapons. The agent will have a pistol, 
@@ -19,42 +21,27 @@ package edu.cpp.cs.cs141.final_project;
  *
  * @author Mora Labisi
  */
-public class Weapon {
-	/**
-	 * This is the constructor for the weapon. 
-	 */
-	public Weapon(){
+public class Weapon implements Serializable{
+	private boolean hasAmmo;
+	private int ammo;
+	
+	public Weapon() {
+		hasAmmo = true;
+		ammo = 1;
 	}
 
-	/**
-	 * 	This represents whether or not the 
-	 * agent has ammo in the gun.
-	 */
-	private boolean hasAmmo = true;
-
-	/**
-	 *  This represents the maximum ammunition
-	 *  the agent can have
-	 */
-	private int maxAmmo = 1;
-
-	/**
-	 * This represents the action of the ninja-assassin
-	 * attacking the agent.
-	 */
-	public int stabAgent(int agentHealth){
-		return agentHealth;
+	public int getAmmo() {
+		return ammo;
 	}
-	public boolean checkAmmo(){
-		if(maxAmmo == 1){
-			maxAmmo--;
-			hasAmmo = false;
-		}
-		else
-			hasAmmo = true;
-		return hasAmmo;
+	
+	public void pickUpAmmo() {
+		ammo = 1;
+		hasAmmo = true;
 	}
-	public int currentAmmo(){
-		return maxAmmo;
+	
+	public void shoot() {
+		ammo = 0;
+		hasAmmo = false;
 	}
+	
 }

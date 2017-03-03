@@ -12,13 +12,15 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * This enum type will represent the specific type of items that
  * exist in the spy game.
  *
  * @author Mora Labisi
  */
-public enum ItemType {
+public enum ItemType implements Serializable{
     RADAR('R'),
     INVULNERABILITY('I'),
     EXTRA_BULLET('B'),

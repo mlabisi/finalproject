@@ -16,6 +16,8 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * This class represents the abstract concept of an item, which encompasses the
  * different power-ups the spy can obtain, as well as the briefcase, which is the
@@ -25,7 +27,7 @@ package edu.cpp.cs.cs141.final_project;
  * @author Mora Labisi
  *
  */
-public abstract class Item {
+public abstract class Item implements Serializable{
 
     /**
      *

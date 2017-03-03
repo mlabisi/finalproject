@@ -29,7 +29,8 @@ public class UI {
 	 */
 	public UI() {
 		sc = new Scanner(System.in);
-		game = new Engine();
+//		game = new Engine();		//debug
+		game = new Engine(9, 1);
 		mainMenu(true);
 //		debugLoop();		//debug
 	}
@@ -187,9 +188,9 @@ public class UI {
 			game.printBoard();
 			playerTurn(false);
 			dialogueWait(8);
-			int playerHP = checkPlayerHP();
+//			int playerHP = checkPlayerHP();
 			game.enemyTurn();
-			checkPlayerHP(playerHP);
+//			checkPlayerHurt(playerHP);
 		} while (game.getState() == false);
 	}
 
@@ -197,7 +198,7 @@ public class UI {
 		return game.getLives();
 	}
 	
-	public void checkPlayerHP(int HP) {
+	public void checkPlayerHurt(int HP) {
 		if (game.getLives() < HP) {
 			if (game.getLives() != 0) {
 				System.out.println("You crawl back to the starting position to nurse your wounds, ");

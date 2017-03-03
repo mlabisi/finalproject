@@ -31,7 +31,7 @@ public class Engine implements Serializable {
     private boolean debug;
     private int turns;
     private int lives;
-    private int enemies;
+//    private int enemies;
     private int boardSize;
     private boolean win = false;
 
@@ -41,6 +41,13 @@ public class Engine implements Serializable {
         board = new Board(boardSize, debug);
         gun = new Weapon();
         turns = 0;
+    }
+    
+    public Engine(int i, int j) {
+    	boardSize = i;
+    	debug = false;
+    	board = new Board(boardSize, debug);
+    	gun = new Weapon();
     }
 
     public void printBoard() {
@@ -69,9 +76,9 @@ public class Engine implements Serializable {
         board.debugRooms();
     }
 
-    public void killNinja() {
-        board.killNinja();
-    }
+ //   public void killNinja() {
+//        board.killNinja();
+//   }
 
     public int getNumRooms() {
         return board.getNumRooms();
@@ -102,7 +109,7 @@ public class Engine implements Serializable {
     }
 
     public boolean checkGun(){
-        return gun.checkAmmo();
+        return (board.getAmmo() == 1) ? true : false;
     }
 
     public void shootGun(int direction) {
@@ -110,11 +117,12 @@ public class Engine implements Serializable {
     }
     
     public int getPlayerAmmo(){
-    	return gun.currentAmmo();
+    	return board.getAmmo();
     }
     
     public int getLives(){
-    	lives = board.updateLives();
+//    	board.updateLives();
+    	lives = board.getPlayerLives();
     	return lives;
     }
     

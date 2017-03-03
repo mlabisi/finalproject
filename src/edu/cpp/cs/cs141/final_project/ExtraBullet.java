@@ -16,6 +16,8 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * This class represents the power-up that grants the spy an extra bullet to reload
  * the gun, if the gun magazine is empty. If the magazine is full, this power-up has
@@ -24,7 +26,8 @@ package edu.cpp.cs.cs141.final_project;
  * @author Diana Choi
  *
  */
-public class ExtraBullet extends PowerUp {
+
+public class ExtraBullet extends PowerUp implements Serializable{
 
     /**
      *
@@ -36,7 +39,7 @@ public class ExtraBullet extends PowerUp {
     @Override
     public void effect(ActiveAgent player) {
         if(player.getAmmo() < 1)
-            player.incAmmo();
+            player.pickUpAmmo();
         super.togglePickedUp();
     }
 

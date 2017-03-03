@@ -582,6 +582,7 @@ public class Board implements Serializable {
 			}
 			break;
 		}
+		grid[playerY][playerX].getAgent().shoot();
 		locateEnemies();
 	}
 

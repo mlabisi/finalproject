@@ -1,5 +1,11 @@
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 /**
@@ -89,6 +95,7 @@ public class UI {
 			break;
 		case 3:
 			loadGame();
+			runGame();
 			break;
 		case 4:
 			System.out.println("Goodbye!");
@@ -172,12 +179,6 @@ public class UI {
 				gameHelp(-1);
 			gameHelp(section);
 		}
-	}
-
-	private void loadGame() {
-		System.out.println("-----Load Game-----");
-		System.out.println("");
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -315,9 +316,59 @@ public class UI {
 			System.out.println("This room does not contain the briefcase you are looking for.");
 		}
 	}
-
 	private void saveGame() {
-		//TODO
+		Scanner kb = new Scanner(System.in);
+		String Filename;
+		System.out.println("Type a name of the file you want to save add .ser at the end");
+		Filename = kb.nextLine();
+		System.out.println("-----Saving Game-----");
+		
+		try{
+			FileOutputStream outFile = new FileOutputStream(Filename);
+			ObjectOutputStream out = new ObjectOutputStream(outFile);
+			
+			out.writeObject(game);
+			
+			out.close();
+			outFile.close();
+			dialogueWait(8);
+			System.out.println();
+			System.out.println("-----Game State Saved-----");
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void loadGame() {
+		Scanner kb = new Scanner(System.in);
+		String Filename;
+		System.out.println("Type a name of the file you want to load add .ser at the end");
+		Filename = kb.nextLine();
+		System.out.println("-----Loading Game-----");
+		System.out.println("");
+		
+		try{
+			System.out.println("Creating File input Stream");
+			
+			FileInputStream fileIn = new FileInputStream(Filename);
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			System.out.println("Loading Engine");
+			game =(Engine)in.readObject();
+			
+			in.close();
+			fileIn.close();
+			dialogueWait(8);
+			System.out.println("-----File Loaded-----");
+			
+		}catch(ClassNotFoundException e){
+		  e.printStackTrace();
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 	private void playerMove() {
@@ -381,25 +432,25 @@ public class UI {
 		sc.nextLine();
 		switch(choice){
 			case 1:
-				if(!game.checkGun())
+				if(game.checkGun())
 					game.shootGun(0);
 				else
 					System.out.println("You have no ammo!!");
 				break;
 			case 2:
-				if(!game.checkGun())
+				if(game.checkGun())
 					game.shootGun(1);
 				else
 					System.out.println("You have no ammo!");
 				break;
 			case 3:
-				if(!game.checkGun())
+				if(game.checkGun())
 					game.shootGun(2);
 				else
 					System.out.println("You have no ammo!");
 				break;
 			case 4:
-				if(!game.checkGun())
+				if(game.checkGun())
 					game.shootGun(3);
 				else
 					System.out.println("You have no ammo!");

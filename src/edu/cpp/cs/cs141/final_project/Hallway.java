@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin RodrÃ­guez
  *
  * Final Project: Spy Game
  *
@@ -42,6 +42,10 @@ public class Hallway extends Square implements Serializable {
     	setType("Hallway");
     }
     
+
+    /* (non-Javadoc)
+     * @see edu.cpp.cs.cs141.final_project.Square#placeSpy()
+     */
     public void placeSpy() {
     	agent = new ActiveAgent("player");
     	isClear = false;
@@ -143,6 +147,8 @@ public class Hallway extends Square implements Serializable {
 
 	public void useItem(Item item){
 		((PowerUp)item).effect(agent);
+		this.item = null;
+		hasItem = false;
 	}
 
 	/**
@@ -153,11 +159,11 @@ public class Hallway extends Square implements Serializable {
 	public char getSymbol() {
 		if (hasPlayer) {
 			return 80;
-		}else if (hasAgent && lightsOn) {
+		}else if (hasAgent && super.lightsOn()) {
 			return 78;
-		}else if (hasItem && !item.checkPickedUp() && lightsOn) {
+		}else if (hasItem && !item.checkPickedUp() && super.lightsOn()) {
 			return symbol;
-		}else if (lightsOn) {
+		}else if (super.lightsOn()) {
 			return 32;
 		}
 		return 42;
@@ -187,8 +193,6 @@ public class Hallway extends Square implements Serializable {
 	}
 
 	public Item getItem(){
-		Item temp = item;
-		item = null;
-	    return temp;
+		return item;
     }
 }

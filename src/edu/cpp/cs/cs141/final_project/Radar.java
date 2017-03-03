@@ -38,6 +38,7 @@ public class Radar extends PowerUp implements Serializable{
     @Override
     public void effect(ActiveAgent player) {
         super.togglePickedUp();
+        player.toggleHasRadar(true);
     }
 
 }

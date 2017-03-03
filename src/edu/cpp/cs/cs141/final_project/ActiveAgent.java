@@ -12,6 +12,7 @@ import java.io.Serializable;
  * Team Magic!~<3 Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora
  * Labisi
  */
+
 public class ActiveAgent implements Serializable{
 	private String agentName;
 	private int agentHealth;
@@ -19,6 +20,7 @@ public class ActiveAgent implements Serializable{
 	private boolean isInvulnerable;
 	private boolean isPlayer;
 	private Weapon gun;
+	private int invulCount;
 
 	/**
 	 * This constructor takes no arguments and creates an enemy ninja assassin.
@@ -42,7 +44,6 @@ public class ActiveAgent implements Serializable{
 		isInvulnerable = false;
 		hasRadar = false;
 		isPlayer = false;
-
 		if (agentName.compareToIgnoreCase("player") == 0) {
 			isPlayer = true;
 			gun = new Weapon();
@@ -98,4 +99,17 @@ public class ActiveAgent implements Serializable{
 	public void pickUpAmmo() {
 		gun.pickUpAmmo();
 	}
+	public void setInvul(int num){
+		invulCount = num;
+	}
+	public void tickInvul(){
+		invulCount -= 1;
+	}
+	public int getInvul(){
+		return invulCount;
+	}
+	public boolean checkHasInvul(){
+		return isInvulnerable;
+	}
+	
 }

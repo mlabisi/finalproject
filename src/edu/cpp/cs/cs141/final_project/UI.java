@@ -1,5 +1,6 @@
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,7 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
-import java.io.File;
+
 /**
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodriguez
@@ -26,9 +27,11 @@ public class UI {
 	 * This class is the UI for the game, it will create a new game engine instance and then tell the game to make the player.
 	 *
 	 * @author Logan Carichner
+	 * @author Robert Delfin
 	 */
 	private Engine game;
 	private Scanner sc;
+	private boolean started = false;
 
 	/**
 	 * This constructor builds the UI and starts the game with the engine.
@@ -36,11 +39,14 @@ public class UI {
 	public UI() {
 		sc = new Scanner(System.in);
 //		game = new Engine();		//debug
-		game = new Engine(9, 1);
+		game = new Engine(9);
 		mainMenu(true);
 //		debugLoop();		//debug
 	}
 	
+	/**
+	 * 
+	 */
 	public void debugLoop() {
 		for (int i = 250 ; i > 0 ; i--) {
 			game.enemyTurn();
@@ -50,6 +56,10 @@ public class UI {
 		}
 	}
 	
+
+	/**
+	 * @param i
+	 */
 	public static void dialogueWait(int i) {
 		for ( ; i > 0 ; i--) {
 			try {
@@ -67,6 +77,10 @@ public class UI {
 		System.out.print(string);
 	}
 	
+
+	/**
+	 * 
+	 */
 	public static void printLn() {
 		System.out.println();
 	}
@@ -88,6 +102,7 @@ public class UI {
 		sc.nextLine();
 		switch (choice) {
 		case 1:
+			started = true;
 			newGame();
 			break;
 		case 2:
@@ -109,12 +124,20 @@ public class UI {
 		}
 	}
 	
+
+	/**
+	 * 
+	 */
 	private void newGame() {
 		System.out.println("The game begins...");
 		dialogueWait(10);
 		runGame();
 	}
 
+
+	/**
+	 * @param section
+	 */
 	private void gameHelp(int section) {
 		printLn();
 		boolean end = false;
@@ -154,11 +177,15 @@ public class UI {
 			break;
 		case 3:
 			System.out.println("+---------------------------------GAME HELP---------------------------------+");
-			System.out.println("MAKE THIS");
+			System.out.println("|------------------------------WINNING THE GAME-----------------------------|");
+			System.out.println("|                 Find the room with the briefcase to win!                  |");
 			break;
 		case 4:
-			playerTurn(false);
-			end = true;
+			if (!started)
+				mainMenu(false);
+			else 
+				playerTurn(false);
+			end = true;				
 			break;
 		default:
 			System.out.println("+---------------------------------GAME HELP---------------------------------+");
@@ -189,16 +216,22 @@ public class UI {
 			game.printBoard();
 			playerTurn(false);
 			dialogueWait(8);
-//			int playerHP = checkPlayerHP();
+			int playerHP = checkPlayerHP();
 			game.enemyTurn();
-//			checkPlayerHurt(playerHP);
+			checkPlayerHurt(playerHP);
 		} while (game.getState() == false);
 	}
 
+	/**
+	 * @return
+	 */
 	public int checkPlayerHP() {
 		return game.getLives();
 	}
 	
+	/**
+	 * @param HP
+	 */
 	public void checkPlayerHurt(int HP) {
 		if (game.getLives() < HP) {
 			if (game.getLives() != 0) {
@@ -215,11 +248,17 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public static void stab() {
 		System.out.println("Ow! Something stabbed you in the darkness!");
 		dialogueWait(8);
 	}
 	
+	/**
+	 * 
+	 */
 	public void gameOver() {
 		System.out.println("You died before finding the briefcase.");
 		dialogueWait(6);
@@ -308,34 +347,40 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void checkIntel() {
 		if(game.checkCaseRoom()){
 			System.out.println("Congratulations, you have found the briefcase!");
-			//game.endGame();
+			exit();
 		}else{
 			System.out.println("This room does not contain the briefcase you are looking for.");
 		}
 	}
+	
 	/**
 	 * 
 	 */
 	private void saveGame() {
-		Scanner kb = new Scanner(System.in);
+		//Scanner kb = new Scanner(System.in);
 		String Filename;
 		System.out.println("Type a name of the file you want to save add .ser at the end");
-		Filename = kb.nextLine();
+		//Filename = kb.nextLine();
+		Filename = sc.nextLine();
 		File file = new File(Filename);
 		if(file.exists()){
-			String choice;
+			int save;
 			System.out.println("The file already exist do you want to overwrite save?");
-			System.out.println("Type yes or no");
-			choice = kb.nextLine();
-			if(choice == "yes"){			
-			}
-			else if(choice == "no"){
+			System.out.println("Type 1 for yes or Type 2 for no");
+			save = sc.nextInt();
+		    if(save == 2){
 				System.out.println("Type new file name add .ser at the end");
-				Filename = kb.nextLine();
+				Filename = sc.nextLine();
 			}
+		    else if(save == 1){
+		    	
+		    }
 		}
 		System.out.println("-----Saving Game-----");
 		
@@ -358,10 +403,11 @@ public class UI {
 	}
 	
 	private void loadGame() {
-		Scanner kb = new Scanner(System.in);
+		//Scanner kb = new Scanner(System.in);
 		String Filename;
 		System.out.println("Type a name of the file you want to load add .ser at the end");
-		Filename = kb.nextLine();
+		//Filename = kb.nextLine();
+		Filename = sc.nextLine();
 		File file = new File(Filename);
 		if(!file.exists()){
 			System.out.println("File Does Not Exist Try Again.");
@@ -394,6 +440,9 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void playerMove() {
 		System.out.println("Please choose a direction to move in.");
 		int choice = 0;
@@ -446,6 +495,9 @@ public class UI {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void playerShoot() {
 		System.out.println("Please choose a direction to shoot. ");
 		int choice = 0;
@@ -486,6 +538,9 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	private void playerLook() {
 		printLn();
 		dialogueWait(8);
@@ -524,6 +579,9 @@ public class UI {
 		game.enemyTurn();
 	}
 
+	/**
+	 * @return
+	 */
 	public static int getBoardSize() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Boardsize?");
@@ -531,6 +589,9 @@ public class UI {
 		return num;
 	}
 
+	/**
+	 * @return
+	 */
 	public static boolean debugStart() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Debug mode? 1 for yes. 0 for no.");
@@ -538,6 +599,9 @@ public class UI {
 		return (num == 0) ? false : true;
 	}
 
+	/**
+	 * @param exception
+	 */
 	public static void callException(String exception) {
 		switch (exception) {
 		case "Motion":
@@ -547,9 +611,10 @@ public class UI {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private static void exit() {
 		System.exit(0);		
 	}
-
-
 }

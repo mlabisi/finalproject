@@ -39,9 +39,6 @@ public class Board implements Serializable {
 	private boolean checkedRadar = false;
 	private boolean checkedMsg = false;
 	private ArrayList<Hallway> halls;
-	private Square bulletSquare;
-	private Square invulSquare;
-	private Square radarSquare;
 	private Square caseRoom;
 
 	final private int boardSize;
@@ -117,7 +114,6 @@ public class Board implements Serializable {
 	 * 3x3 square section of the grid
 	 */
 	public void makeRooms() {
-		// int roomsInBoard = getNumRooms();
 		for (int i = 1; i < grid.length; i++) {
 			for (int j = 1; j < grid[i].length; j++) {
 				if ((i + 2) % 3 == 0 && (j + 2) % 3 == 0) {
@@ -171,15 +167,6 @@ public class Board implements Serializable {
 		grid[player[0]][player[1]].placeSpy();
 	}
 
-	// Mora's Insert Player
-	// private void insertPlayer() {
-	// spy = new ActiveAgent();
-	// spy.setRow(boardSize - 1);
-	// spy.setColumn(0);
-	// grid[player[0]][player[1]] = grid[spy.getRow()][spy.getColumn()];
-	// grid[spy.getRow()][spy.getColumn()].placeAgent(spy);
-	// }
-
 	/**
 	 * This method places a number of ninja assassin objects into the grid based
 	 * on the size of the grid
@@ -204,9 +191,6 @@ public class Board implements Serializable {
 	public void insertBriefcase() {
 		int roomNum = Engine.roll(rooms.length);
 		grid[rooms[roomNum][0]][rooms[roomNum][1]].hasBriefcase();
-		caseRoom = grid[rooms[roomNum][0]][rooms[roomNum][1]];
-		caseRoom.hasBriefcase();
-		caseRoom.place(new Briefcase());
 	}
 
 	private void insertItems() {
@@ -220,13 +204,11 @@ public class Board implements Serializable {
 		for (Integer index : remove)
 			halls.remove(index);
 
-		bulletSquare = halls.get(0);
-		invulSquare = halls.get(1);
-		radarSquare = halls.get(2);
-
-		bulletSquare.place(new ExtraBullet());
-		invulSquare.place(new Invulnerability());
-		radarSquare.place(new Radar());
+		halls.get(0).place(new ExtraBullet());
+		halls.get(1).place(new Invulnerability());
+		halls.get(2).place(new Radar());
+		//Places the Invulnerability next to the spy when starting game
+		//grid[player[0]][player[1] + 1].place (new Invulnerability()); 
 	}
 
 	/**
@@ -239,13 +221,6 @@ public class Board implements Serializable {
 				UI.printString("[" + grid[i][j].getSymbol() + "]");
 			}
 			UI.printLn();
-		}
-
-		if (((Hallway) grid[player[0]][player[1]]).hasItem() && !checkedMsg) {
-			UI.printString((((Hallway) grid[player[0]][player[1]]).getItem().getType().getMessage()));
-			UI.printLn();
-			UI.printLn();
-			checkedMsg = true;
 		}
 	}
 
@@ -373,20 +348,6 @@ public class Board implements Serializable {
 		}
 	}
 
-//	private int[] playerOrNinja(String agent, int ninja) {
-//		int[] indices = new int[2];
-//
-//		if (agent.compareToIgnoreCase("ninjas") == 0) {
-//			indices[0] = ninjas[ninja][0];
-//			indices[1] = ninjas[ninja][1];
-//		} else if (agent.compareToIgnoreCase("player") == 0) {
-//			indices[0] = player[0];
-//			indices[1] = player[1];
-//		}
-//		// UI.callException("agent");
-//		return indices;
-//	}
-
 	/**
 	 * This method moves a single ninja to the location its AI has requested.
 	 *
@@ -437,8 +398,21 @@ public class Board implements Serializable {
 		// delete the old agent now that the movement has completed
 		grid[agentY][agentX].deleteAgent();
 		getPowerUp();
+		if ((agent.compareToIgnoreCase("player") == 0) && (grid[player[0]][player[1]].getAgent().checkHasInvul() == true))
+			checkInvulnerability();
 	}
-
+	public void checkInvulnerability(){
+		if(grid[player[0]][player[1]].getAgent().getInvul() > 0){
+			grid[player[0]][player[1]].getAgent().tickInvul();
+			//Checks how many invuls are left
+			//System.out.println(grid[player[0]][player[1]].getAgent().getInvul());
+		}
+		if(grid[player[0]][player[1]].getAgent().getInvul() == 0){
+			grid[player[0]][player[1]].getAgent().toggleIsInvulnerable();
+			UI.printString("Your invulnerability has worn out!");
+			UI.printLn();
+		}
+	}
 	public void locatePlayer() {
 		int i = 0;
 		int j = 0;
@@ -451,11 +425,13 @@ public class Board implements Serializable {
 			}
 		}
 	}
+	
 	public void getPowerUp() {
 		int Y = player[0];
 		int X = player[1];
-		if (((Hallway) grid[Y][X]).hasItem())
-			((PowerUp) ((Hallway) grid[Y][X]).getItem()).effect(grid[Y][X].getAgent());
+		Hallway hall = (Hallway)(grid[Y][X]);
+		if (hall.hasItem())
+			hall.useItem(hall.getItem());
 	}
 	
 	/**
@@ -520,8 +496,13 @@ public class Board implements Serializable {
 	}
 	
 	public void stab() {
-		grid[player[0]][player[1]].getAgent().takeDamage(1);
-		resetPlayerPos();
+		if(!(grid[player[0]][player[1]].getAgent().checkHasInvul())){
+			grid[player[0]][player[1]].getAgent().takeDamage(1);
+			resetPlayerPos();
+		}
+		if(grid[player[0]][player[1]].getAgent().checkHasInvul() == true)
+			UI.printString("Your invulnerability has protected you from a mortal stab!");
+			UI.printLn();
 	}
 
 	public void resetPlayerPos() {
@@ -590,11 +571,6 @@ public class Board implements Serializable {
 		return grid[player[0]][player[1]].checkEntry();
 	}
 
-//	public void killNinja() {
-//		grid[ninjas[1][0]][ninjas[1][1]].killAgent();
-//		locateEnemies();
-//	}
-
 	/**
 	 * This method sets the spaces closest to the player spawn point as off
 	 * limits to enemy placement
@@ -632,11 +608,11 @@ public class Board implements Serializable {
 	}
 
 	public void checkRadarEffect() {
-		// ActiveAgent player = grid[player[0]][player[1]].getAgent();
 		if (grid[player[0]][player[1]].getAgent().checkHasRadar()) {
 			for (int i = 0; i < rooms.length; ++i) {
 				grid[rooms[i][0]][rooms[i][1]].switchLights(true);
 			}
 		}
 	}
+	
 }

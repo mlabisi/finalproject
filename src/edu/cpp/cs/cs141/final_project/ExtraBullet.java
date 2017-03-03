@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodr�guez
+ * Professor: Edwin Rodriguez
  *
  * Programming Assignment #4
  *
@@ -16,30 +16,31 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * This class represents the power-up that grants the spy an extra bullet to reload
  * the gun, if the gun magazine is empty. If the magazine is full, this power-up has
  * no effect.
- * 
+ *
  * @author Diana Choi
  *
  */
-public class ExtraBullet extends PowerUp{
-	
-	/**
-	 * @param row
-	 * @param col
-	 */
-	public ExtraBullet(int row, int col) {
-		super(row, col);
-	}
 
-	/* (non-Javadoc)
-	 * @see edu.cpp.cs.cs141.final_project.edu.cpp.cs.cs141.final_project.PowerUp#effect()
-	 */
-	@Override
-	public void effect() {
-		Engine.getPlayer().getWeapon().reload();
-	}
+public class ExtraBullet extends PowerUp implements Serializable{
+
+    /**
+     *
+     */
+    public ExtraBullet() {
+        super(ItemType.EXTRA_BULLET);
+    }
+
+    @Override
+    public void effect(ActiveAgent player) {
+        if(player.getAmmo() < 1)
+            player.pickUpAmmo();
+        super.togglePickedUp();
+    }
 
 }

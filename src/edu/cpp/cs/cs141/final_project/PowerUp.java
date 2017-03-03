@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodr�guez
+ * Professor: Edwin Rodriguez
  *
  * Programming Assignment #4
  *
@@ -14,29 +14,36 @@
  *   Robert Delfin
  *   Mora Labisi
  */
+
 package edu.cpp.cs.cs141.final_project;
+
+import java.io.Serializable;
 
 /**
  * This class represents the abstract concept of a power-up the spy
  * can obtain during the game, and includes the location, inherited
  * by the superclass edu.cpp.cs.cs141.final_project.Item, and a method for each type's effect.
- * 
+ *
  * @author Diana Choi
+ * @author Mora Labisi
  *
  */
-public abstract class PowerUp extends Item{
+public abstract class PowerUp extends Item implements Serializable{
 
-	/**
-	 * @param row
-	 * @param col
-	 */
-	public PowerUp(int row, int col) {
-		super(row, col);
-	}
-	
-	/**
-	 * 
-	 */
-	public abstract void effect();
+
+    /**
+     * @param row
+     * @param col
+     */
+    public PowerUp(ItemType type) {
+        super(type);
+    }
+
+    /**
+     *
+     */
+    public abstract void effect(ActiveAgent player);
+
+
 
 }

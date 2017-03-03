@@ -1,7 +1,6 @@
-package edu.cpp.cs.cs141.final_project;
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodr�guez
+ * Professor: Edwin Rodriguez
  *
  * Programming Assignment #4
  *
@@ -15,22 +14,23 @@ package edu.cpp.cs.cs141.final_project;
  *   Robert Delfin
  *   Mora Labisi
  */
+package edu.cpp.cs.cs141.final_project;
+
+import java.io.Serializable;
 
 /**
- * This class represents the edu.cpp.cs.cs141.final_project.Briefcase edu.cpp.cs.cs141.final_project.Item, which simply inherits its location
- * from its superclass edu.cpp.cs.cs141.final_project.Item.
- * 
- * @author Diana Choi
+ * This class represents the {@link Briefcase} {@link Item}.
+ *
+ * @author Mora Labisi
  *
  */
-public class Briefcase extends Item{
+public class Briefcase extends Item implements Serializable{
 
-	/**
-	 * @param row
-	 * @param col
-	 */
-	public Briefcase(int row, int col) {
-		super(row, col);
-	}
+    /**
+     *
+     */
+    public Briefcase() {
+        super(ItemType.BRIEFCASE);
+    }
 
 }

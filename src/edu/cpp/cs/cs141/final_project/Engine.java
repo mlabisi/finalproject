@@ -1,63 +1,136 @@
-package edu.cpp.cs.cs141.final_project;
-
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodr�guez
- *
+ * Professor: Edwin Rodriguez
+ * <p>
  * Programming Assignment Final Project
- *
+ * <p>
  * To make a game that has a spy that has
  * to find a briefcase in a building full
  * of ninjas.
- *
+ * <p>
  * Team Magic!~<3
- *   Robert Delfin
- *   William Hang
- *   Diana Choi
- *   Logan Carichner
- *   Mora Labisi
+ * Robert Delfin
+ * William Hang
+ * Diana Choi
+ * Logan Carichner
+ * Mora Labisi
  */
+
+package edu.cpp.cs.cs141.final_project;
+
+import java.io.Serializable;
 
 /**
  * @author Robert Delfin
+ * @author Logan Carichner
  *
  */
-public class Engine {
-	private int turns;
-	private int lives;
-	private int enemies;
-	private int ammo;
-	private boolean end;
-	
-	/**
-	 * This method loops the game until
-	 * the victory condition is set and 
-	 * the player wins.
-	 */
-	public void LoopGame(){
-		
-	}
-	
-	/**
-	 * This method increase the amount
-	 * of turns and tracks the amount.
-	 * @return the turn count.
-	 */
-	public int addTurn(){
-	   return 0;	
-	}
-	public void countEnemy(){
-		
-	}
-	
-	/**
-	 * This method changes the game to the
-	 * victory condition.
-	 * @return the statement to end the game.
-	 */
-	public boolean endGame(){
-		return false;
-	}
-	
+public class Engine implements Serializable {
+    private Board board;
+    private Weapon gun;
+    private boolean debug;
+    private int turns;
+    private int lives;
+//    private int enemies;
+    private int boardSize;
+    private boolean win = false;
 
+    public Engine() {
+        boardSize = UI.getBoardSize();
+        debug = UI.debugStart();
+        board = new Board(boardSize, debug);
+        gun = new Weapon();
+        turns = 0;
+    }
+    
+    public Engine(int i, int j) {
+    	boardSize = i;
+    	debug = false;
+    	board = new Board(boardSize, debug);
+    	gun = new Weapon();
+    }
+
+    public void printBoard() {
+        board.printBoard();
+    }
+
+    public static int roll(int num) {
+        int generated = (int) Math.floor(Math.random() * (num));
+        return generated;
+    }
+
+    public void enemyTurn() {
+        board.moveNinjas();
+        turns++;
+    }
+
+    public String getDebug() {
+        if (debug)
+            return "ON";
+        return "OFF";
+    }
+
+    public void toggleDebug() {
+        debug = !debug;
+        board.toggleDebug();
+        board.debugRooms();
+    }
+
+ //   public void killNinja() {
+//        board.killNinja();
+//   }
+
+    public int getNumRooms() {
+        return board.getNumRooms();
+    }
+
+    public boolean getState() {
+        return win;
+    }
+
+    public void quit() {
+        System.exit(0);
+    }
+
+    public boolean checkPlayerMove(int direction) {
+        return board.checkValidDirection("player", direction, 0);
+    }
+
+    public void movePlayer(int direction) {
+        board.moveAgent("player", direction, 0);
+    }
+
+    public boolean checkEntrance() {
+        return board.checkIfEntrance();
+    }
+
+    public void lookInDir(int direction) {
+        board.lookInDirection(direction);
+    }
+
+    public boolean checkGun(){
+        return (board.getAmmo() == 1) ? true : false;
+    }
+
+    public void shootGun(int direction) {
+        board.shoot(direction);
+    }
+    
+    public int getPlayerAmmo(){
+    	return board.getAmmo();
+    }
+    
+    public int getLives(){
+//    	board.updateLives();
+    	lives = board.getPlayerLives();
+    	return lives;
+    }
+    
+    public boolean checkCaseRoom(){
+    	return board.checkCaseRoom();
+    }
+    
+    public void winGame(){
+    	win = true;
+    }
 }

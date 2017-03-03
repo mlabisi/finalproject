@@ -215,37 +215,6 @@ public class UI {
 		} while (game.getState() == false);
 	}
 
-	public int checkPlayerHP() {
-		return game.getLives();
-	}
-	
-	public void checkPlayerHurt(int HP) {
-		if (game.getLives() < HP) {
-			if (game.getLives() != 0) {
-				System.out.println("You crawl back to the starting position to nurse your wounds, ");
-				System.out.println("and use up one of your health kits in the process!");
-			} else {
-				System.out.println("All out of health kits, you are unable to stop the bleeding from your fresh wound!");
-				dialogueWait(6);
-				System.out.println("You collapse into a pool of your own blood, your body going still as you bleed out...");
-				dialogueWait(6);
-				gameOver();
-			}
-			dialogueWait(8);
-		}
-	}
-	
-	public static void stab() {
-		System.out.println("Ow! Something stabbed you in the darkness!");
-		dialogueWait(8);
-	}
-	
-	public void gameOver() {
-		System.out.println("You died before finding the briefcase.");
-		dialogueWait(6);
-		System.out.println("Game Over");
-		game.quit();
-	}
 	/**
 	 * @return
 	 */
@@ -414,34 +383,6 @@ public class UI {
 	/**
 	 * 
 	 */
-	private void loadGame() {
-		Scanner kb = new Scanner(System.in);
-		String Filename;
-		System.out.println("Type a name of the file you want to load add .ser at the end");
-		Filename = kb.nextLine();
-		System.out.println("-----Loading Game-----");
-		System.out.println("");
-		
-		try{
-		
-		try{
-			FileOutputStream outFile = new FileOutputStream(Filename);
-			ObjectOutputStream out = new ObjectOutputStream(outFile);
-			
-			out.writeObject(game);
-			
-			out.close();
-			outFile.close();
-			dialogueWait(8);
-			System.out.println();
-			System.out.println("-----Game State Saved-----");
-		}catch(FileNotFoundException e){
-			e.printStackTrace();
-		}catch (IOException e){
-			e.printStackTrace();
-		}
-	}
-	
 	private void loadGame() {
 		Scanner kb = new Scanner(System.in);
 		String Filename;

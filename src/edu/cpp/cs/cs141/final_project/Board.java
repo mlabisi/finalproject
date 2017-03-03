@@ -222,6 +222,7 @@ public class Board implements Serializable {
 				UI.printString("[" + grid[i][j].getSymbol() + "]");
 			}
 			UI.printLn();
+		}
 	}
 
 	/**

@@ -31,12 +31,11 @@ public class Room extends Square implements Serializable {
 		setType("Room");
 	}
 
-	public Room(boolean briefcase) {
-		setType("Room");
-		hasBriefcase = briefcase;
-	}
 
-	public void hasBriefcase() {
+    /**
+     * Sets hasBriefcase to true.
+     */
+    public void hasBriefcase() {
 		hasBriefcase = true;
 	}
 
@@ -65,7 +64,10 @@ public class Room extends Square implements Serializable {
 	public void isEntrance() {
 	}
 
-	@Override
+    /**
+     * This method overrides the abstract square's method, and returns the character to display.
+     */
+    @Override
 	public char getSymbol() {
 		if (!hasBriefcase)
 			return 63;
@@ -111,12 +113,6 @@ public class Room extends Square implements Serializable {
 
 	@Override
 	public void placeAgent() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void killAgent() {
 		// TODO Auto-generated method stub
 		
 	}

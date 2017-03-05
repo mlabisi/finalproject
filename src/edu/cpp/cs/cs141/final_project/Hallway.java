@@ -46,6 +46,7 @@ public class Hallway extends Square implements Serializable {
     /**
      * This method will place the player on this square.
      */
+    @Override
     public void placeSpy() {
         agent = new ActiveAgent("player");
         isClear = false;
@@ -73,6 +74,7 @@ public class Hallway extends Square implements Serializable {
     /**
      * This method will initialize agent and place it on this square.
      */
+    @Override
     public void placeAgent() {
         agent = new ActiveAgent();
         isClear = false;
@@ -93,6 +95,7 @@ public class Hallway extends Square implements Serializable {
      *
      * @param ninja The agent to be placed
      */
+    @Override
     public void placeAgent(ActiveAgent ninja) {
         agent = ninja;
         if (agent.isPlayer())
@@ -104,6 +107,7 @@ public class Hallway extends Square implements Serializable {
     /**
      * @return The value of hasAgent
      */
+    @Override
     public boolean hasAgent() {
         return hasAgent;
     }
@@ -111,6 +115,7 @@ public class Hallway extends Square implements Serializable {
     /**
      * @return The value of hasPlayer
      */
+    @Override
     public boolean hasPlayer() {
         return hasPlayer;
     }
@@ -134,6 +139,7 @@ public class Hallway extends Square implements Serializable {
     /**
      * @return The value of isEntrance.
      */
+    @Override
     public boolean checkEntry() {
         return isEntrance;
     }
@@ -148,6 +154,7 @@ public class Hallway extends Square implements Serializable {
     /**
      * @return The value of {@link #isClear}
      */
+    @Override
     public boolean checkIsClear() {
         return isClear;
     }
@@ -215,6 +222,7 @@ public class Hallway extends Square implements Serializable {
      * This method is used to restrict the hallways within 3 squares of the
      * player's initial position.
      */
+    @Override
     public void restrict() {
         restricted = true;
     }
@@ -222,6 +230,7 @@ public class Hallway extends Square implements Serializable {
     /**
      * @return The value of restricted
      */
+    @Override
     public boolean isOffLimits() {
         return restricted;
     }
@@ -229,6 +238,7 @@ public class Hallway extends Square implements Serializable {
     /**
      * @return The active agent
      */
+    @Override
     public ActiveAgent getAgent() {
         return agent;
     }
@@ -236,6 +246,7 @@ public class Hallway extends Square implements Serializable {
     /**
      * This method is called when a ninja has been shot.
      */
+    @Override
     public void deleteAgent() {
         agent = null;
         isClear = true;
@@ -246,7 +257,15 @@ public class Hallway extends Square implements Serializable {
     /**
      * @return The direction the ninja will move
      */
+    @Override
     public int askANinja() {
         return agent.agentMove();
+    }
+
+    /**
+     * @return The item
+     */
+    public Item getItem() {
+        return item;
     }
 }

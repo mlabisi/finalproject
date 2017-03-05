@@ -32,15 +32,14 @@ public abstract class PowerUp extends Item implements Serializable{
 
 
     /**
-     * @param row
-     * @param col
+     * This constructor will create a PowerUp with the appropriate ItemType.
      */
     public PowerUp(ItemType type) {
         super(type);
     }
 
     /**
-     *
+     * This method describes the power up's effect.
      */
     public abstract void effect(ActiveAgent player);
 

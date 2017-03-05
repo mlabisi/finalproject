@@ -29,12 +29,18 @@ import java.io.Serializable;
 public class Radar extends PowerUp implements Serializable{
 
     /**
-     *
+     * This constructor will create a PowerUp with the enum type appropriate
+     * for a radar.
      */
     public Radar() {
         super(ItemType.RADAR);
     }
 
+    /**
+     * This method describes the power up's effect.
+     *
+     * @param player
+     */
     @Override
     public void effect(ActiveAgent player) {
         super.togglePickedUp();

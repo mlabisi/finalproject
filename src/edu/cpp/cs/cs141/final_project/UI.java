@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodriguez
+ * Professor: Edwin Rodríguez
  *
  * Final Project: Spy Game
  *

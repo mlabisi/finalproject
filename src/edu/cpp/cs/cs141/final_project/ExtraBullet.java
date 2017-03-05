@@ -1,18 +1,14 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodr&iacute;guez
+ * Professor: Edwin Rodríguez
  *
- * Programming Assignment #4
+ * Final Project: Spy Game
  *
- * A simple text-based spy game in which the spy, controlled by the player, tries to find
- * the briefcase before the ninja-assassins find and kill the spy.
+ * Create a small, yet interesting, text-based game involving a spy
+ * and ninjas.
  *
  * Team Magic!~<3
- *   Diana Choi
- *   Logan Carichner
- *   William Hang
- *   Robert Delfin
- *   Mora Labisi
+ * Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora Labisi
  */
 package edu.cpp.cs.cs141.final_project;
 

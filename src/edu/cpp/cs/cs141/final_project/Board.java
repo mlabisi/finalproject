@@ -1,12 +1,12 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodriguez
- * <p>
+ * Professor: Edwin Rodríguez
+ *
  * Final Project: Spy Game
- * <p>
+ *
  * Create a small, yet interesting, text-based game involving a spy
  * and ninjas.
- * <p>
+ *
  * Team Magic!~<3
  * Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora Labisi
  */

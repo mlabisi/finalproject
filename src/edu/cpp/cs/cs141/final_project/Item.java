@@ -29,19 +29,11 @@ import java.io.Serializable;
  */
 public abstract class Item implements Serializable{
 
-    /**
-     *
-     */
     final private ItemType TYPE;
-
-
-    /**
-     *
-     */
     private boolean obtained;
 
     /**
-     *
+     * This constructor will initialize the item.
      */
     public Item(ItemType type) {
         this.TYPE = type;
@@ -49,7 +41,7 @@ public abstract class Item implements Serializable{
     }
 
     /**
-     *
+     * This method will set obtained to true.
      */
     public void togglePickedUp(){
         obtained = true;
@@ -57,12 +49,15 @@ public abstract class Item implements Serializable{
 
 
     /**
-     * @return
+     * @return The value of obtained
      */
     public boolean checkPickedUp(){
         return obtained;
     }
 
+    /**
+     * @return The ItemType
+     */
     public ItemType getType(){
         return TYPE;
     }

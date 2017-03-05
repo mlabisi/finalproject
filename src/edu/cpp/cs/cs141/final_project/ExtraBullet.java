@@ -30,7 +30,7 @@ import java.io.Serializable;
 public class ExtraBullet extends PowerUp implements Serializable{
 
     /**
-     * This method will create a PowerUp with the enum type appropriate
+     * This constructor will create a PowerUp with the enum type appropriate
      * for an extra bullet.
      */
     public ExtraBullet() {
@@ -39,6 +39,8 @@ public class ExtraBullet extends PowerUp implements Serializable{
 
     /**
     * This method describes the power up's effect.
+     *
+     * @param player
     */
     @Override
     public void effect(ActiveAgent player) {

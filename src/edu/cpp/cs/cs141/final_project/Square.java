@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin Rodrï¿½guez
  *
  * Final Project: Spy Game
  *
@@ -70,8 +70,6 @@ public abstract class Square implements Serializable {
 	public abstract void placeAgent();
 	
 	public abstract void placeAgent(ActiveAgent tempNinja);
-
-	public abstract void killAgent();
 
 	public abstract void placeSpy();
 

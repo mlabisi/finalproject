@@ -1,12 +1,12 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodríguez
- *
+ * <p>
  * Final Project: Spy Game
- *
+ * <p>
  * Create a small, yet interesting, text-based game involving a spy
  * and ninjas.
- *
+ * <p>
  * Team Magic!~<3
  * Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora Labisi
  */
@@ -27,7 +27,7 @@ public class Hallway extends Square implements Serializable {
     private boolean isEntrance;
     private boolean hasAgent;
     private boolean hasPlayer;
-	private boolean hasItem;
+    private boolean hasItem;
     private boolean restricted = false;
     private ActiveAgent agent;
     private Item item;
@@ -36,98 +36,135 @@ public class Hallway extends Square implements Serializable {
     /**
      * This is the constructor for the hallway class.
      */
-    public Hallway(){
-    	isClear = true;
-    	isEntrance = false;
-    	setType("Hallway");
+    public Hallway() {
+        isClear = true;
+        isEntrance = false;
+        setType("Hallway");
     }
-    
 
-    /* (non-Javadoc)
-     * @see edu.cpp.cs.cs141.final_project.Square#placeSpy()
+
+    /**
+     * This method will place the player on this square.
      */
     public void placeSpy() {
-    	agent = new ActiveAgent("player");
-    	isClear = false;
-    	hasAgent = true;
-    	hasPlayer = true;
+        agent = new ActiveAgent("player");
+        isClear = false;
+        hasAgent = true;
+        hasPlayer = true;
     }
 
-    public void killAgent() {
-//    	agent.takeDamage(10);
-//    	agent = null;
-//    	hasAgent = false;
+
+    /**
+     * This method will tell whether or not this square has an item.
+     *
+     * @return Value of hasItem
+     */
+    public boolean hasItem() {
+        return hasItem;
     }
 
-	public boolean hasItem() {
-		return hasItem;
-	}
+    /**
+     * This method will toggle the value of hasItem.
+     */
+    public void toggleHasItem() {
+        hasItem = !hasItem;
+    }
 
-	public void toggleHasItem() {
-		hasItem = !hasItem;
-	}
-
+    /**
+     * This method will initialize agent and place it on this square.
+     */
     public void placeAgent() {
-    	agent = new ActiveAgent();
-    	isClear = false;
-    	hasAgent = true;
+        agent = new ActiveAgent();
+        isClear = false;
+        hasAgent = true;
     }
-    
+
+    /**
+     * This method will get the agent's health.
+     *
+     * @return The agent's health
+     */
     public int getAgentHealth() {
-    	return agent.getHP();
+        return agent.getHP();
     }
+
+    /**
+     * This method will place an already made agent onto this square.
+     *
+     * @param ninja The agent to be placed
+     */
     public void placeAgent(ActiveAgent ninja) {
-    	agent = ninja;
-    	if (agent.isPlayer())
-    		hasPlayer = true;
-    	isClear = false;
-    	hasAgent = true;
+        agent = ninja;
+        if (agent.isPlayer())
+            hasPlayer = true;
+        isClear = false;
+        hasAgent = true;
     }
-    
+
+    /**
+     * @return The value of hasAgent
+     */
     public boolean hasAgent() {
-    	return hasAgent;
+        return hasAgent;
     }
-    
+
+    /**
+     * @return The value of hasPlayer
+     */
     public boolean hasPlayer() {
-    	return hasPlayer;
+        return hasPlayer;
     }
-    
+
+    /**
+     * @param string The type to be assigned to the square.
+     */
     @Override
     public void setType(String string) {
-    	squareType = string;
+        squareType = string;
     }
-    
+
+    /**
+     * This method sets the value of isEntrance to true.
+     */
     @Override
     public void isEntrance() {
-    	isEntrance = true;
+        isEntrance = true;
     }
-    
+
+    /**
+     * @return The value of isEntrance.
+     */
     public boolean checkEntry() {
-    	return isEntrance;
+        return isEntrance;
     }
-    
+
+    /**
+     * Implements the hasBriefcase method from square.
+     */
     @Override
-    public void hasBriefcase(){
+    public void hasBriefcase() {
     }
+
     /**
      * @return The value of {@link #isClear}
      */
-    public boolean checkIsClear(){
+    public boolean checkIsClear() {
         return isClear;
     }
 
-/**
- * This method changes the hallway's #isClear boolean to the opposite of its current value
- */
+    /**
+     * This method changes the hallway's isClear boolean to the opposite of its current value
+     */
     public void clear() {
-    	isClear = !isClear;
+        isClear = !isClear;
     }
 
     /**
      * This method checks whether the hallway is considered an entrance
-     * @return the value of #isEntrance
+     *
+     * @return the value of isEntrance
      */
-    public boolean checkIsEntrance(){
+    public boolean checkIsEntrance() {
         return isEntrance;
     }
 
@@ -135,64 +172,81 @@ public class Hallway extends Square implements Serializable {
      * This method sets the hallway as an entrance.
      */
     public void setEntrance() {
-    	isEntrance = true;
+        isEntrance = true;
     }
 
-	@Override
-	public void place(Item item) {
-    	this.item = item;
-		symbol = item.getType().toChar();
-		hasItem = true;
-	}
+    /**
+     * @param item The item to be placed
+     */
+    @Override
+    public void place(Item item) {
+        this.item = item;
+        symbol = item.getType().toChar();
+        hasItem = true;
+    }
 
-	public void useItem(){
-		((PowerUp)item).effect(agent);
-		item = null;
-		hasItem = false;
-	}
+    /**
+     * This method applies the power up's effect.
+     */
+    public void useItem() {
+        ((PowerUp) item).effect(agent);
+        item = null;
+        hasItem = false;
+    }
 
-	/**
-	 * This method overrides the abstract square's method, and returns the character to display
-	 * 
-	 */
-	@Override
-	public char getSymbol() {
-		if (hasPlayer) {
-			return 80;
-		}else if (hasAgent && super.lightsOn()) {
-			return 78;
-		}else if (hasItem && !item.checkPickedUp() && super.lightsOn()) {
-			return symbol;
-		}else if (super.lightsOn()) {
-			return 32;
-		}
-		return 42;
-	}
+    /**
+     * This method overrides the abstract square's method, and returns the character to display.
+     */
+    @Override
+    public char getSymbol() {
+        if (hasPlayer) {
+            return 80;
+        } else if (hasAgent && super.lightsOn()) {
+            return 78;
+        } else if (hasItem && !item.checkPickedUp() && super.lightsOn()) {
+            return symbol;
+        } else if (super.lightsOn()) {
+            return 32;
+        }
+        return 42;
+    }
 
-	public void restrict() {
-		restricted = true;		
-	}
-	
-	public boolean isOffLimits() {
-		return restricted;
-	}
-	
-	public ActiveAgent getAgent() {
-		return agent;
-	}
-	
-	public void deleteAgent() {
-		agent = null;
-		isClear = true;
-		hasAgent = false;
-		hasPlayer = false;
-	}
-	
-	public int askANinja() {
-		return agent.agentMove();
-	}
+    /**
+     * This method is used to restrict the hallways within 3 squares of the
+     * player's initial position.
+     */
+    public void restrict() {
+        restricted = true;
+    }
 
-	public Item getItem(){
-		return item;
+    /**
+     * @return The value of restricted
+     */
+    public boolean isOffLimits() {
+        return restricted;
+    }
+
+    /**
+     * @return The active agent
+     */
+    public ActiveAgent getAgent() {
+        return agent;
+    }
+
+    /**
+     * This method is called when a ninja has been shot.
+     */
+    public void deleteAgent() {
+        agent = null;
+        isClear = true;
+        hasAgent = false;
+        hasPlayer = false;
+    }
+
+    /**
+     * @return The direction the ninja will move
+     */
+    public int askANinja() {
+        return agent.agentMove();
     }
 }

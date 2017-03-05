@@ -1,13 +1,3 @@
-package edu.cpp.cs.cs141.final_project;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Scanner;
-
 /**
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodriguez
@@ -20,14 +10,24 @@ import java.util.Scanner;
  * Team Magic!~<3
  * Diana Choi, William Hang, Logan Carichner, Robert Delfin, Mora Labisi
  */
+package edu.cpp.cs.cs141.final_project;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Scanner;
+
+
+/**
+ * This class is the UI for the game, it will create a new game engine instance and then tell the game to make the player.
+ *
+ * @author Logan Carichner
+ * @author Robert Delfin
+ */
 public class UI {
-	/**
-	 * This class is the UI for the game, it will create a new game engine instance and then tell the game to make the player.
-	 *
-	 * @author Logan Carichner
-	 * @author Robert Delfin
-	 */
 	private Engine game;
 	private Scanner sc;
 	private boolean started = false;
@@ -44,7 +44,8 @@ public class UI {
 	}
 	
 	/**
-	 * 
+	 * This debugLoop is used for testing purposes and moves the ninjas
+     * 250 times.
 	 */
 	public void debugLoop() {
 		for (int i = 250 ; i > 0 ; i--) {
@@ -57,6 +58,8 @@ public class UI {
 	
 
 	/**
+     * This method is used to create a delay for the display.
+     *
 	 * @param i
 	 */
 	public static void dialogueWait(int i) {
@@ -78,7 +81,7 @@ public class UI {
 	
 
 	/**
-	 * 
+	 * This method can be called by other classes to print a line break.
 	 */
 	public static void printLn() {
 		System.out.println();
@@ -125,7 +128,7 @@ public class UI {
 	
 
 	/**
-	 * 
+	 * This method is called when a new game is started.
 	 */
 	private void newGame() {
 		System.out.println("The game begins...");
@@ -134,8 +137,10 @@ public class UI {
 	}
 
 
-	/**
-	 * @param section
+    /**
+     * This method runs the help menu.
+     *
+	 * @param section The section of the help menu to display
 	 */
 	private void gameHelp(int section) {
 		printLn();
@@ -221,13 +226,15 @@ public class UI {
 	}
 
 	/**
-	 * @return
+	 * @return The amount of lives the player has
 	 */
 	public int checkPlayerHP() {
 		return game.getLives();
 	}
 	
 	/**
+     * Displays the appropriate message based on the player's HP.
+     *
 	 * @param HP
 	 */
 	public void checkPlayerHurt(int HP) {
@@ -247,7 +254,7 @@ public class UI {
 	}
 	
 	/**
-	 * 
+	 * Displays the appropriate message when a ninja the player.
 	 */
 	public static void stab() {
 		System.out.println("Ow! Something stabbed you in the darkness!");
@@ -255,7 +262,7 @@ public class UI {
 	}
 	
 	/**
-	 * 
+	 * Displays the appropriate message and quits the game.
 	 */
 	public void gameOver() {
 		System.out.println("You died before finding the briefcase.");
@@ -263,6 +270,7 @@ public class UI {
 		System.out.println("Game Over");
 		game.quit();
 	}
+
 	/**
 	 * This method gives the player options to take on their turn.
 	 */
@@ -346,7 +354,7 @@ public class UI {
 	}
 	
 	/**
-	 * 
+	 * This method displays the appropriate message after the user checks a room.
 	 */
 	private void checkIntel() {
 		if(game.checkCaseRoom()){
@@ -358,7 +366,7 @@ public class UI {
 	}
 	
 	/**
-	 * 
+	 * This method runs the save game dialogue.
 	 */
 	private void saveGame() {
 		Scanner kb = new Scanner(System.in);
@@ -386,7 +394,7 @@ public class UI {
 	}
 	
 	/**
-	 * 
+	 * This method runs the load game dialogue.
 	 */
 	private void loadGame() {
 		Scanner kb = new Scanner(System.in);
@@ -419,7 +427,7 @@ public class UI {
 	}
 	
 	/**
-	 * 
+	 * This method runs the move player dialogue.
 	 */
 	private void playerMove() {
 		System.out.println("Please choose a direction to move in.");
@@ -474,7 +482,7 @@ public class UI {
 	}
 
 	/**
-	 * 
+	 * This method runs the player shoot dialogue.
 	 */
 	private void playerShoot() {
 		System.out.println("Please choose a direction to shoot. ");
@@ -517,7 +525,7 @@ public class UI {
 	}
 	
 	/**
-	 * 
+	 * This method runs the player look dialogue.
 	 */
 	private void playerLook() {
 		printLn();
@@ -558,7 +566,7 @@ public class UI {
 	}
 
 	/**
-	 * @return
+	 * @return The size of the board chosen by the player.
 	 */
 	public static int getBoardSize() {
 		Scanner sc = new Scanner(System.in);
@@ -568,7 +576,7 @@ public class UI {
 	}
 
 	/**
-	 * @return
+	 * @return The boolean value for debug mode
 	 */
 	public static boolean debugStart() {
 		Scanner sc = new Scanner(System.in);
@@ -578,6 +586,8 @@ public class UI {
 	}
 
 	/**
+     * A custom exception
+     *
 	 * @param exception
 	 */
 	public static void callException(String exception) {
@@ -590,7 +600,7 @@ public class UI {
 	}
 
 	/**
-	 * 
+	 * Exits the game.
 	 */
 	private static void exit() {
 		System.exit(0);		

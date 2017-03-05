@@ -4,7 +4,7 @@
  *
  * Final Project: Spy Game
  *
- * Create a small, yet interesting, text-based game involving a spy
+ * Create a small, yet inte resting, text-based game involving a spy
  * and ninjas.
  *
  * Team Magic!~<3

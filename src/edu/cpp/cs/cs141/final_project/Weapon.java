@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin Rodrï¿½guez
  *
  * Final Project: Spy Game
  *
@@ -24,21 +24,33 @@ import java.io.Serializable;
 public class Weapon implements Serializable{
 	private boolean hasAmmo;
 	private int ammo;
-	
+
+	/**
+	 * This default constructor initializes the weapon.
+	 */
 	public Weapon() {
 		hasAmmo = true;
 		ammo = 1;
 	}
 
+	/**
+	 * @return The amount of ammo left
+	 */
 	public int getAmmo() {
 		return ammo;
 	}
-	
+
+	/**
+	 * Called when an extra bullet is picked up.
+	 */
 	public void pickUpAmmo() {
 		ammo = 1;
 		hasAmmo = true;
 	}
-	
+
+	/**
+	 * This method will update class fields when the player shoots.
+	 */
 	public void shoot() {
 		ammo = 0;
 		hasAmmo = false;

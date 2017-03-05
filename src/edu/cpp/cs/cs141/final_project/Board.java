@@ -65,7 +65,14 @@ public class Board implements Serializable {
 		init = false;
 	}
 
-	public Board(int size, boolean debug) {
+
+    /**
+     * This constructor creates a scalable board.
+     *
+     * @param size The size of the board as an integer divisible 9
+     * @param debug Whether or not debug mode is on
+     */
+    public Board(int size, boolean debug) {
 		boardSize = size;
 		this.debug = debug;
 		init = true;
@@ -85,7 +92,7 @@ public class Board implements Serializable {
 	}
 
 	/**
-	 * This method initiates the board as an array of square objects.
+	 * This method initializes the board as an array of square objects.
 	 */
 	public void makeBoard() {
 		grid = new Square[boardSize][boardSize];
@@ -160,6 +167,9 @@ public class Board implements Serializable {
 		}
 	}
 
+	/**
+	 * This method places the player onto the bottom left square.
+	 */
 	private void insertPlayer() {
 		player = new int[2];
 		player[0] = boardSize - 1;
@@ -193,6 +203,9 @@ public class Board implements Serializable {
 		grid[rooms[roomNum][0]][rooms[roomNum][1]].hasBriefcase();
 	}
 
+	/**
+	 * This method places the power ups on the board.
+	 */
 	private void insertItems() {
 		Collections.shuffle(halls);
 		ArrayList<Integer> remove = new ArrayList<>();
@@ -271,6 +284,12 @@ public class Board implements Serializable {
 		checkRadarEffect();
 	}
 
+	/**
+	 * This method will simulate the player using their night-vision
+	 * goggles to look 2 squares ahead.
+	 *
+	 * @param direction
+	 */
 	public void lookInDirection(int direction) {
 		int Y = player[0];
 		int X = player[1];
@@ -405,6 +424,12 @@ public class Board implements Serializable {
 		if ((agent.compareToIgnoreCase("player") == 0) && (grid[player[0]][player[1]].getAgent().checkHasInvul() == true))
 			checkInvulnerability();
 	}
+
+
+	/**
+	 * This mthod will check to see whether or not the Invulnerability power up
+	 * is still valid.
+	 */
 	public void checkInvulnerability(){
 		if(grid[player[0]][player[1]].getAgent().getInvul() > 0){
 			grid[player[0]][player[1]].getAgent().tickInvul();
@@ -417,6 +442,11 @@ public class Board implements Serializable {
 			UI.printLn();
 		}
 	}
+
+	/**
+     * This method creates an array containing the location of the
+     * player.
+	 */
 	public void locatePlayer() {
 		int i = 0;
 		int j = 0;
@@ -429,8 +459,12 @@ public class Board implements Serializable {
 			}
 		}
 	}
-	
-	public void getPowerUp() {
+
+    /**
+     * This method will allow the user to apply the affect
+     * of the power up they pick up.
+     */
+    public void getPowerUp() {
 		int Y = player[0];
 		int X = player[1];
 		Hallway hall = (Hallway)(grid[Y][X]);
@@ -462,7 +496,14 @@ public class Board implements Serializable {
 		}
 	}
 
-	public boolean tryStab(int ninja) {
+    /**
+     * This method helps the ninja AI determine whether or not
+     * they can stab the player.
+     *
+     * @param ninja
+     * @return Whether or not a stab is due
+     */
+    public boolean tryStab(int ninja) {
 		boolean stabDue = false;
 		int Y = ninjas[ninja][0];
 		int X = ninjas[ninja][1];
@@ -498,17 +539,24 @@ public class Board implements Serializable {
 		}
 		return stabDue;
 	}
-	
-	public void stab() {
+
+    /**
+     * This method simulates a ninja stabbing the player.
+     */
+    public void stab() {
 		if(!(grid[player[0]][player[1]].getAgent().checkHasInvul())){
 			grid[player[0]][player[1]].getAgent().takeDamage(1);
 			resetPlayerPos();
 		}
-		if(grid[player[0]][player[1]].getAgent().checkHasInvul() == true)
+		if(grid[player[0]][player[1]].getAgent().checkHasInvul())
 			UI.printString("Your invulnerability has protected you from a mortal stab!");
 			UI.printLn();
 	}
 
+	/**
+	 * This method will reset the player's position when they
+	 * are stabbed by a ninja.
+	 */
 	public void resetPlayerPos() {
 		ActiveAgent temp = grid[player[0]][player[1]].getAgent();
 		grid[player[0]][player[1]].deleteAgent();
@@ -517,16 +565,29 @@ public class Board implements Serializable {
 		grid[player[0]][player[1]].placeAgent(temp);
 	}
 
-	public void updateLives() {
+    /**
+     * This method will update the health of the agent in the board.
+     */
+    public void updateLives() {
 		int HP = ((Hallway) grid[player[0]][player[1]]).getAgentHealth();
 	}
-	
-	public int getPlayerLives() {
+
+    /**
+     * This method will fill the player array and return their health.
+     *
+     * @return The player's health
+     */
+    public int getPlayerLives() {
 		locatePlayer();
 		return ((Hallway) grid[player[0]][player[1]]).getAgentHealth();
 	}
 
-	public void shoot(int direction) {
+    /**
+     * This method will simulate the shooting of the gun.
+     *
+     * @param direction The integer representing the direction
+     */
+    public void shoot(int direction) {
 		int playerY = player[0]; 	// 8
 		int playerX = player[1];	// 0
 		switch (direction) {
@@ -571,7 +632,13 @@ public class Board implements Serializable {
 		locateEnemies();
 	}
 
-	public boolean checkIfEntrance() {
+    /**
+     * This method checks to see if the square that the player is on
+     * is an entrance to a room.
+     *
+     * @return boolean value dictating whether or not square is entrance
+     */
+    public boolean checkIfEntrance() {
 		return grid[player[0]][player[1]].checkEntry();
 	}
 
@@ -592,26 +659,44 @@ public class Board implements Serializable {
 	 * This method gets the number of rooms for the grid based on the size of
 	 * the grid.
 	 *
-	 * @return
+	 * @return Number of rooms
 	 */
 	public int getNumRooms() {
 		int num = boardSize / 3;
 		return num * num;
 	}
 
-	public void toggleDebug() {
+    /**
+     * This method toggles debug mode.
+     */
+    public void toggleDebug() {
 		debug = !debug;
 	}
 
-	public int getAmmo() {
+    /**
+     * This method will return the amount of ammo the user has.
+     *
+     * @return The ammount of ammo
+     */
+    public int getAmmo() {
 		return grid[player[0]][player[1]].getAgent().getAmmo();
 	}
 
-	public boolean checkCaseRoom() {
+    /**
+     * This method will check to see if the room the player is in
+     * front of has the briefcase.
+     *
+     * @return Whether ot not the room has the case
+     */
+    public boolean checkCaseRoom() {
 		return ((Room) (grid[player[0] + 1][player[1]])).checkHasBriefcase();
 	}
 
-	public void checkRadarEffect() {
+    /**
+     * This method will turn the lights on in each room if the user has
+     * the radar.
+     */
+    public void checkRadarEffect() {
 		if (grid[player[0]][player[1]].getAgent().checkHasRadar()) {
 			for (int i = 0; i < rooms.length; ++i) {
 				grid[rooms[i][0]][rooms[i][1]].switchLights(true);
